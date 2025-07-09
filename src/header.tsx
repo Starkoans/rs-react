@@ -21,8 +21,16 @@ export class Header extends Component<object, HeaderState> {
     localStorage.setItem('searchInput', this.state.searchInput);
   }
 
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ searchInput: event.target.value });
+
+    const response = await fetch(
+      `https://api.thecatapi.com/v1/breeds/search?q=${event.target.value}`
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+    }
   };
 
   render() {
