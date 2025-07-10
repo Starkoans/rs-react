@@ -1,0 +1,16 @@
+.catsList {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.listItem {
+  width: 300px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: white;
+  color: #422315;
+  overflow: hidden;
+  position: relative;
+}

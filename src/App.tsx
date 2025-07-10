@@ -1,11 +1,12 @@
-import { Component } from 'react';
 import './App.css';
-import { CatsList } from './components/cats-list';
-import type { Cat } from './types/cat';
+import { Component } from 'react';
+import { CatsList } from './components/cat-list/cats-list';
+import type { Cat } from './sources/types/cat';
 import { fetchCats } from './api/fetch-cats-breed';
 import { Search } from './components/search';
 import { Header } from './components/header';
-import { Spinner } from './components/spinner';
+import { Spinner } from './components/spinner/spinner';
+import { messages } from './sources/messages';
 
 interface AppState {
   cats: Cat[];
@@ -54,7 +55,19 @@ class App extends Component<object, AppState> {
         <Header>
           <Search onSearch={this.handleSearch} value={this.state.searchInput} />
         </Header>
-        {this.state.loading ? <Spinner /> : <CatsList cats={this.state.cats} />}
+        {this.state.error && (
+          <>
+            <p className="error">{messages.errors.oops}</p>
+            <p className="error">
+              {this.state.error || messages.errors.default}
+            </p>
+          </>
+        )}
+        {this.state.loading ? (
+          <Spinner />
+        ) : (
+          this.state.error === null && <CatsList cats={this.state.cats} />
+        )}
       </>
     );
   }
