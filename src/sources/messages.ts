@@ -4,6 +4,8 @@ export const messages = {
   },
   buttons: {
     search: 'Search',
+    simulateError: 'Simulate Error',
+    reload: 'Reload page',
   },
   input: {
     search: 'Search by breed name',

@@ -1,16 +1,22 @@
 .catsList {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
   gap: 10px;
+  grid-template-columns: 1fr;
+  padding: 10px;
+}
+
+@media (min-width: 680px) {
+  .catsList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .catsList {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .listItem {
-  width: 300px;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: white;
-  color: #422315;
-  overflow: hidden;
-  position: relative;
+  list-style: none;
 }

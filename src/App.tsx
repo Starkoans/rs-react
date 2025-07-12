@@ -5,8 +5,8 @@ import type { Cat } from './sources/types/cat';
 import { fetchCats } from './api/fetch-cats-breed';
 import { Search } from './components/search';
 import { Header } from './components/header';
-import { Spinner } from './components/spinner/spinner';
-import { messages } from './sources/messages';
+import { SimulateError } from './components/simulate-error';
+import { ErrorBoundary } from './components/error-boundary/error-boundary';
 
 interface AppState {
   cats: Cat[];
@@ -51,24 +51,18 @@ class App extends Component<object, AppState> {
 
   render() {
     return (
-      <>
+      <ErrorBoundary>
         <Header>
           <Search onSearch={this.handleSearch} value={this.state.searchInput} />
         </Header>
-        {this.state.error && (
-          <>
-            <p className="error">{messages.errors.oops}</p>
-            <p className="error">
-              {this.state.error || messages.errors.default}
-            </p>
-          </>
-        )}
-        {this.state.loading ? (
-          <Spinner />
-        ) : (
-          this.state.error === null && <CatsList cats={this.state.cats} />
-        )}
-      </>
+        <CatsList
+          cats={this.state.cats}
+          isLoading={this.state.loading}
+          error={this.state.error}
+        />
+
+        <SimulateError />
+      </ErrorBoundary>
     );
   }
 }

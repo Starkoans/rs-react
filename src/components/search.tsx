@@ -2,15 +2,16 @@ import { Component } from 'react';
 import { messages } from '../sources/messages';
 import { LSKeys } from '../sources/ls-keys';
 
-interface HeaderState {
+interface SearchState {
   searchInput: string;
 }
+
 interface SearchProps {
   value: string;
   onSearch: (searchInput: string) => void;
 }
 
-export class Search extends Component<SearchProps, HeaderState> {
+export class Search extends Component<SearchProps, SearchState> {
   constructor(props: SearchProps) {
     super(props);
     this.state = {
@@ -32,6 +33,12 @@ export class Search extends Component<SearchProps, HeaderState> {
     }
   };
 
+  componentDidUpdate(prevProps: SearchProps) {
+    if (this.props.value !== prevProps.value) {
+      this.setState({ searchInput: this.props.value });
+    }
+  }
+
   handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ searchInput: event.target.value });
     localStorage.setItem(LSKeys.SearchInput, event.target.value);
@@ -46,7 +53,7 @@ export class Search extends Component<SearchProps, HeaderState> {
       <>
         <input
           placeholder={messages.input.search}
-          value={this.state.searchInput || this.props.value}
+          value={this.state.searchInput}
           onChange={this.handleInputChange}
         />
         <button onClick={this.handleSearchButtonClick}>
