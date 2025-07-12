@@ -3,8 +3,8 @@ import { Component } from 'react';
 import { CatsList } from './components/cat-list/cats-list';
 import type { Cat } from './sources/types/cat';
 import { fetchCats } from './api/fetch-cats-breed';
-import { Search } from './components/search';
-import { Header } from './components/header';
+import { Search } from './components/seacrh/search';
+import { Header } from './components/header/header';
 import { SimulateError } from './components/simulate-error';
 import { ErrorBoundary } from './components/error-boundary/error-boundary';
 
@@ -54,14 +54,13 @@ class App extends Component<object, AppState> {
       <ErrorBoundary>
         <Header>
           <Search onSearch={this.handleSearch} value={this.state.searchInput} />
+          <SimulateError />
         </Header>
         <CatsList
           cats={this.state.cats}
           isLoading={this.state.loading}
           error={this.state.error}
         />
-
-        <SimulateError />
       </ErrorBoundary>
     );
   }

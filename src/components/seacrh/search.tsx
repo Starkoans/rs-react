@@ -1,6 +1,8 @@
 import { Component } from 'react';
-import { messages } from '../sources/messages';
-import { LSKeys } from '../sources/ls-keys';
+
+import { messages } from '../../sources/messages';
+import { LSKeys } from '../../sources/ls-keys';
+import styles from './Search.module.css';
 
 interface SearchState {
   searchInput: string;
@@ -50,16 +52,20 @@ export class Search extends Component<SearchProps, SearchState> {
 
   render() {
     return (
-      <>
+      <div className={styles.container}>
         <input
+          className={styles.input}
           placeholder={messages.input.search}
           value={this.state.searchInput}
           onChange={this.handleInputChange}
         />
-        <button onClick={this.handleSearchButtonClick}>
+        <button
+          className={styles.button}
+          onClick={this.handleSearchButtonClick}
+        >
           {messages.buttons.search}
         </button>
-      </>
+      </div>
     );
   }
 }
