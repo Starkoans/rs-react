@@ -24,7 +24,7 @@ export class CatsList extends Component<CatsListProps, CatsListState> {
 
   render(): React.ReactNode {
     if (this.props.isLoading) {
-      return <Spinner isLoading={true} />;
+      return <Spinner />;
     }
 
     if (this.props.error) {
