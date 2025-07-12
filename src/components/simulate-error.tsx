@@ -11,15 +11,13 @@ export class SimulateError extends Component<object, { isClicked: boolean }> {
       throw new Error('Simulated error');
     }
     return (
-      <div>
-        <button
-          onClick={() => {
-            this.setState({ isClicked: true });
-          }}
-        >
-          {messages.buttons.simulateError}
-        </button>
-      </div>
+      <button
+        onClick={() => {
+          this.setState({ isClicked: true });
+        }}
+      >
+        {messages.buttons.simulateError}
+      </button>
     );
   }
 }

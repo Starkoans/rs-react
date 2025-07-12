@@ -30,11 +30,13 @@ export class CatCard extends Component<Props, State> {
     return (
       <div className={styles.card}>
         <div className={styles.imageWrapper}>
-          <img
-            src={this.state.catImgUrl}
-            alt={this.props.cat.name}
-            className={styles.image}
-          />
+          {this.state.catImgUrl && (
+            <img
+              src={this.state.catImgUrl}
+              alt={this.props.cat.name}
+              className={styles.image}
+            />
+          )}
         </div>
 
         <a href={this.props.cat.wikipedia_url} target="blanc">
