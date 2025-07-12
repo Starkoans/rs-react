@@ -21,20 +21,6 @@ export class Search extends Component<SearchProps, SearchState> {
     };
   }
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      this.handleSearchButtonClick();
-    }
-  };
-
   componentDidUpdate(prevProps: SearchProps) {
     if (this.props.value !== prevProps.value) {
       this.setState({ searchInput: this.props.value });
@@ -52,7 +38,7 @@ export class Search extends Component<SearchProps, SearchState> {
 
   render() {
     return (
-      <div className={styles.container}>
+      <form className={styles.container}>
         <input
           className={styles.input}
           placeholder={messages.input.search}
@@ -65,7 +51,7 @@ export class Search extends Component<SearchProps, SearchState> {
         >
           {messages.buttons.search}
         </button>
-      </div>
+      </form>
     );
   }
 }
