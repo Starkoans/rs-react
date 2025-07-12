@@ -7,19 +7,22 @@ interface Props {
 
 interface State {
   errorMessage: string;
+  info: string | undefined;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { errorMessage: '' };
+    this.state = { errorMessage: '', info: '' };
   }
-  static getDerivedStateFromError(error: Error) {
-    return { errorMessage: error.toString() };
-  }
+
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    console.log(error, errorInfo);
+    this.setState({
+      errorMessage: error.toString(),
+      info: errorInfo.componentStack?.toString(),
+    });
   }
+
   render() {
     return (
       <>
@@ -29,6 +32,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className={styles.errorBox}>
               <h4>{messages.errors.oops}</h4>
               <p>{this.state.errorMessage}</p>
+              <p>{this.state.info}</p>
               <button onClick={() => window.location.reload()}>
                 {messages.buttons.reload}
               </button>
