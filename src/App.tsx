@@ -3,10 +3,12 @@ import { Component } from 'react';
 import { CatsList } from './components/cat-list/cats-list';
 import type { Cat } from './sources/types/cat';
 import { fetchCats } from './api/fetch-cats-breed';
-import { Search } from './components/seacrh/search';
+import { Search } from './components/search/search';
 import { Header } from './components/header/header';
 import { SimulateError } from './components/simulate-error';
 import { ErrorBoundary } from './components/error-boundary/error-boundary';
+import { messages } from './sources/messages';
+import { LSKeys } from './sources/ls-keys';
 
 interface AppState {
   cats: Cat[];
@@ -27,7 +29,7 @@ class App extends Component<object, AppState> {
   }
 
   async componentDidMount() {
-    const savedInput = localStorage.getItem('searchInput');
+    const savedInput = localStorage.getItem(LSKeys.SearchInput);
     this.setState({ searchInput: savedInput || '' });
     await this.getCats(savedInput || '');
   }
@@ -42,7 +44,8 @@ class App extends Component<object, AppState> {
       const cats = await fetchCats(searchInput);
       this.setState({ cats });
     } catch (error) {
-      const err = error instanceof Error ? error.message : 'Unknown error';
+      const err =
+        error instanceof Error ? error.message : messages.errors.default;
       this.setState({ error: err });
     } finally {
       this.setState({ loading: false });
