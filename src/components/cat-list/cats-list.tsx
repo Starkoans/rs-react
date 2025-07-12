@@ -26,6 +26,7 @@ export class CatsList extends Component<CatsListProps, CatsListState> {
     if (this.props.isLoading) {
       return <Spinner isLoading={true} />;
     }
+
     if (this.props.error) {
       return (
         <>
@@ -34,9 +35,11 @@ export class CatsList extends Component<CatsListProps, CatsListState> {
         </>
       );
     }
+
     if (this.props.cats.length === 0) {
       return <p>{messages.noCatsFound}</p>;
     }
+
     return (
       <ul className={styles.catsList}>
         {this.props.cats.map((cat, index) => (

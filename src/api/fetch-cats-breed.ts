@@ -6,7 +6,7 @@ export const fetchCats = async (breed?: string): Promise<Cat[]> => {
   try {
     const url = `${BASE_URL}${endpoints.breeds}`;
     const response = await fetch(
-      breed ? `${url}${endpoints.search}?q=${breed}` : `${url}`
+      breed ? `${url}${endpoints.search}?q=${breed}` : url
     );
     const data = await response.json();
     return data;
