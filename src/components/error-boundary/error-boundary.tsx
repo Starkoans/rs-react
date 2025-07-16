@@ -26,7 +26,7 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     return (
       <>
-        {this.props.children}
+        {/* {this.props.children} */}
         {this.state.errorMessage && (
           <div className={styles.errorOverlay}>
             <div className={styles.errorBox}>
