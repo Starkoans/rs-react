@@ -30,7 +30,7 @@ describe('Cat card', () => {
   });
 
   it('show card without image if image fetch fails', async () => {
-    (fetchCatImageMock as Mock).mockRejectedValue({
+    (fetchCatImageMock as Mock).mockResolvedValue({
       message: 'Not Found',
     });
     render(<CatCard cat={fakeCat} />);
