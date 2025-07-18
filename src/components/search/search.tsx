@@ -32,7 +32,8 @@ export class Search extends Component<SearchProps, SearchState> {
     localStorage.setItem(LSKeys.SearchInput, event.target.value);
   };
 
-  handleSearchButtonClick = () => {
+  handleSearchButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     this.props.onSearch(this.state.searchInput);
   };
 
