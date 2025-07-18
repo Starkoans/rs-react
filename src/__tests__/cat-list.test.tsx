@@ -1,8 +1,6 @@
-import '@testing-library/jest-dom/vitest';
-import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { CatsList } from '../components/cat-list/cats-list';
-import { mockCats } from './mock-cats';
+import { mockCats } from './mocks/cats.mock';
 import { messages } from '../sources/messages';
 
 describe('Cat list', () => {
