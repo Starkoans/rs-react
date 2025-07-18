@@ -3,11 +3,12 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { CatsList } from '../components/cat-list/cats-list';
 import { mockCats } from './mock-cats';
+import { messages } from '../sources/messages';
 
 describe('Cat list', () => {
   it('should show message if no cats found', () => {
     render(<CatsList cats={[]} />);
-    const message = screen.getByText(/No cats found/i);
+    const message = screen.getByText(messages.noCatsFound);
     expect(message).toBeInTheDocument();
   });
 
@@ -18,7 +19,7 @@ describe('Cat list', () => {
 
   it('should show error message', () => {
     render(<CatsList cats={[]} error={'Error'} />);
-    expect(screen.getByText(/Something went wrong/i)).toBeInTheDocument();
+    expect(screen.getByText(messages.errors.oops)).toBeInTheDocument();
   });
 
   it('should show list of cats', () => {

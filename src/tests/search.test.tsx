@@ -1,16 +1,17 @@
 import '@testing-library/jest-dom/vitest';
 
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Search } from '../components/search/search';
 import { LSKeys } from '../sources/ls-keys';
 
 describe('search', () => {
-  const setup = () => {
-    render(<Search onSearch={() => {}} value="" />);
-  };
-  setup();
+  beforeAll(() => {
+    window.HTMLFormElement.prototype.requestSubmit = () => {};
+  });
+
+  render(<Search onSearch={() => {}} value="" />);
 
   it('should have input', async () => {
     const input = screen.getByPlaceholderText(/search/i);
