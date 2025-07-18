@@ -17,4 +17,20 @@ export const mockCats: Cat[] = [
     weight: { imperial: 'www', metric: 'www' },
     wikipedia_url: 'https://wiki.com/valera-the-cool-cat.',
   },
+  {
+    id: '2',
+    name: 'British Shorthair',
+    description: 'A calm and affectionate breed with a dense coat.',
+    image: {
+      url: 'https://cat.com/british.jpg',
+      height: 120,
+      width: 120,
+    },
+    life_span: '12-17',
+    origin: 'United Kingdom',
+    temperament: 'Affectionate, Easy Going, Loyal',
+    reference_image_id: '456',
+    weight: { imperial: '7-17', metric: '3-8' },
+    wikipedia_url: 'https://en.wikipedia.org/wiki/British_Shorthair',
+  },
 ];
