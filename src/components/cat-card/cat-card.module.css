@@ -1,0 +1,40 @@
+.card {
+  width: 300px;
+  padding: 10px;
+  background-color: white;
+  color: #422315;
+  overflow: hidden;
+  position: relative;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imageWrapper {
+  height: 240px;
+  width: 300px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  max-height: 240px;
+  display: block;
+  margin: 0 auto;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  max-height: 200px;
+}
