@@ -13,7 +13,20 @@ describe('app', () => {
     vi.clearAllMocks();
   });
 
-  it('fetches and displays cats after search', async () => {
+  it('should call fetch with correct data', async () => {
+    (fetchCatsMock as Mock).mockResolvedValue([fakeCat]);
+    render(<App />);
+
+    const input = screen.getByPlaceholderText(/search/i);
+    const button = screen.getByRole('button', { name: /search/i });
+
+    await userEvent.type(input, fakeCat.name);
+    await userEvent.click(button);
+
+    expect(fetchCatsMock).toHaveBeenCalledWith(fakeCat.name);
+  });
+
+  it('displays cats after search', async () => {
     (fetchCatsMock as Mock).mockResolvedValue([fakeCat]);
     render(<App />);
 
@@ -25,10 +38,9 @@ describe('app', () => {
 
     const catLink = await screen.findByRole('link', { name: fakeCat.name });
     expect(catLink).toBeInTheDocument();
-    expect(fetchCatsMock).toHaveBeenCalledWith(fakeCat.name);
   });
 
-  it('fetches and displays message if no cats found', async () => {
+  it('displays message if no cats found', async () => {
     (fetchCatsMock as Mock).mockResolvedValue([]);
     render(<App />);
 
@@ -41,10 +53,9 @@ describe('app', () => {
 
     const noCatsMessage = await screen.findByText(messages.noCatsFound);
     expect(noCatsMessage).toBeInTheDocument();
-    expect(fetchCatsMock).toHaveBeenCalledWith(userInput);
   });
 
-  it('handles fetch error and displays error message', async () => {
+  it('displays error message', async () => {
     const errorMessage = 'Request failed with status code 404';
     (fetchCatsMock as Mock).mockRejectedValue(
       new Error(errorMessage, { cause: { code: 404 } })
@@ -63,6 +74,5 @@ describe('app', () => {
 
     expect(defaultErrorMessage).toBeInTheDocument();
     expect(currentErrorMessage).toBeInTheDocument();
-    expect(fetchCatsMock).toHaveBeenCalledWith(userInput);
   });
 });
