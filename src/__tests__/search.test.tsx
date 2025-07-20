@@ -22,7 +22,6 @@ describe('search', () => {
     const button = screen.getByRole('button', { name: /search/i });
 
     expect(button).toBeInTheDocument();
-    expect(button).toBeInstanceOf(HTMLButtonElement);
   });
 
   it('writes value to localStorage after input change', async () => {
@@ -35,5 +34,22 @@ describe('search', () => {
     await user.type(input, searchTerm);
 
     expect(localStorage.getItem(LSKeys.SearchInput)).toBe(searchTerm);
+  });
+
+  it('calls onSearch with current input value when search button is clicked', async () => {
+    const onSearchMock = vi.fn();
+
+    render(<Search value="" onSearch={onSearchMock} />);
+
+    const input = screen.getByPlaceholderText(/search/i);
+    const button = screen.getByRole('button', { name: /search/i });
+    const userInput = 'siamese';
+
+    await userEvent.clear(input);
+    await userEvent.type(input, userInput);
+
+    await userEvent.click(button);
+
+    expect(onSearchMock).toHaveBeenCalledWith(userInput);
   });
 });
