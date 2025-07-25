@@ -1,30 +1,23 @@
 import styles from './Search.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { messages } from '../../sources/messages';
-import { LSKeys } from '../../sources/ls-keys';
+import { usePersistedSearchInput } from '@/hooks/use-persistent-search-input';
 
 interface SearchProps {
   getCatsByBreed: (searchInput: string) => Promise<void>;
 }
 
 export const Search: React.FC<SearchProps> = ({ getCatsByBreed }) => {
-  const [searchInput, setSearchInput] = useState<string>('');
+  const { searchInput, setSearchInput } = usePersistedSearchInput();
 
   useEffect(() => {
-    const init = async () => {
-      const savedInput = localStorage.getItem(LSKeys.SearchInput);
-      setSearchInput(savedInput || '');
-      await getCatsByBreed(savedInput || '');
-    };
-
-    void init();
+    getCatsByBreed(searchInput);
   }, []);
 
   const handleInputChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchInput(event.target.value);
-    localStorage.setItem(LSKeys.SearchInput, event.target.value);
   };
 
   const handleSearchButtonClick = async (
