@@ -9,8 +9,10 @@ describe('search', () => {
     localStorage.clear();
   });
 
+  const mockGetCatsByBreed = vi.fn();
+
   it('should have input', async () => {
-    render(<Search onSearch={() => {}} value="" />);
+    render(<Search getCatsByBreed={mockGetCatsByBreed} />);
     const input = screen.getByPlaceholderText(/search/i);
 
     expect(input).toBeInTheDocument();
@@ -18,14 +20,14 @@ describe('search', () => {
   });
 
   it('should have button', async () => {
-    render(<Search onSearch={() => {}} value="" />);
+    render(<Search getCatsByBreed={mockGetCatsByBreed} />);
     const button = screen.getByRole('button', { name: /search/i });
 
     expect(button).toBeInTheDocument();
   });
 
   it('writes value to localStorage after input change', async () => {
-    render(<Search onSearch={() => {}} value="" />);
+    render(<Search getCatsByBreed={mockGetCatsByBreed} />);
 
     const user = userEvent.setup();
     const input = screen.getByPlaceholderText(/search/i);
@@ -37,9 +39,7 @@ describe('search', () => {
   });
 
   it('calls onSearch with current input value when search button is clicked', async () => {
-    const onSearchMock = vi.fn();
-
-    render(<Search value="" onSearch={onSearchMock} />);
+    render(<Search getCatsByBreed={mockGetCatsByBreed} />);
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });
@@ -50,6 +50,6 @@ describe('search', () => {
 
     await userEvent.click(button);
 
-    expect(onSearchMock).toHaveBeenCalledWith(userInput);
+    expect(mockGetCatsByBreed).toHaveBeenCalledWith(userInput);
   });
 });

@@ -1,12 +1,17 @@
-import { Layout } from '@components/layout';
-import { AboutPage } from '@pages/about-page';
-import { HomePage } from '@pages/home-page';
+import { AboutPage } from '@/pages/about-page/about-page';
+import { HomePage } from '@/pages/home-page/home-page';
+import { Layout } from '@components/layout/layout';
 
 import { createBrowserRouter } from 'react-router-dom';
 
+export const ROUTES = {
+  about: 'about',
+  home: '/',
+};
+
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: ROUTES.home,
     Component: Layout,
     children: [
       {
@@ -14,7 +19,7 @@ export const router = createBrowserRouter([
         Component: HomePage,
       },
       {
-        path: '/about',
+        path: ROUTES.about,
         Component: AboutPage,
       },
     ],

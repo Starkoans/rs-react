@@ -2,6 +2,9 @@ export const messages = {
   headers: {
     appName: 'Catopedia',
   },
+  links: {
+    about: 'About',
+  },
   buttons: {
     search: 'Search',
     simulateError: 'Simulate Error',

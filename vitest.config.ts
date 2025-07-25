@@ -29,11 +29,13 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@': path.resolve(__dirname, 'src'),
       '@api': path.resolve(__dirname, 'src/api'),
       '@components': path.resolve(__dirname, 'src/components'),
       '@sources': path.resolve(__dirname, 'src/sources'),
       '@tests': path.resolve(__dirname, 'src/__tests__'),
       '@pages': path.resolve(__dirname, 'src/pages'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
     },
   },
 });
