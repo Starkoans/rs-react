@@ -11,8 +11,9 @@
     "paths": {
       "@api/*": ["api/*"],
       "@components/*": ["components/*"],
-      "@sources": ["src/sources/*"],
-      "@tests": ["src/__tests__/*"]
+      "@sources/*": ["sources/*"],
+      "@tests/*": ["__tests__/*"],
+      "@pages/*": ["pages/*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

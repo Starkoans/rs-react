@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-npx vitest run
+. "$(dirname "$0")/h"
