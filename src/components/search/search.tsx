@@ -1,41 +1,35 @@
 import styles from './Search.module.css';
-import React, { useEffect } from 'react';
+
+import React from 'react';
 import { messages } from '../../sources/messages';
-import { usePersistedSearchInput } from '@/hooks/use-persistent-search-input';
 
 interface SearchProps {
-  getCatsByBreed: (searchInput: string) => Promise<void>;
+  searchValue: string;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch: (searchInput: string) => Promise<void>;
 }
 
-export const Search: React.FC<SearchProps> = ({ getCatsByBreed }) => {
-  const { searchInput, setSearchInput } = usePersistedSearchInput();
-
-  useEffect(() => {
-    getCatsByBreed(searchInput);
-  }, []);
-
-  const handleInputChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchInput(event.target.value);
-  };
-
+export const Search: React.FC<SearchProps> = ({
+  onSearch,
+  searchValue,
+  handleInputChange,
+}) => {
   const handleSearchButtonClick = async (
-    e: React.MouseEvent<HTMLButtonElement>
+    e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    await getCatsByBreed(searchInput);
+    await onSearch(searchValue);
   };
 
   return (
-    <form className={styles.container}>
+    <form className={styles.container} onSubmit={handleSearchButtonClick}>
       <input
         className={styles.input}
         placeholder={messages.input.search}
-        value={searchInput}
+        value={searchValue}
         onChange={handleInputChange}
       />
-      <button className={styles.button} onClick={handleSearchButtonClick}>
+      <button type="submit" className={styles.button}>
         {messages.buttons.search}
       </button>
     </form>

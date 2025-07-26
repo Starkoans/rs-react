@@ -6,7 +6,7 @@ import type { Cat } from '@sources/types/cat';
 import type React from 'react';
 
 interface CatsListProps {
-  cats: Cat[];
+  cats?: Cat[];
   error: string | null;
   isLoading: boolean;
 }
@@ -29,13 +29,13 @@ export const CatsList: React.FC<CatsListProps> = ({
     );
   }
 
-  if (cats.length === 0) {
+  if (cats?.length === 0) {
     return <p>{messages.noCatsFound}</p>;
   }
 
   return (
     <ul className={styles.catsList}>
-      {cats.map((cat, index) => (
+      {cats?.map((cat, index) => (
         <li key={index} className={styles.listItem}>
           <CatCard cat={cat} />
         </li>
