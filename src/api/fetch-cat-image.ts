@@ -1,14 +1,8 @@
-import { messages } from '../sources/messages';
-import type { CatImage } from '../sources/types/cat-image';
-import { BASE_URL, endpoints } from './endpoints';
+import type { Cat } from '@/sources/types/cat';
+import { BASE_URL, endpoints } from './api-constants';
 
-export const fetchCatImage = async (imageId: string): Promise<CatImage> => {
-  try {
-    const response = await fetch(`${BASE_URL}${endpoints.images}/${imageId}`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(messages.errors.fetchCatsImage, error);
-    throw error;
-  }
+export const fetchCatImage = async (imageId: string): Promise<Cat.Image> => {
+  const response = await fetch(`${BASE_URL}${endpoints.images}/${imageId}`);
+  const data = await response.json();
+  return data;
 };

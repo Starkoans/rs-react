@@ -1,49 +1,44 @@
-import { Component, type ReactNode } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { Cat } from '../../sources/types/cat';
 import styles from './cat-card.module.css';
 import { fetchCatImage } from '../../api/fetch-cat-image';
+import { useSearchParams } from 'react-router-dom';
+import { URL_SEARCH_PARAMS } from '@/sources/constants';
 
 interface Props {
-  cat: Cat;
+  cat: Cat.Breed;
 }
 
-interface State {
-  cat: Cat;
-  catImgUrl: string;
-}
+export const CatCard: React.FC<Props> = ({ cat }) => {
+  const [catImg, setCatImg] = useState<string>('');
 
-export class CatCard extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      cat: this.props.cat,
-      catImgUrl: '',
+  useEffect(() => {
+    const init = async () => {
+      const img = await fetchCatImage(cat.reference_image_id);
+      setCatImg(img.url);
     };
-  }
 
-  async componentDidMount(): Promise<void> {
-    const img = await fetchCatImage(this.props.cat.reference_image_id);
-    this.setState({ catImgUrl: img.url });
-  }
+    init();
+  }, []);
 
-  render(): ReactNode {
-    return (
-      <div className={styles.card}>
-        <div className={styles.imageWrapper}>
-          {this.state.catImgUrl && (
-            <img
-              src={this.state.catImgUrl}
-              alt={this.props.cat.name}
-              className={styles.image}
-            />
-          )}
-        </div>
+  const [searchParams, setSearchParams] = useSearchParams();
 
-        <a href={this.props.cat.wikipedia_url} target="blanc">
-          <h2>{this.props.cat.name}</h2>
-        </a>
-        <p className={styles.description}>{this.props.cat.description}</p>
+  const onClick = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set(URL_SEARCH_PARAMS.cat, cat.id);
+    setSearchParams(newParams);
+  };
+
+  return (
+    <div className={styles.card} onClick={onClick}>
+      <div className={styles.imageWrapper}>
+        {catImg && <img src={catImg} alt={cat.name} className={styles.image} />}
       </div>
-    );
-  }
-}
+
+      <a href={cat.wikipedia_url} target="blanc">
+        <h2>{cat.name}</h2>
+      </a>
+      <p className={styles.description}>{cat.description}</p>
+    </div>
+  );
+};

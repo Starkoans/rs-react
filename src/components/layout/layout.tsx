@@ -8,10 +8,12 @@ export const Layout = () => {
   return (
     <>
       <header className={styles.header}>
-        <Link to={ROUTES.home}>
-          <h1 className={styles.headerTitle}>{messages.headers.appName}</h1>
-        </Link>
-        <Link to={ROUTES.about}>{messages.links.about}</Link>
+        <nav>
+          <Link to={ROUTES.home}>
+            <h1 className={styles.headerTitle}>{messages.headers.appName}</h1>
+          </Link>
+          <Link to={ROUTES.about}>{messages.links.about}</Link>
+        </nav>
         <SimulateError />
       </header>
       <Outlet />

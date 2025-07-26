@@ -10,8 +10,11 @@ import type { Cat } from '@/sources/types/cat';
 import {
   PAGINATION_DEFAULT_LIMIT,
   PAGINATION_START_PAGE,
+  URL_SEARCH_PARAMS,
 } from '@/sources/constants';
 import type { Pagination } from '@/sources/types/pagination';
+import { useSearchParams } from 'react-router-dom';
+import { CatDetail } from '@/components/cat-detail';
 
 export const HomePage = () => {
   const { getSearchInput, saveSearchInputToLS } = useLocalStorage();
@@ -48,11 +51,18 @@ export const HomePage = () => {
     }
   };
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const goToPage = (page: number) => {
     setPagination((prev) => ({
       ...prev,
       page,
     }));
+
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set(URL_SEARCH_PARAMS.page, page.toString());
+    setSearchParams(newParams);
+
     getCatsByBreed(searchValue, page, pagination.limit);
   };
 
@@ -90,6 +100,7 @@ export const HomePage = () => {
       />
       <div className={styles.container}>
         <CatsList cats={cats} isLoading={isLoading} error={error} />
+        {<CatDetail catId={searchParams.get(URL_SEARCH_PARAMS.cat) || ''} />}
       </div>
     </>
   );

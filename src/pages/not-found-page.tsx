@@ -10,9 +10,9 @@ export const NotFoundPage = () => {
   };
 
   return (
-    <div>
+    <section>
       <h1>{messages.headers.notFound}</h1>
       <button onClick={handleBack}>{messages.buttons.toMainPage}</button>
-    </div>
+    </section>
   );
 };

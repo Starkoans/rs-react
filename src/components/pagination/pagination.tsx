@@ -1,4 +1,5 @@
 import { PAGINATION_START_PAGE } from '@/sources/constants';
+import { messages } from '@/sources/messages';
 import type { Pagination } from '@/sources/types/pagination';
 
 interface PaginationProps {
@@ -12,31 +13,27 @@ export const PaginationControls: React.FC<PaginationProps> = ({
   handleNext,
   handlePrev,
 }) => {
-  const handlePrevPage = () => {
-    handlePrev();
-  };
-
-  const handleNextPage = () => {
-    handleNext();
-  };
-
   return (
     <div>
-      <p>Total cats: {pagination.totalItems}</p>
       <p>
-        Current page: {pagination.page} of {pagination.totalPages}
+        {messages.paragraphs.totalFound} {pagination.totalItems}
+      </p>
+      <p>
+        {messages.paragraphs.currentPage} {pagination.page}{' '}
+        {messages.paragraphs.of}
+        {pagination.totalPages}
       </p>
       <button
-        onClick={handlePrevPage}
+        onClick={handlePrev}
         disabled={pagination.page === PAGINATION_START_PAGE}
       >
-        Prev
+        {messages.buttons.prev}
       </button>
       <button
-        onClick={handleNextPage}
+        onClick={handleNext}
         disabled={pagination.page === pagination.totalPages}
       >
-        Next
+        {messages.buttons.next}
       </button>
     </div>
   );
