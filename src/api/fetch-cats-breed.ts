@@ -1,27 +1,16 @@
+import {
+  PAGINATION_DEFAULT_LIMIT,
+  PAGINATION_START_PAGE,
+} from '@/sources/constants';
 import { messages } from '../sources/messages';
 import type { Cat } from '../sources/types/cat';
 import { BASE_URL, endpoints } from './endpoints';
 
-export interface Pagination {
-  page: number;
-  limit: number;
-  totalItems: number;
-  totalPages: number;
-}
-
-export interface CatsPaginated {
-  data: Cat[];
-  pagination: Pagination;
-}
-
-export const PAGINATION_DEFAULT_LIMIT = 4;
-export const PAGINATION_START_PAGE = 1;
-
-export const fetchCats = async (
+export const fetchCatsBreeds = async (
   breed?: string,
   page = PAGINATION_START_PAGE,
   limit = PAGINATION_DEFAULT_LIMIT
-): Promise<CatsPaginated> => {
+): Promise<Cat.BreedsResponse> => {
   try {
     const url = breed
       ? `${BASE_URL}${endpoints.breeds}${endpoints.search}/?q=${breed}`
@@ -33,7 +22,7 @@ export const fetchCats = async (
           'live_XU8YPpA2NSBpkAddGLPq9rzIaWdZaDfowYjnHyTBraGPTccb2gcewUvBenbVth8g',
       },
     });
-    const allCats: Cat[] = await response.json();
+    const allCats: Cat.Breed[] = await response.json();
 
     const start = (page - 1) * limit;
     const catsPage = allCats.slice(start, start + limit);

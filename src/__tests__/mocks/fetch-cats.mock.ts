@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
-export const fetchCatsMock = vi.fn();
+export const fetchCatsBreedsMock = vi.fn();
 
 vi.mock('../../api/fetch-cats-breed', () => {
-  return { fetchCats: fetchCatsMock };
+  return { fetchCatsBreeds: fetchCatsBreedsMock };
 });

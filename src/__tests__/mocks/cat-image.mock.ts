@@ -1,7 +1,7 @@
-import type { CatImage } from '../../sources/types/cat-image';
+import type { Cat } from '@/sources/types/cat';
 import { fakeCat } from './cats.mock';
 
-export const fakeCatImg: CatImage = {
+export const fakeCatImg: Cat.Image = {
   id: fakeCat.reference_image_id,
   url: 'https://cat.com/british.jpg',
   height: 700,

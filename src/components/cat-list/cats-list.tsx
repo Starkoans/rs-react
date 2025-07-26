@@ -6,7 +6,7 @@ import type { Cat } from '@sources/types/cat';
 import type React from 'react';
 
 interface CatsListProps {
-  cats?: Cat[];
+  cats?: Cat.Breed[];
   error: string | null;
   isLoading: boolean;
 }

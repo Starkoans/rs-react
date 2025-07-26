@@ -1,6 +1,7 @@
 export const messages = {
   headers: {
     appName: 'Catopedia',
+    notFound: 'Page not found.',
   },
   links: {
     about: 'About',
@@ -9,6 +10,7 @@ export const messages = {
     search: 'Search',
     simulateError: 'Simulate Error',
     reload: 'Reload page',
+    toMainPage: 'To main page',
   },
   input: {
     search: 'Search by breed name',

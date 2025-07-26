@@ -1,4 +1,5 @@
-import { PAGINATION_START_PAGE, type Pagination } from '@/api/fetch-cats-breed';
+import { PAGINATION_START_PAGE } from '@/sources/constants';
+import type { Pagination } from '@/sources/types/pagination';
 
 interface PaginationProps {
   pagination: Pagination;

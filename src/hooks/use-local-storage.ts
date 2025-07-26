@@ -1,13 +1,13 @@
-import { LSKeys } from '@/sources/ls-keys';
+import { LSKeys } from '@/sources/constants';
 
 export const useLocalStorage = () => {
   const getSearchInput = () => {
     return localStorage.getItem(LSKeys.SearchInput) ?? '';
   };
 
-  const saveSearchInput = (value: string) => {
+  const saveSearchInputToLS = (value: string) => {
     localStorage.setItem(LSKeys.SearchInput, value);
   };
 
-  return { getSearchInput, saveSearchInput };
+  return { getSearchInput, saveSearchInputToLS };
 };

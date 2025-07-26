@@ -3,21 +3,21 @@ import { CatsList } from '@components/cat-list/cats-list';
 import { Search } from '@components/search/search';
 import { useEffect, useState } from 'react';
 import { messages } from '@/sources/messages';
-import {
-  fetchCats,
-  PAGINATION_DEFAULT_LIMIT,
-  PAGINATION_START_PAGE,
-  type Pagination,
-} from '@/api/fetch-cats-breed';
+import { fetchCatsBreeds } from '@/api/fetch-cats-breed';
 import { PaginationControls } from '@/components/pagination/pagination';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import type { Cat } from '@/sources/types/cat';
+import {
+  PAGINATION_DEFAULT_LIMIT,
+  PAGINATION_START_PAGE,
+} from '@/sources/constants';
+import type { Pagination } from '@/sources/types/pagination';
 
 export const HomePage = () => {
-  const { getSearchInput, saveSearchInput } = useLocalStorage();
+  const { getSearchInput, saveSearchInputToLS } = useLocalStorage();
   const [searchValue, setSearchValue] = useState<string>(getSearchInput());
 
-  const [cats, setCats] = useState<Cat[]>([]);
+  const [cats, setCats] = useState<Cat.Breed[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
     limit: PAGINATION_DEFAULT_LIMIT,
     page: PAGINATION_START_PAGE,
@@ -36,7 +36,7 @@ export const HomePage = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetchCats(breed, page, limit);
+      const res = await fetchCatsBreeds(breed, page, limit);
       setCats(res.data);
       setPagination(res.pagination);
     } catch (error) {
@@ -68,12 +68,12 @@ export const HomePage = () => {
   };
 
   useEffect(() => {
-    getCatsByBreed(searchValue, pagination.page, pagination.limit);
+    getCatsByBreed(searchValue);
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-    saveSearchInput(e.target.value);
+    saveSearchInputToLS(e.target.value);
   };
 
   return (

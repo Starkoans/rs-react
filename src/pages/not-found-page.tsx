@@ -1,4 +1,5 @@
 import { ROUTES } from '@/router';
+import { messages } from '@/sources/messages';
 import { useNavigate } from 'react-router-dom';
 
 export const NotFoundPage = () => {
@@ -10,8 +11,8 @@ export const NotFoundPage = () => {
 
   return (
     <div>
-      <h1>Page Not Found</h1>
-      <button onClick={handleBack}>To main page</button>
+      <h1>{messages.headers.notFound}</h1>
+      <button onClick={handleBack}>{messages.buttons.toMainPage}</button>
     </div>
   );
 };
