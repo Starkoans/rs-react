@@ -1,0 +1,13 @@
+.spinner svg {
+  animation: swing 0.3s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes swing {
+  0% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(45deg);
+  }
+}
