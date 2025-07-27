@@ -12,7 +12,17 @@
 
   transform: translateX(100%);
   opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .drawerVisible {
@@ -20,12 +30,10 @@
   opacity: 1;
 }
 
-/* Анимация выхода, если понадобится */
 .drawer.exit {
   animation: slideOut 0.3s forwards;
 }
 
-/* Анимации */
 @keyframes slideIn {
   from {
     transform: translateX(100%);

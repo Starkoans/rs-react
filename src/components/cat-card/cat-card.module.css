@@ -2,6 +2,7 @@
   width: 300px;
   padding: 10px;
   background-color: white;
+  cursor: pointer;
   color: #422315;
   overflow: hidden;
   position: relative;

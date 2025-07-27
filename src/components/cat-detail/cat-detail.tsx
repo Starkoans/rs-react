@@ -54,17 +54,23 @@ export const CatDetail: React.FC<CatDetailProps> = ({ catId }) => {
   if (!cat) return <div>{messages.noCatsFound}</div>;
   return (
     <div
-      className={`${styles.drawer} ${isVisible ? styles.drawerVisible : ''}`}
+      className={styles.backdrop}
+      onClick={onClose} // клик по фону закрывает
     >
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          <button onClick={onClose}>close</button>
-          <p>{cat.id}</p>
-          <p>{cat.name}</p>
-        </>
-      )}
+      <div
+        className={`${styles.drawer} ${isVisible ? styles.drawerVisible : ''}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            <button onClick={onClose}>close</button>
+            <p>{cat.id}</p>
+            <p>{cat.name}</p>
+          </>
+        )}
+      </div>
     </div>
   );
 };

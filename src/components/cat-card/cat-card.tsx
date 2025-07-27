@@ -35,9 +35,7 @@ export const CatCard: React.FC<Props> = ({ cat }) => {
         {catImg && <img src={catImg} alt={cat.name} className={styles.image} />}
       </div>
 
-      <a href={cat.wikipedia_url} target="blanc">
-        <h2>{cat.name}</h2>
-      </a>
+      <h2>{cat.name}</h2>
       <p className={styles.description}>{cat.description}</p>
     </div>
   );
