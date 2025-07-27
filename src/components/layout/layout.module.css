@@ -1,0 +1,18 @@
+.header {
+  background-color: var(--color-bg-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+.nav {
+  display: flex;
+  align-items: baseline;
+  gap: 30px;
+}
+.nav a {
+  font-size: 1.5em;
+}
+.headerTitle {
+  margin: 0;
+}
