@@ -1,6 +1,5 @@
 .header {
-  background-color: #f9f9f9;
-  color: #333;
+  background-color: var(--color-bg-200);
   display: flex;
   align-items: center;
   justify-content: space-between;
