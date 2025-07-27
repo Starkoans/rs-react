@@ -1,3 +1,4 @@
+import { CatDetail } from '@/components/cat-detail/cat-detail';
 import { AboutPage } from '@/pages/about-page/about-page';
 import { HomePage } from '@/pages/home-page/home-page';
 import { NotFoundPage } from '@/pages/not-found-page';
@@ -16,8 +17,14 @@ export const router = createBrowserRouter([
     Component: Layout,
     children: [
       {
-        index: true,
+        path: ROUTES.home,
         Component: HomePage,
+        children: [
+          {
+            path: ROUTES.home,
+            Component: CatDetail,
+          },
+        ],
       },
       {
         path: ROUTES.about,

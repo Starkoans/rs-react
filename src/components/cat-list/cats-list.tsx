@@ -7,8 +7,8 @@ import type React from 'react';
 
 interface CatsListProps {
   cats?: Cat.Breed[];
-  error: string | null;
-  isLoading: boolean;
+  error?: string | null;
+  isLoading?: boolean;
 }
 
 export const CatsList: React.FC<CatsListProps> = ({

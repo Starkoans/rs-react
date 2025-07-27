@@ -13,8 +13,7 @@ import {
   URL_SEARCH_PARAMS,
 } from '@/sources/constants';
 import type { Pagination } from '@/sources/types/pagination';
-import { useSearchParams } from 'react-router-dom';
-import { CatDetail } from '@/components/cat-detail/cat-detail';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
 export const HomePage = () => {
   const { getSearchInput, saveSearchInputToLS } = useLocalStorage();
@@ -100,7 +99,7 @@ export const HomePage = () => {
       />
       <div className={styles.container}>
         <CatsList cats={cats} isLoading={isLoading} error={error} />
-        {<CatDetail catId={searchParams.get(URL_SEARCH_PARAMS.cat) || ''} />}
+        <Outlet />
       </div>
     </>
   );
