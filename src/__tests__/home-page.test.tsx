@@ -9,6 +9,7 @@ import {
   PAGINATION_START_PAGE,
 } from '@/sources/constants';
 import { HomePage } from '@/pages/home-page/home-page';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Home page', () => {
   afterEach(() => {
@@ -27,7 +28,7 @@ describe('Home page', () => {
         totalPages: 1,
       },
     });
-    render(<HomePage />);
+    render(<HomePage />, { wrapper: MemoryRouter });
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });
@@ -56,7 +57,7 @@ describe('Home page', () => {
         totalPages: 1,
       },
     });
-    render(<HomePage />);
+    render(<HomePage />, { wrapper: MemoryRouter });
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });
@@ -65,8 +66,8 @@ describe('Home page', () => {
     await userEvent.click(button);
 
     await waitFor(async () => {
-      const catLink = await screen.findByRole('link', { name: fakeCat.name });
-      expect(catLink).toBeInTheDocument();
+      const catName = await screen.findByText(fakeCat.name);
+      expect(catName).toBeInTheDocument();
     });
   });
 
@@ -80,7 +81,7 @@ describe('Home page', () => {
         totalPages: 0,
       },
     });
-    render(<HomePage />);
+    render(<HomePage />, { wrapper: MemoryRouter });
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });
@@ -100,7 +101,7 @@ describe('Home page', () => {
     (fetchCatsBreedsMock as Mock).mockRejectedValue(
       new Error(errorMessage, { cause: { code: 404 } })
     );
-    render(<HomePage />);
+    render(<HomePage />, { wrapper: MemoryRouter });
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });

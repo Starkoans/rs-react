@@ -1,4 +1,5 @@
 import { cleanup, render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { fetchCatImageMock } from './mocks/fetch-cat-image.mock';
 import { CatCard } from '../components/cat-card/cat-card';
 import { fakeCat } from './mocks/cats.mock';
@@ -11,17 +12,17 @@ describe('Cat card', () => {
     vi.clearAllMocks();
   });
 
-  it('should render a cat card with link', () => {
-    render(<CatCard cat={fakeCat} />);
+  it('should render a cat card', () => {
+    render(<CatCard cat={fakeCat} />, { wrapper: MemoryRouter });
 
-    const catLink = screen.getByRole('link', { name: fakeCat.name });
+    const catName = screen.getByText(fakeCat.name);
 
-    expect(catLink).toHaveAttribute('href', fakeCat.wikipedia_url);
+    expect(catName).toBeInTheDocument();
   });
 
   it('should fetch image and show in card if it exists', async () => {
     (fetchCatImageMock as Mock).mockResolvedValue(fakeCatImg);
-    render(<CatCard cat={fakeCat} />);
+    render(<CatCard cat={fakeCat} />, { wrapper: MemoryRouter });
 
     const catImg = await screen.findByRole('img', { name: fakeCat.name });
 
@@ -33,13 +34,11 @@ describe('Cat card', () => {
     (fetchCatImageMock as Mock).mockResolvedValue({
       message: 'Not Found',
     });
-    render(<CatCard cat={fakeCat} />);
+    render(<CatCard cat={fakeCat} />, { wrapper: MemoryRouter });
 
-    const catLink = await screen.findByRole('link', { name: fakeCat.name });
     const catImg = screen.queryByRole('img', { name: fakeCat.name });
 
     expect(fetchCatImageMock).toHaveBeenCalledWith(fakeCat.reference_image_id);
-    expect(catLink).toHaveAttribute('href', fakeCat.wikipedia_url);
     expect(catImg).not.toBeInTheDocument();
   });
 });
