@@ -24,11 +24,13 @@ export const Search: React.FC<SearchProps> = ({
   return (
     <form className={styles.container} onSubmit={handleSearchButtonClick}>
       <input
+        name="search"
         className={styles.input}
         placeholder={messages.input.search}
         value={searchValue}
         onChange={handleInputChange}
       />
+
       <button type="submit" className={styles.button}>
         {messages.buttons.search}
       </button>

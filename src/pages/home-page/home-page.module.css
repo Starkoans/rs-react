@@ -1,5 +1,4 @@
 .container {
-  display: grid;
-  margin-top: 80px;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: center;
 }

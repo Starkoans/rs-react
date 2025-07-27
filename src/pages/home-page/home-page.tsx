@@ -14,7 +14,7 @@ import {
 } from '@/sources/constants';
 import type { Pagination } from '@/sources/types/pagination';
 import { useSearchParams } from 'react-router-dom';
-import { CatDetail } from '@/components/cat-detail';
+import { CatDetail } from '@/components/cat-detail/cat-detail';
 
 export const HomePage = () => {
   const { getSearchInput, saveSearchInputToLS } = useLocalStorage();
@@ -78,7 +78,7 @@ export const HomePage = () => {
   };
 
   useEffect(() => {
-    getCatsByBreed(searchValue);
+    goToPage(1);
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

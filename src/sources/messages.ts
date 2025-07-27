@@ -1,18 +1,18 @@
 export const messages = {
   headers: {
-    appName: 'Catopedia',
+    appName: '≽^-⩊-^≼ Cat-a-log',
     notFound: 'Page not found.',
   },
   links: {
     about: 'About',
   },
   buttons: {
-    search: 'Search',
+    search: '🔍︎ Search',
     simulateError: 'Simulate Error',
     reload: 'Reload page',
     toMainPage: 'To main page',
-    prev: '<-',
-    next: '->',
+    prev: '←',
+    next: '→',
   },
   input: {
     search: 'Search by breed name',

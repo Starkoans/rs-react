@@ -1,26 +1,23 @@
 .container {
   display: flex;
+  justify-content: center;
   gap: 10px;
+  padding: 20px;
 }
 
 .input {
   padding-inline: 8px;
   height: 40px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid #585858;
+  background-color: transparent;
+  color: aliceblue;
   border-radius: 8px;
   outline: none;
   transition: border-color 0.2s;
 }
 
 .input:focus {
-  border-color: #007bff;
+  border-color: #646cff;
 }
 
-.button {
-  transition: background-color 0.2s;
-}
-
-.button:hover {
-  background-color: #646cff;
-}

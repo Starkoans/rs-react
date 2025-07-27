@@ -8,7 +8,7 @@ export const Layout = () => {
   return (
     <>
       <header className={styles.header}>
-        <nav>
+        <nav className={styles.nav}>
           <Link to={ROUTES.home}>
             <h1 className={styles.headerTitle}>{messages.headers.appName}</h1>
           </Link>
