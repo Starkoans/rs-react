@@ -4,6 +4,7 @@ import { messages } from '@/sources/messages';
 import type { Cat } from '@/sources/types/cat';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import styles from './cat-detail.module.css';
 
 interface CatDetailProps {
   catId: string;
@@ -33,22 +34,37 @@ export const CatDetail: React.FC<CatDetailProps> = ({ catId }) => {
   }, [catId]);
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(catId ? true : false);
+  }, [catId]);
 
   const onClose = () => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete(URL_SEARCH_PARAMS.cat);
-    setSearchParams(newParams);
+    setIsVisible(false);
+    setTimeout(() => {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete(URL_SEARCH_PARAMS.cat);
+      setSearchParams(newParams);
+    }, 300);
   };
 
   if (!catId) return null;
-  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
   if (!cat) return <div>{messages.noCatsFound}</div>;
   return (
-    <div>
-      <button onClick={onClose}>close</button>
-      <p>{cat.id}</p>
-      <p>{cat.name}</p>
+    <div
+      className={`${styles.drawer} ${isVisible ? styles.drawerVisible : ''}`}
+    >
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <button onClick={onClose}>close</button>
+          <p>{cat.id}</p>
+          <p>{cat.name}</p>
+        </>
+      )}
     </div>
   );
 };
