@@ -52,7 +52,7 @@ export const Flyout = () => {
             {messages.buttons.unselectAll}
           </button>
           <button onClick={onDownload}>{messages.buttons.download}</button>
-          <a ref={linkRef} style={{ display: 'none' }} />
+          <a ref={linkRef} className={styles.fakeLink} />
         </div>
       </div>
     );
