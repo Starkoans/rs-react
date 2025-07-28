@@ -14,6 +14,8 @@ export const messages = {
     prev: '←',
     next: '→',
     close: '✗',
+    unselectAll: 'Unselect all',
+    download: 'Download',
   },
   input: {
     search: 'Search by breed name',
@@ -21,6 +23,7 @@ export const messages = {
   },
   noCatsFound: 'No cats found for the given breed name.',
   paragraphs: {
+    catsSelected: 'Cats selected',
     totalFound: 'Total cats found',
     loading: 'Loading...',
     currentPage: 'page',

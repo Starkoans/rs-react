@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import selectedCatsReducer from '@/selected-cats.slice';
+import selectedCatsReducer from '@/download-list.slice';
 import { useDispatch, useSelector } from 'react-redux';
 
-const rootReducer = combineReducers({ selectedCats: selectedCatsReducer });
+const rootReducer = combineReducers({ downloadList: selectedCatsReducer });
 
 export const store = configureStore({
   reducer: rootReducer,

@@ -2,6 +2,7 @@ import { messages } from '@sources/messages';
 import { Link, Outlet } from 'react-router-dom';
 import styles from './layout.module.css';
 import { ROUTES } from '@/router';
+import { Flyout } from '@/components/flyout/flyout';
 
 export const Layout = () => {
   return (
@@ -14,7 +15,11 @@ export const Layout = () => {
           <Link to={ROUTES.about}>{messages.links.about}</Link>
         </nav>
       </header>
-      <Outlet />
+      <main className={styles.main}>
+        <Outlet />
+      </main>
+
+      <Flyout />
     </>
   );
 };

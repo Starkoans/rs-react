@@ -10,7 +10,7 @@ const initialState: CounterState = {
   selectedCats: [],
 };
 
-export const selectedCatsSlice = createSlice({
+export const downloadListSlice = createSlice({
   name: 'catList',
   initialState,
   reducers: {
@@ -28,6 +28,6 @@ export const selectedCatsSlice = createSlice({
   },
 });
 
-export const { addCat, removeAllCats, removeCat } = selectedCatsSlice.actions;
+export const { addCat, removeAllCats, removeCat } = downloadListSlice.actions;
 
-export default selectedCatsSlice.reducer;
+export default downloadListSlice.reducer;

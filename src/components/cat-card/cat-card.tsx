@@ -5,7 +5,7 @@ import { fetchCatImage } from '../../api/fetch-cat-image';
 import { useSearchParams } from 'react-router-dom';
 import { URL_SEARCH_PARAMS } from '@/sources/constants';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { addCat, removeCat } from '@/selected-cats.slice';
+import { addCat, removeCat } from '@/download-list.slice';
 import { messages } from '@/sources/messages';
 
 interface Props {
@@ -16,7 +16,7 @@ export const CatCard: React.FC<Props> = ({ cat }) => {
   const [catImg, setCatImg] = useState<string>('');
 
   const selectedCats = useAppSelector(
-    (state) => state.selectedCats.selectedCats
+    (state) => state.downloadList.selectedCats
   );
   const dispatch = useAppDispatch();
 
