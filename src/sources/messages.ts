@@ -17,6 +17,7 @@ export const messages = {
   },
   input: {
     search: 'Search by breed name',
+    addToDownloadList: 'Add to download list',
   },
   noCatsFound: 'No cats found for the given breed name.',
   paragraphs: {
