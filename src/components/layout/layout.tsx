@@ -3,8 +3,11 @@ import { Link, Outlet } from 'react-router-dom';
 import styles from './layout.module.css';
 import { ROUTES } from '@/router';
 import { Flyout } from '@/components/flyout/flyout';
+import { useTheme } from '@/theme/theme-context';
 
 export const Layout = () => {
+  const { toggleTheme } = useTheme();
+
   return (
     <>
       <header className={styles.header}>
@@ -14,11 +17,11 @@ export const Layout = () => {
           </Link>
           <Link to={ROUTES.about}>{messages.links.about}</Link>
         </nav>
+        <button onClick={toggleTheme}>toggle theme</button>
       </header>
       <main className={styles.main}>
         <Outlet />
       </main>
-
       <Flyout />
     </>
   );

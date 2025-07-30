@@ -77,7 +77,8 @@ export const HomePage = () => {
   };
 
   useEffect(() => {
-    goToPage(1);
+    const page = Number(searchParams.get(URL_SEARCH_PARAMS.page)) || 1;
+    goToPage(page);
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
