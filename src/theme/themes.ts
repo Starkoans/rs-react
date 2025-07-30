@@ -2,20 +2,35 @@ export const lightTheme = {
   '--color-bg-100': '#ffffff',
   '--color-bg-200': '#fffdf5',
   '--color-bg-300': '#ece8d4',
-  '--color-text': '#2b2b2b',
-  '--color-accent-2': '#d66',
-  '--color-accent-1-100': '#646cff',
-  '--color-accent-1-200': '#5049b8',
-  '--color-border': '#ccc',
+  '--color-text-bg': '#444581ff',
+  '--color-text-btn': '#ffffffff',
+
+  '--color-accent-1-100': '#979dffff',
+  '--color-accent-1-200': '#646cff',
+  '--color-accent-1-300': '#5049b8',
+
+  '--color-accent-2': '#dd6666',
+  '--color-accent-3-100': '#537ff7ff',
+  '--color-accent-3-200': '#4a72e2ff',
+
+  '--color-disabled-100': '#4e4e4e',
+  '--color-border': '#c6c9e7ff',
 };
 
 export const darkTheme = {
   '--color-bg-100': '#1e1e1e',
   '--color-bg-200': '#2a2a2a',
-  '--color-bg-300': '#333',
-  '--color-text': '#ffffff',
-  '--color-accent-2': '#f88',
+  '--color-bg-300': '#333333',
+
+  '--color-text-bg': '#c4c4c4ff',
+  '--color-text-btn': '#ffffffff',
+
   '--color-accent-1-100': '#8a9eff',
   '--color-accent-1-200': '#6f7ac2',
-  '--color-border': '#555',
+  '--color-accent-2': '#dd6666',
+  '--color-accent-3-100': '#537ff7ff',
+  '--color-accent-3-200': '#4a72e2ff',
+
+  '--color-disabled-100': '#4e4e4e',
+  '--color-border': '#555555',
 };

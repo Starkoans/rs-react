@@ -26,7 +26,9 @@
   line-height: 1.5;
   position: relative;
 }
-
+h3 {
+  color: var(--color-accent-3-200);
+}
 .drawer::before {
   content: '';
   position: absolute;
@@ -34,7 +36,7 @@
   left: 20px;
   bottom: 0;
   width: 2px;
-  background-color: #d66;
+  background-color: var(--color-accent-2);
   z-index: 0;
 }
 
@@ -42,13 +44,13 @@
 h3 {
   margin: 0;
   padding-left: 30px;
-  border-bottom: 1px dashed #ccc;
+  border-bottom: 1px dashed var(--color-border);
   z-index: 1;
   position: relative;
 }
 
 .closeBtn {
-  color: #2b2b2b;
+  color: var(--color-text-bg);
   background: transparent;
   border: none;
   font-size: 24px;
@@ -61,7 +63,7 @@ h3 {
 .closeBtn:hover,
 .closeBtn:focus {
   background: transparent;
-  color: #ff6b6b;
+  color: var(--color-accent-2);
   outline: none;
 }
 
@@ -71,7 +73,7 @@ h3 {
   z-index: 9998;
   display: flex;
   justify-content: flex-end;
-  background-color: #1b150069;
+  background-color: #0000008a;
 }
 
 .drawerVisible {
@@ -103,7 +105,7 @@ h3 {
 }
 
 .temperament {
-  color: #3c30af;
+  color: var(--color-accent-1-100);
 }
 
 @keyframes slideIn {

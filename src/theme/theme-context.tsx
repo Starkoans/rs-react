@@ -6,6 +6,7 @@ import {
   type ReactNode,
 } from 'react';
 import { darkTheme, lightTheme } from './themes';
+import { LSKeys } from '@/sources/constants';
 
 type Theme = 'light' | 'dark';
 
@@ -17,7 +18,10 @@ interface ThemeContextProps {
 export const ThemeContext = createContext<ThemeContextProps | null>(null);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = localStorage.getItem(LSKeys.theme);
+    return saved === 'dark' ? 'dark' : 'light';
+  });
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
@@ -32,6 +36,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     applyTheme(theme === 'light' ? lightTheme : darkTheme);
+    localStorage.setItem(LSKeys.theme, theme);
   }, [theme]);
 
   const value: ThemeContextProps = { theme, toggleTheme };
