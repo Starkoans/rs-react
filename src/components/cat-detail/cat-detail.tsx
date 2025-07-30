@@ -10,7 +10,7 @@ import { fetchCatImage } from '@/api/fetch-cat-image';
 export const CatDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const catId = searchParams.get(URL_SEARCH_PARAMS.cat);
-
+  const [isVisible, setIsVisible] = useState(false);
   const [cat, setCat] = useState<Cat.Breed>();
   const [imgUrl, setImgUrl] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
@@ -22,8 +22,10 @@ export const CatDetail = () => {
         if (!catId) return;
         setIsLoading(true);
         setError(null);
+
         const catInfo = await fetchCatById(catId);
         const imgInfo = await fetchCatImage(catInfo.reference_image_id);
+
         setCat(catInfo);
         setImgUrl(imgInfo.url);
       } catch (error) {
@@ -37,8 +39,6 @@ export const CatDetail = () => {
 
     getCat();
   }, [catId]);
-
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     setIsVisible(catId ? true : false);

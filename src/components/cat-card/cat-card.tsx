@@ -14,6 +14,7 @@ interface Props {
 
 export const CatCard: React.FC<Props> = ({ cat }) => {
   const [catImg, setCatImg] = useState<string>('');
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const selectedCats = useAppSelector(
     (state) => state.downloadList.selectedCats
@@ -28,8 +29,6 @@ export const CatCard: React.FC<Props> = ({ cat }) => {
 
     init();
   }, []);
-
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const onClick = () => {
     const newParams = new URLSearchParams(searchParams);

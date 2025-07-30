@@ -24,6 +24,7 @@ export const messages = {
   noCatsFound: 'No cats found for the given breed name.',
   paragraphs: {
     catsSelected: 'Cats selected',
+    noCatDetails: 'No cat details found',
     totalFound: 'Total cats found',
     loading: 'Loading...',
     currentPage: 'page',
@@ -36,6 +37,7 @@ export const messages = {
   },
   errors: {
     oops: 'Oops! Something went wrong.',
+    reason: 'Error: ',
     default: 'An error occurred. Please try again later.',
     fetchCatsBreed: 'Error fetching cats by breed name:',
     fetchCatsImage: 'Error fetching cat image:',

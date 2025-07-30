@@ -71,6 +71,7 @@ h3 {
   z-index: 9998;
   display: flex;
   justify-content: flex-end;
+  background-color: #1b150069;
 }
 
 .drawerVisible {
