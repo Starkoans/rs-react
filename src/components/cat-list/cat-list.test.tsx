@@ -1,8 +1,8 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { CatsList } from '../components/cat-list/cats-list';
-import { mockCats } from './mocks/cats.mock';
-import { messages } from '../sources/messages';
+import { CatsList } from './cats-list';
+import { mockCats } from '../../__tests__/mocks/cats.mock';
+import { messages } from '../../sources/messages';
 import type { Cat } from '@/sources/types/cat';
 import { Provider } from 'react-redux';
 import { store } from '@/store';

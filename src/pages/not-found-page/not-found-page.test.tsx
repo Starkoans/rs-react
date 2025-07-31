@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { NotFoundPage } from '@/pages/not-found-page';
+import { NotFoundPage } from '@/pages/not-found-page/not-found-page';
 import { messages } from '@/sources/messages';
 import { ROUTES } from '@/router';
 

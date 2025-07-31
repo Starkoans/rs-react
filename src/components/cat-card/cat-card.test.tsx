@@ -1,9 +1,9 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { fetchCatImageMock } from './mocks/fetch-cat-image.mock';
-import { CatCard } from '../components/cat-card/cat-card';
-import { fakeCat } from './mocks/cats.mock';
-import { fakeCatImg } from './mocks/cat-image.mock';
+import { fetchCatImageMock } from '../../__tests__/mocks/fetch-cat-image.mock';
+import { CatCard } from './cat-card';
+import { fakeCat } from '@tests/mocks/cats.mock';
+import { fakeCatImg } from '@tests/mocks/cat-image.mock';
 import type { Mock } from 'vitest';
 import { Provider } from 'react-redux';
 import { store } from '@/store';
