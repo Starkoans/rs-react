@@ -17,7 +17,11 @@ export const CatsList: React.FC<CatsListProps> = ({
   isLoading,
 }) => {
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className={styles.spinnerContainer}>
+        <Spinner />
+      </div>
+    );
   }
 
   if (error) {

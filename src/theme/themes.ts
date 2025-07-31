@@ -32,5 +32,5 @@ export const darkTheme = {
   '--color-accent-3-200': '#4a72e2ff',
 
   '--color-disabled-100': '#4e4e4e',
-  '--color-border': '#555555',
+  '--color-border': '#4d4b50ff',
 };

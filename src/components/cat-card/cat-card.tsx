@@ -7,6 +7,7 @@ import { URL_SEARCH_PARAMS } from '@/sources/constants';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { addCat, removeCat } from '@/download-list.slice';
 import { messages } from '@/sources/messages';
+import { CatIcon } from '../cat-icon';
 
 interface Props {
   cat: Cat.Breed;
@@ -23,8 +24,10 @@ export const CatCard: React.FC<Props> = ({ cat }) => {
 
   useEffect(() => {
     const init = async () => {
-      const img = await fetchCatImage(cat.reference_image_id);
-      setCatImg(img.url);
+      if (cat.reference_image_id) {
+        const img = await fetchCatImage(cat.reference_image_id);
+        setCatImg(img.url);
+      }
     };
 
     init();
@@ -51,6 +54,7 @@ export const CatCard: React.FC<Props> = ({ cat }) => {
   return (
     <div className={styles.card} onClick={onClick}>
       <div className={styles.imageWrapper}>
+        {!catImg && <CatIcon />}
         {catImg && <img src={catImg} alt={cat.name} className={styles.image} />}
       </div>
       <div className={styles.info}>

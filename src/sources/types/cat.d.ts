@@ -5,7 +5,7 @@ export namespace Cat {
     id: string;
     name: string;
     description: string;
-    reference_image_id: string;
+    reference_image_id?: string;
     wikipedia_url: string;
     temperament: string;
     origin: string;
@@ -14,7 +14,7 @@ export namespace Cat {
       imperial: string;
       metric: string;
     };
-    image: {
+    image?: {
       url: string;
       width?: number;
       height?: number;
