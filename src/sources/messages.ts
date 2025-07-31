@@ -7,6 +7,8 @@ export const messages = {
     about: 'About',
   },
   buttons: {
+    prev: 'prev',
+    next: 'next',
     search: '🔍︎ Search',
     simulateError: 'Simulate Error',
     reload: 'Reload page',

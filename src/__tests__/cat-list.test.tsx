@@ -1,28 +1,52 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { CatsList } from '../components/cat-list/cats-list';
 import { mockCats } from './mocks/cats.mock';
 import { messages } from '../sources/messages';
+import type { Cat } from '@/sources/types/cat';
+import { Provider } from 'react-redux';
+import { store } from '@/store';
 
 describe('Cat list', () => {
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
+
+  const renderList = (props: {
+    cats?: Cat.Breed[];
+    error?: string | null;
+    isLoading?: boolean | undefined;
+  }) => {
+    render(
+      <Provider store={store}>
+        <CatsList
+          cats={props.cats}
+          error={props.error}
+          isLoading={props.isLoading}
+        />
+      </Provider>,
+      { wrapper: MemoryRouter }
+    );
+  };
   it('should show message if no cats found', () => {
-    render(<CatsList cats={[]} />, { wrapper: MemoryRouter });
+    renderList({ cats: [] });
     const message = screen.getByText(messages.noCatsFound);
     expect(message).toBeInTheDocument();
   });
 
   it('should not show cats while loading', () => {
-    render(<CatsList cats={[]} isLoading={true} />, { wrapper: MemoryRouter });
+    renderList({ cats: [], isLoading: true });
     expect(screen.queryByTestId('card')).not.toBeInTheDocument();
   });
 
   it('should show error message', () => {
-    render(<CatsList cats={[]} error={'Error'} />, { wrapper: MemoryRouter });
+    renderList({ cats: [], error: 'error' });
     expect(screen.getByText(messages.errors.oops)).toBeInTheDocument();
   });
 
   it('should show list of cats', () => {
-    render(<CatsList cats={mockCats} />, { wrapper: MemoryRouter });
+    renderList({ cats: mockCats });
     expect(screen.getByRole('list')).toBeInTheDocument();
   });
 });

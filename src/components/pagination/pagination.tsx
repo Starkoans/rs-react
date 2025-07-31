@@ -26,6 +26,7 @@ export const PaginationControls: React.FC<PaginationProps> = ({
 
       <div>
         <button
+          aria-label={messages.buttons.prev}
           onClick={handlePrev}
           disabled={pagination.page === PAGINATION_START_PAGE}
           className={styles.paginationBth}
@@ -37,6 +38,7 @@ export const PaginationControls: React.FC<PaginationProps> = ({
           {messages.paragraphs.of} {pagination.totalPages}
         </p>
         <button
+          aria-label={messages.buttons.next}
           onClick={handleNext}
           disabled={pagination.page === pagination.totalPages}
           className={styles.paginationBth}
