@@ -77,7 +77,8 @@ export const HomePage = () => {
   };
 
   useEffect(() => {
-    goToPage(1);
+    const page = Number(searchParams.get(URL_SEARCH_PARAMS.page)) || 1;
+    goToPage(page);
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,15 +93,15 @@ export const HomePage = () => {
         searchValue={searchValue}
         handleInputChange={handleInputChange}
       />
+      <div className={styles.container}>
+        <CatsList cats={cats} isLoading={isLoading} error={error} />
+        <Outlet />
+      </div>
       <PaginationControls
         pagination={pagination}
         handlePrev={handlePrev}
         handleNext={handleNext}
       />
-      <div className={styles.container}>
-        <CatsList cats={cats} isLoading={isLoading} error={error} />
-        <Outlet />
-      </div>
     </>
   );
 };

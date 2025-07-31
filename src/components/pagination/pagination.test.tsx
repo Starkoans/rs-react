@@ -1,4 +1,3 @@
-// src/__tests__/pagination-controls.test.tsx
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PaginationControls } from '@/components/pagination/pagination';

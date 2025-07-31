@@ -2,6 +2,7 @@ import styles from './Search.module.css';
 
 import React from 'react';
 import { messages } from '../../sources/messages';
+import { EnterIcon } from '@/assets/enter-icon';
 
 interface SearchProps {
   searchValue: string;
@@ -31,8 +32,12 @@ export const Search: React.FC<SearchProps> = ({
         onChange={handleInputChange}
       />
 
-      <button type="submit" className={styles.button}>
-        {messages.buttons.search}
+      <button
+        type="submit"
+        className={styles.button}
+        aria-label={messages.buttons.search}
+      >
+        <EnterIcon />
       </button>
     </form>
   );

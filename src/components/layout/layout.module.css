@@ -1,5 +1,5 @@
 .header {
-  background-color: var(--color-bg-200);
+  background-color: var(--color-bg-100);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -10,9 +10,17 @@
   align-items: baseline;
   gap: 30px;
 }
+.toggleThemeBtn {
+  padding: 5px;
+  display: flex;
+}
 .nav a {
   font-size: 1.5em;
 }
 .headerTitle {
   margin: 0;
+}
+
+.main {
+  margin-bottom: 80px;
 }

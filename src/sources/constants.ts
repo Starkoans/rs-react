@@ -1,5 +1,6 @@
 export const LSKeys = {
   SearchInput: 'searchInput',
+  theme: 'theme',
 };
 
 export const PAGINATION_DEFAULT_LIMIT = 6;
