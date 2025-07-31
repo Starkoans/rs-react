@@ -10,6 +10,24 @@ export namespace Cat {
     temperament: string;
     origin: string;
     life_span: string;
+
+    affection_level: number;
+    adaptability: number;
+    child_friendly: number;
+    dog_friendly: number;
+    energy_level: number;
+    experimental: number;
+    grooming: number;
+    hairless: number;
+    health_issues: number;
+    hypoallergenic: number;
+    indoor: number;
+    intelligence: number;
+    rare: number;
+    social_needs: number;
+    stranger_friendly: number;
+    vocalisation: number;
+
     weight: {
       imperial: string;
       metric: string;

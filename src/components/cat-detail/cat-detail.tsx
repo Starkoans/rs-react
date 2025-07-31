@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from './cat-detail.module.css';
 import { fetchCatImage } from '@/api/fetch-cat-image';
-import { CatIcon } from '@components/cat-icon';
+import { CatIcon } from '@/assets/cat-icon';
 import { Spinner } from '../spinner/spinner';
 
 export const CatDetail = () => {

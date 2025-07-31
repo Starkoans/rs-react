@@ -6,7 +6,7 @@ export const lightTheme = {
   '--color-text-btn': '#ffffffff',
 
   '--color-accent-1-100': '#979dffff',
-  '--color-accent-1-200': '#646cff',
+  '--color-accent-1-200': '#6c71dfff',
   '--color-accent-1-300': '#5049b8',
 
   '--color-accent-2': '#dd6666',
@@ -25,8 +25,9 @@ export const darkTheme = {
   '--color-text-bg': '#c4c4c4ff',
   '--color-text-btn': '#ffffffff',
 
-  '--color-accent-1-100': '#8a9eff',
-  '--color-accent-1-200': '#6f7ac2',
+  '--color-accent-1-100': '#868cfaff',
+  '--color-accent-1-200': '#6c71dfff',
+
   '--color-accent-2': '#dd6666',
   '--color-accent-3-100': '#537ff7ff',
   '--color-accent-3-200': '#4a72e2ff',

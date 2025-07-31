@@ -7,7 +7,8 @@ import { URL_SEARCH_PARAMS } from '@/sources/constants';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { addCat, removeCat } from '@/download-list.slice';
 import { messages } from '@/sources/messages';
-import { CatIcon } from '../cat-icon';
+import { CatIcon } from '../../assets/cat-icon';
+import { StatusBar } from '../status-bat/status-bar';
 
 interface Props {
   cat: Cat.Breed;
@@ -59,7 +60,16 @@ export const CatCard: React.FC<Props> = ({ cat }) => {
       </div>
       <div className={styles.info}>
         <h2>{cat.name}</h2>
-        <p className={styles.description}>{cat.description}</p>
+        <div className={styles.statuses}>
+          <span>{messages.paragraphs.affection}</span>
+          <StatusBar value={cat.affection_level} />
+          {messages.paragraphs.energy} <StatusBar value={cat.energy_level} />
+          {messages.paragraphs.intelligence}
+          <StatusBar value={cat.intelligence} />
+          {messages.paragraphs.adaptability}
+          <StatusBar value={cat.adaptability} />
+          {messages.paragraphs.sociality} <StatusBar value={cat.social_needs} />
+        </div>
       </div>
       <div className={styles.check}>
         <input

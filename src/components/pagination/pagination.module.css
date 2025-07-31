@@ -16,9 +16,26 @@
   gap: 12px;
 }
 
-.container button:disabled {
+.paginationBth {
+  display: flex;
+  color: var(--color-text-bg);
+  background-color: transparent;
+}
+.paginationBth:hover {
+  color: var(--color-accent-1-200);
+  background-color: transparent;
+}
+
+.paginationBth:disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.3;
+  background-color: transparent;
+}
+
+.paginationBth:hover:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+  background-color: transparent;
 }
 
 .container p {
