@@ -16,6 +16,7 @@ export const messages = {
     close: '✗',
     unselectAll: 'Unselect all',
     download: 'Download',
+    toggleTheme: 'toggle theme',
   },
   input: {
     search: 'Search by breed name',

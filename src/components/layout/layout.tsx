@@ -19,7 +19,11 @@ export const Layout = () => {
           </Link>
           <Link to={ROUTES.about}>{messages.links.about}</Link>
         </nav>
-        <button onClick={toggleTheme} className={styles.toggleThemeBtn}>
+        <button
+          onClick={toggleTheme}
+          className={styles.toggleThemeBtn}
+          aria-label={messages.buttons.toggleTheme}
+        >
           {theme === 'dark' ? (
             <MoonIcon height="20px" width="20px" />
           ) : (
