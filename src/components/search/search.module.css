@@ -4,6 +4,7 @@
   gap: 10px;
   padding: 20px;
   border-bottom: 1px solid var(--color-border);
+  width: 100%;
 }
 
 .input {
@@ -16,12 +17,14 @@
   border-radius: 100px;
   outline: none;
   height: 44px;
+  width: 40%;
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 .button {
   height: 44px;
+  padding: 10px;
 }
 
 .input:focus {

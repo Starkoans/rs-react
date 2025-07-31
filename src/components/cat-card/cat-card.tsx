@@ -69,6 +69,8 @@ export const CatCard: React.FC<Props> = ({ cat }) => {
           {messages.paragraphs.adaptability}
           <StatusBar value={cat.adaptability} />
           {messages.paragraphs.sociality} <StatusBar value={cat.social_needs} />
+          {messages.paragraphs.vocalisation}
+          <StatusBar value={cat.vocalisation} />
         </div>
       </div>
       <div className={styles.check}>

@@ -9,7 +9,7 @@ export const messages = {
   buttons: {
     prev: 'prev',
     next: 'next',
-    search: '🔍︎ Search',
+    search: 'Search',
     simulateError: 'Simulate Error',
     reload: 'Reload page',
     toMainPage: 'To main page',
@@ -29,6 +29,7 @@ export const messages = {
     intelligence: '🧠 Intelligence',
     adaptability: '🧩 Adaptability',
     sociality: '🤝 Sociality',
+    vocalisation: '🎵 Vocalisation',
     catsSelected: 'Cats selected',
     noCatDetails: 'No cat details found',
     totalFound: 'Total cats found',

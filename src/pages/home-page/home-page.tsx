@@ -93,15 +93,15 @@ export const HomePage = () => {
         searchValue={searchValue}
         handleInputChange={handleInputChange}
       />
+      <div className={styles.container}>
+        <CatsList cats={cats} isLoading={isLoading} error={error} />
+        <Outlet />
+      </div>
       <PaginationControls
         pagination={pagination}
         handlePrev={handlePrev}
         handleNext={handleNext}
       />
-      <div className={styles.container}>
-        <CatsList cats={cats} isLoading={isLoading} error={error} />
-        <Outlet />
-      </div>
     </>
   );
 };
