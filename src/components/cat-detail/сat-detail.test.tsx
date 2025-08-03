@@ -1,11 +1,11 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { CatDetail } from '@/components/cat-detail/cat-detail';
-import { fakeCat } from './mocks/cats.mock';
-import { fakeCatImg } from './mocks/cat-image.mock';
+import { fakeCat } from '@tests/mocks/cats.mock';
+import { fakeCatImg } from '@tests/mocks/cat-image.mock';
 import type { Mock } from 'vitest';
-import { fetchCatImageMock } from '@/__tests__/mocks/fetch-cat-image.mock';
-import { fetchCatByIdMock } from '@/__tests__/mocks/fetch-cat-by-id.mock';
+import { fetchCatImageMock } from '@tests/mocks/fetch-cat-image.mock';
+import { fetchCatByIdMock } from '@tests/mocks/fetch-cat-by-id.mock';
 
 describe('CatDetail', () => {
   afterEach(() => {

@@ -15,7 +15,8 @@
       "@sources/*": ["sources/*"],
       "@tests/*": ["__tests__/*"],
       "@pages/*": ["pages/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@assets/*": ["assets/*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

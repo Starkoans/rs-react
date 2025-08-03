@@ -1,7 +1,7 @@
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Search } from '../components/search/search';
-import { LSKeys } from '../sources/constants';
+import { Search } from '@components/search/search';
+import { LSKeys } from '@sources/constants';
 
 describe('search', () => {
   afterEach(() => {

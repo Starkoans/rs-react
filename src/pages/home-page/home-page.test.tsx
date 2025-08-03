@@ -1,8 +1,8 @@
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
-import { fetchCatsBreedsMock } from './mocks/fetch-cats.mock';
+import { fetchCatsBreedsMock } from '../../__tests__/mocks/fetch-cats.mock';
 import userEvent from '@testing-library/user-event';
-import { messages } from '../sources/messages';
-import { fakeCat } from './mocks/cats.mock';
+import { messages } from '../../sources/messages';
+import { fakeCat } from '../../__tests__/mocks/cats.mock';
 import type { Mock } from 'vitest';
 import {
   PAGINATION_DEFAULT_LIMIT,
@@ -10,6 +10,8 @@ import {
 } from '@/sources/constants';
 import { HomePage } from '@/pages/home-page/home-page';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '@/store/store';
 
 describe('Home page', () => {
   afterEach(() => {
@@ -17,6 +19,15 @@ describe('Home page', () => {
     localStorage.clear();
     vi.clearAllMocks();
   });
+
+  const renderHomePage = () => {
+    render(
+      <Provider store={store}>
+        <HomePage />
+      </Provider>,
+      { wrapper: MemoryRouter }
+    );
+  };
 
   it('should call fetch with correct data', async () => {
     (fetchCatsBreedsMock as Mock).mockResolvedValue({
@@ -28,8 +39,7 @@ describe('Home page', () => {
         totalPages: 1,
       },
     });
-    render(<HomePage />, { wrapper: MemoryRouter });
-
+    renderHomePage();
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });
 
@@ -57,7 +67,7 @@ describe('Home page', () => {
         totalPages: 1,
       },
     });
-    render(<HomePage />, { wrapper: MemoryRouter });
+    renderHomePage();
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });
@@ -81,7 +91,7 @@ describe('Home page', () => {
         totalPages: 0,
       },
     });
-    render(<HomePage />, { wrapper: MemoryRouter });
+    renderHomePage();
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });
@@ -101,7 +111,7 @@ describe('Home page', () => {
     (fetchCatsBreedsMock as Mock).mockRejectedValue(
       new Error(errorMessage, { cause: { code: 404 } })
     );
-    render(<HomePage />, { wrapper: MemoryRouter });
+    renderHomePage();
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });

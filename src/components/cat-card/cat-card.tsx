@@ -4,6 +4,12 @@ import styles from './cat-card.module.css';
 import { fetchCatImage } from '../../api/fetch-cat-image';
 import { useSearchParams } from 'react-router-dom';
 import { URL_SEARCH_PARAMS } from '@/sources/constants';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { addCat, removeCat } from '@/store/selected-cats.slice';
+import { messages } from '@/sources/messages';
+import { CatIcon } from '../../assets/cat-icon';
+import { StatusBar } from '../status-bat/status-bar';
+import { selectIsCatSelected } from '@/store/selected-cats.selectors';
 
 interface Props {
   cat: Cat.Breed;
@@ -11,17 +17,20 @@ interface Props {
 
 export const CatCard: React.FC<Props> = ({ cat }) => {
   const [catImg, setCatImg] = useState<string>('');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const init = async () => {
-      const img = await fetchCatImage(cat.reference_image_id);
-      setCatImg(img.url);
+      if (cat.reference_image_id) {
+        const img = await fetchCatImage(cat.reference_image_id);
+        setCatImg(img.url);
+      }
     };
 
     init();
   }, []);
-
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const onClick = () => {
     const newParams = new URLSearchParams(searchParams);
@@ -29,14 +38,52 @@ export const CatCard: React.FC<Props> = ({ cat }) => {
     setSearchParams(newParams);
   };
 
+  const isSelected = useAppSelector(selectIsCatSelected(cat.id));
+
+  const onCheck = () => {
+    if (isSelected) {
+      dispatch(removeCat(cat));
+    } else {
+      dispatch(addCat(cat));
+    }
+  };
+
   return (
     <div className={styles.card} onClick={onClick}>
       <div className={styles.imageWrapper}>
+        {!catImg && <CatIcon />}
         {catImg && <img src={catImg} alt={cat.name} className={styles.image} />}
       </div>
-
-      <h2>{cat.name}</h2>
-      <p className={styles.description}>{cat.description}</p>
+      <div className={styles.info}>
+        <h2>{cat.name}</h2>
+        <div className={styles.statuses}>
+          <span>{messages.paragraphs.affection}</span>
+          <StatusBar value={cat.affection_level} />
+          {messages.paragraphs.energy} <StatusBar value={cat.energy_level} />
+          {messages.paragraphs.intelligence}
+          <StatusBar value={cat.intelligence} />
+          {messages.paragraphs.adaptability}
+          <StatusBar value={cat.adaptability} />
+          {messages.paragraphs.sociality} <StatusBar value={cat.social_needs} />
+          {messages.paragraphs.vocalisation}
+          <StatusBar value={cat.vocalisation} />
+        </div>
+      </div>
+      <div className={styles.check}>
+        <input
+          type="checkbox"
+          id={`is-selected-${cat.id}`}
+          checked={isSelected}
+          onClick={(e) => e.stopPropagation()}
+          onChange={onCheck}
+        />
+        <label
+          htmlFor={`is-selected-${cat.id}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {messages.input.addToDownloadList}
+        </label>
+      </div>
     </div>
   );
 };
