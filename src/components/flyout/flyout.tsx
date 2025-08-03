@@ -1,31 +1,33 @@
-import { removeAllCats } from '@/download-list.slice';
+import { removeAllCats } from '@/store/selected-cats.slice';
 import { messages } from '@/sources/messages';
-import { useAppDispatch, useAppSelector } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 import styles from './flyout.module.css';
 import { useRef } from 'react';
+import {
+  selectSelectedCats,
+  selectSelectedCatsRows,
+} from '@/store/selected-cats.selectors';
+
+const selectedCatsTableHeader = [
+  'Cat breed name',
+  'Description',
+  'Temperament',
+  'Origin country',
+];
 
 export const Flyout = () => {
   const linkRef = useRef<HTMLAnchorElement | null>(null);
   const dispatch = useAppDispatch();
 
-  const selectedCats = useAppSelector(
-    (state) => state.downloadList.selectedCats
-  );
+  const selectedCats = useAppSelector(selectSelectedCats);
+  const selectedCatRows = useAppSelector(selectSelectedCatsRows);
 
   const onUnselectAll = () => {
     dispatch(removeAllCats());
   };
 
   const onDownload = () => {
-    const rows = [
-      ['Cat breed name', 'Description', 'Temperament', 'Origin country'],
-      ...selectedCats.map((cat) => [
-        cat.name,
-        cat.description,
-        cat.temperament,
-        cat.origin,
-      ]),
-    ];
+    const rows = [selectedCatsTableHeader, ...selectedCatRows];
 
     const csvContent = rows.map((r) => r.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });

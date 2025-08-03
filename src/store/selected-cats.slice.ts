@@ -2,16 +2,16 @@ import type { Cat } from '@/sources/types/cat';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export interface CounterState {
+export interface SelectedCatsState {
   selectedCats: Cat.Breed[];
 }
 
-const initialState: CounterState = {
+const initialState: SelectedCatsState = {
   selectedCats: [],
 };
 
-export const downloadListSlice = createSlice({
-  name: 'catList',
+export const selectedCatsSlice = createSlice({
+  name: 'selectedCats',
   initialState,
   reducers: {
     addCat: (state, action: PayloadAction<Cat.Breed>) => {
@@ -28,6 +28,6 @@ export const downloadListSlice = createSlice({
   },
 });
 
-export const { addCat, removeAllCats, removeCat } = downloadListSlice.actions;
+export const { addCat, removeAllCats, removeCat } = selectedCatsSlice.actions;
 
-export default downloadListSlice.reducer;
+export default selectedCatsSlice.reducer;

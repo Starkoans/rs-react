@@ -11,7 +11,7 @@ import {
 import { HomePage } from '@/pages/home-page/home-page';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '@/store';
+import { store } from '@/store/store';
 
 describe('Home page', () => {
   afterEach(() => {

@@ -4,7 +4,7 @@ import { messages } from '@/sources/messages';
 import { ThemeProvider } from '@/theme/theme-context';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '@/store';
+import { store } from '@/store/store';
 
 describe('Layout', () => {
   afterEach(() => {

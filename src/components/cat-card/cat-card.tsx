@@ -4,11 +4,12 @@ import styles from './cat-card.module.css';
 import { fetchCatImage } from '../../api/fetch-cat-image';
 import { useSearchParams } from 'react-router-dom';
 import { URL_SEARCH_PARAMS } from '@/sources/constants';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { addCat, removeCat } from '@/download-list.slice';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { addCat, removeCat } from '@/store/selected-cats.slice';
 import { messages } from '@/sources/messages';
 import { CatIcon } from '../../assets/cat-icon';
 import { StatusBar } from '../status-bat/status-bar';
+import { selectIsCatSelected } from '@/store/selected-cats.selectors';
 
 interface Props {
   cat: Cat.Breed;
@@ -18,9 +19,6 @@ export const CatCard: React.FC<Props> = ({ cat }) => {
   const [catImg, setCatImg] = useState<string>('');
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const selectedCats = useAppSelector(
-    (state) => state.downloadList.selectedCats
-  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -40,9 +38,7 @@ export const CatCard: React.FC<Props> = ({ cat }) => {
     setSearchParams(newParams);
   };
 
-  const isSelected = selectedCats.some(
-    (selectedCat) => cat.id === selectedCat.id
-  );
+  const isSelected = useAppSelector(selectIsCatSelected(cat.id));
 
   const onCheck = () => {
     if (isSelected) {
