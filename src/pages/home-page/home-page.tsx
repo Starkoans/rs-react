@@ -21,7 +21,6 @@ export const HomePage = () => {
     await getCatsBreeds({
       breed: searchValue,
       page: PAGINATION_START_PAGE,
-      limit: cats?.pagination.limit,
     });
   };
 
@@ -29,7 +28,6 @@ export const HomePage = () => {
     await getCatsBreeds({
       breed: searchValue,
       page,
-      limit: cats?.pagination.limit,
     });
   };
 

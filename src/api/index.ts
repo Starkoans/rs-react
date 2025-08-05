@@ -67,7 +67,7 @@ export const catsApi = createApi({
       query: (id: string) => `${BASE_URL}${endpoints.breeds}/${id}`,
     }),
 
-    getCatImg: build.query({
+    getCatImg: build.query<Cat.Image, string>({
       query: (imageId: string) => `${BASE_URL}${endpoints.images}/${imageId}`,
     }),
   }),
