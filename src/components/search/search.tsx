@@ -7,11 +7,11 @@ import { EnterIcon } from '@/assets/enter-icon';
 interface SearchProps {
   searchValue: string;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSearch: (searchInput: string) => Promise<void>;
+  handleSearchButton: () => Promise<void>;
 }
 
 export const Search: React.FC<SearchProps> = ({
-  onSearch,
+  handleSearchButton,
   searchValue,
   handleInputChange,
 }) => {
@@ -19,7 +19,7 @@ export const Search: React.FC<SearchProps> = ({
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    await onSearch(searchValue);
+    await handleSearchButton();
   };
 
   return (
