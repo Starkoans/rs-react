@@ -4,7 +4,7 @@ import styles from './cat-card.module.css';
 import { fetchCatImage } from '../../api/fetch-cat-image';
 import { useSearchParams } from 'react-router-dom';
 import { URL_SEARCH_PARAMS } from '@/sources/constants';
-import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { addCat, removeCat } from '@/store/selected-cats.slice';
 import { messages } from '@/sources/messages';
 import { CatIcon } from '../../assets/cat-icon';

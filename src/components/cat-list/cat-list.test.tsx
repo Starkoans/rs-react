@@ -5,7 +5,7 @@ import { mockCats } from '../../__tests__/mocks/cats.mock';
 import { messages } from '../../sources/messages';
 import type { Cat } from '@/sources/types/cat';
 import { Provider } from 'react-redux';
-import { store } from '@/store/store';
+import { store } from '@/store';
 
 describe('Cat list', () => {
   afterEach(() => {

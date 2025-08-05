@@ -1,6 +1,6 @@
 import { removeAllCats } from '@/store/selected-cats.slice';
 import { messages } from '@/sources/messages';
-import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store';
 import styles from './flyout.module.css';
 import { useRef } from 'react';
 import {

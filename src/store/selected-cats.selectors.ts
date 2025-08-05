@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import type { RootState } from './store';
+import type { RootState } from '.';
 
 export const selectSelectedCats = (state: RootState) =>
   state.selectedCats.selectedCats;

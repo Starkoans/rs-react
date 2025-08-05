@@ -6,7 +6,7 @@ import { fakeCat } from '@tests/mocks/cats.mock';
 import { fakeCatImg } from '@tests/mocks/cat-image.mock';
 import type { Mock } from 'vitest';
 import { Provider } from 'react-redux';
-import { store } from '@/store/store';
+import { store } from '@/store';
 import type { Cat } from '@/sources/types/cat';
 
 describe('Cat card', () => {
