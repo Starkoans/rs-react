@@ -38,8 +38,8 @@ export const CatCard: FC<Props> = ({ cat }) => {
   return (
     <div className={styles.card} onClick={onCardClick}>
       <div className={styles.imageWrapper}>
-        {!catImg && <CatIcon />}
-        {catImg && (
+        {!catImg?.url && <CatIcon />}
+        {catImg?.url && (
           <img src={catImg.url} alt={cat.name} className={styles.image} />
         )}
       </div>

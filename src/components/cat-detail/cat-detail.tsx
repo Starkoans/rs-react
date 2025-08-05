@@ -1,47 +1,30 @@
-import { fetchCatById } from '@/api/fetch-cat-by-id';
 import { URL_SEARCH_PARAMS } from '@/sources/constants';
 import { messages } from '@/sources/messages';
-import type { Cat } from '@/sources/types/cat';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from './cat-detail.module.css';
-import { fetchCatImage } from '@/api/fetch-cat-image';
 import { CatIcon } from '@/assets/cat-icon';
 import { Spinner } from '../spinner/spinner';
+import { useGetCatByIdQuery, useGetCatImgQuery } from '@/api';
+import { getErrorMessage } from '@/utils/get-error-message';
 
 export const CatDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const catId = searchParams.get(URL_SEARCH_PARAMS.cat);
   const [isVisible, setIsVisible] = useState(false);
-  const [cat, setCat] = useState<Cat.Breed>();
-  const [imgUrl, setImgUrl] = useState<string>();
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const getCat = async () => {
-      try {
-        if (!catId) return;
-        setIsLoading(true);
-        setError(null);
+  const {
+    currentData: cat,
+    isFetching,
+    error,
+  } = useGetCatByIdQuery(catId || '', {
+    skip: !catId,
+  });
 
-        const catInfo = await fetchCatById(catId);
-        setCat(catInfo);
-        if (catInfo.reference_image_id) {
-          const imgInfo = await fetchCatImage(catInfo.reference_image_id);
-          setImgUrl(imgInfo.url);
-        }
-      } catch (error) {
-        const err =
-          error instanceof Error ? error.message : messages.errors.default;
-        setError(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getCat();
-  }, [catId]);
+  const { currentData: catImg } = useGetCatImgQuery(
+    cat?.reference_image_id || '',
+    { skip: !cat?.reference_image_id }
+  );
 
   useEffect(() => {
     setIsVisible(catId ? true : false);
@@ -66,7 +49,7 @@ export const CatDetail = () => {
         <button className={styles.closeBtn} onClick={onClose}>
           {messages.buttons.close}
         </button>
-        {isLoading && (
+        {isFetching && (
           <>
             <div className={styles.spinnerContainer}>
               <Spinner />
@@ -77,15 +60,15 @@ export const CatDetail = () => {
         {error && (
           <>
             <h3 className="error">{messages.errors.oops}</h3>
-            <p>{error}</p>
+            <p>{getErrorMessage(error)}</p>
           </>
         )}
-        {cat && !isLoading && !error && (
+        {cat && !isFetching && !error && (
           <>
             <div className={styles.imageWrapper}>
               <CatIcon />
-              {imgUrl && (
-                <img src={imgUrl} alt={cat.name} className={styles.image} />
+              {catImg?.url && (
+                <img src={catImg.url} alt={cat.name} className={styles.image} />
               )}
             </div>
             <h3>{cat.name}</h3>
