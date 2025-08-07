@@ -8,11 +8,15 @@ import {
   PAGINATION_DEFAULT_PAGE,
 } from '@/sources/constants';
 
-interface CatsBreedQueryParams {
+interface BreedsQueryParams {
   breed?: string;
   limit?: number;
   page?: number;
 }
+
+const TAGS = {
+  cats: 'Cats',
+};
 
 export const catsApi = createApi({
   reducerPath: 'catsApi',
@@ -24,10 +28,10 @@ export const catsApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Cats'],
+  tagTypes: [TAGS.cats],
 
   endpoints: (build) => ({
-    getAllCatsByBreed: build.query<Cat.BreedsResponse, CatsBreedQueryParams>({
+    getAllCatsByBreed: build.query<Cat.BreedsResponse, BreedsQueryParams>({
       query: ({ breed }) => {
         return breed
           ? `${API_BASE_URL}${API_ENDPOINTS.breeds}${API_ENDPOINTS.search}/?q=${breed}`
@@ -53,18 +57,20 @@ export const catsApi = createApi({
         };
       },
 
-      providesTags: (result) => (result ? [{ type: 'Cats', id: 'List' }] : []),
+      providesTags: (_res, _err, arg) => [
+        { type: TAGS.cats, id: `breed=${arg.breed}page=${arg.page}` },
+      ],
     }),
 
     getCatById: build.query<Cat.Breed, string>({
       query: (id: string) => `${API_BASE_URL}${API_ENDPOINTS.breeds}/${id}`,
-      providesTags: (_res, _err, id) => [{ type: 'Cats', id }],
+      providesTags: (_res, _err, id) => [{ type: TAGS.cats, id }],
     }),
 
     getCatImg: build.query<Cat.Image, string>({
       query: (imageId: string) =>
         `${API_BASE_URL}${API_ENDPOINTS.images}/${imageId}`,
-      providesTags: (_res, _err, id) => [{ type: 'Cats', id }],
+      providesTags: (_res, _err, id) => [{ type: TAGS.cats, id }],
     }),
   }),
 });
