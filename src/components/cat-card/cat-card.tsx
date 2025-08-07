@@ -3,26 +3,26 @@ import type { Cat } from '../../sources/types/cat';
 import styles from './cat-card.module.css';
 import { useSearchParams } from 'react-router-dom';
 import { URL_SEARCH_PARAMS } from '@/sources/constants';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { addCat, removeCat } from '@/store/selected-cats.slice';
+import { addCat, removeCat } from '@/store/download-list/slice';
 import { messages } from '@/sources/messages';
 import { CatIcon } from '../../assets/cat-icon';
-import { StatusBar } from '../status-bat/status-bar';
-import { selectIsCatSelected } from '@/store/selected-cats.selectors';
-import { useGetCatImgQuery } from '@/api';
+import { StatusBar } from '../status-bar/status-bar';
+import { useGetCatImgQuery } from '@/api/cats.service';
+import { selectIsCatInDownloadList } from '@/store/download-list';
+import { useDispatch, useSelector } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 interface Props {
   cat: Cat.Breed;
 }
 
 export const CatCard: FC<Props> = ({ cat }) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const isSelected = useAppSelector(selectIsCatSelected(cat.id));
+  const isSelected = useSelector(selectIsCatInDownloadList(cat.id));
 
   const { currentData: catImg } = useGetCatImgQuery(
-    cat.reference_image_id || '',
-    { skip: !cat.reference_image_id }
+    cat.reference_image_id ?? skipToken
   );
 
   const onCardClick = () => {

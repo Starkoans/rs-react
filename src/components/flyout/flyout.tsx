@@ -1,14 +1,14 @@
-import { removeAllCats } from '@/store/selected-cats.slice';
+import { removeAllCats } from '@/store/download-list/slice';
 import { messages } from '@/sources/messages';
-import { useAppDispatch, useAppSelector } from '@/store';
 import styles from './flyout.module.css';
 import { useRef } from 'react';
 import {
-  selectSelectedCats,
-  selectSelectedCatsRows,
-} from '@/store/selected-cats.selectors';
+  selectDownloadList,
+  selectDownloadListRows,
+} from '@/store/download-list';
+import { useDispatch, useSelector } from 'react-redux';
 
-const selectedCatsTableHeader = [
+const downloadListTableHeader = [
   'Cat breed name',
   'Description',
   'Temperament',
@@ -16,18 +16,18 @@ const selectedCatsTableHeader = [
 ];
 
 export const Flyout = () => {
+  const dispatch = useDispatch();
   const linkRef = useRef<HTMLAnchorElement | null>(null);
-  const dispatch = useAppDispatch();
 
-  const selectedCats = useAppSelector(selectSelectedCats);
-  const selectedCatRows = useAppSelector(selectSelectedCatsRows);
+  const downloadList = useSelector(selectDownloadList);
+  const downloadListRows = useSelector(selectDownloadListRows);
 
   const onUnselectAll = () => {
     dispatch(removeAllCats());
   };
 
   const onDownload = () => {
-    const rows = [selectedCatsTableHeader, ...selectedCatRows];
+    const rows = [downloadListTableHeader, ...downloadListRows];
 
     const csvContent = rows.map((r) => r.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -35,19 +35,19 @@ export const Flyout = () => {
 
     if (linkRef.current) {
       linkRef.current.href = url;
-      linkRef.current.download = `${selectedCats.length}_cats.csv`;
+      linkRef.current.download = `${downloadList.length}_cats.csv`;
       linkRef.current.click();
       URL.revokeObjectURL(url);
     }
   };
 
-  if (selectedCats.length > 0)
+  if (downloadList.length > 0)
     return (
       <div className={styles.flyout}>
         <p>
           {messages.paragraphs.catsSelected}
           {' : '}
-          {selectedCats.length}
+          {downloadList.length}
         </p>
         <div className={styles.buttons}>
           <button onClick={onUnselectAll} className={styles.unselectAllBtn}>

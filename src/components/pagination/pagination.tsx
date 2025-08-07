@@ -1,4 +1,4 @@
-import { PAGINATION_START_PAGE } from '@/sources/constants';
+import { PAGINATION_DEFAULT_PAGE } from '@/sources/constants';
 import { messages } from '@/sources/messages';
 import type { Pagination } from '@/sources/types/pagination';
 import styles from './pagination.module.css';
@@ -15,7 +15,7 @@ export const PaginationControls: React.FC<PaginationProps> = ({
   goToPage,
 }) => {
   const handlePrev = () => {
-    if (pagination?.page && pagination.page > PAGINATION_START_PAGE) {
+    if (pagination?.page && pagination.page > PAGINATION_DEFAULT_PAGE) {
       goToPage(pagination.page - 1);
     }
   };
@@ -39,7 +39,7 @@ export const PaginationControls: React.FC<PaginationProps> = ({
         <button
           aria-label={messages.buttons.prev}
           onClick={handlePrev}
-          disabled={pagination?.page === PAGINATION_START_PAGE}
+          disabled={pagination?.page === PAGINATION_DEFAULT_PAGE}
           className={styles.paginationBth}
         >
           <ArrowLeftIcon />

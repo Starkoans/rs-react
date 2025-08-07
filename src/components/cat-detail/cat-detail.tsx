@@ -5,8 +5,9 @@ import { useSearchParams } from 'react-router-dom';
 import styles from './cat-detail.module.css';
 import { CatIcon } from '@/assets/cat-icon';
 import { Spinner } from '../spinner/spinner';
-import { useGetCatByIdQuery, useGetCatImgQuery } from '@/api';
+import { useGetCatByIdQuery, useGetCatImgQuery } from '@/api/cats.service';
 import { getErrorMessage } from '@/utils/get-error-message';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 export const CatDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,17 +18,14 @@ export const CatDetail = () => {
     currentData: cat,
     isFetching,
     error,
-  } = useGetCatByIdQuery(catId || '', {
-    skip: !catId,
-  });
+  } = useGetCatByIdQuery(catId ?? skipToken);
 
   const { currentData: catImg } = useGetCatImgQuery(
-    cat?.reference_image_id || '',
-    { skip: !cat?.reference_image_id }
+    cat?.reference_image_id ?? skipToken
   );
 
   useEffect(() => {
-    setIsVisible(catId ? true : false);
+    setIsVisible(!!catId);
   }, [catId]);
 
   const onClose = () => {
