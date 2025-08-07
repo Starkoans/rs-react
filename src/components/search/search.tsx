@@ -1,25 +1,32 @@
 import styles from './Search.module.css';
 
-import React from 'react';
+import { type FC, useState } from 'react';
 import { messages } from '../../sources/messages';
 import { EnterIcon } from '@/assets/enter-icon';
 
 interface SearchProps {
-  searchValue: string;
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSearchButton: () => Promise<void>;
+  initialValue: string;
+  onSearch: (value: string) => void;
+  onRefresh: (value: string) => void;
 }
 
-export const Search: React.FC<SearchProps> = ({
-  handleSearchButton,
-  searchValue,
-  handleInputChange,
+export const Search: FC<SearchProps> = ({
+  onSearch,
+  onRefresh,
+  initialValue,
 }) => {
-  const handleSearchButtonClick = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  const [searchValue, setSearchValue] = useState(initialValue);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
+
+  const handleSearchButtonClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await handleSearchButton();
+    onSearch(searchValue);
+  };
+  const handleRefreshButtonClick = () => {
+    onRefresh(searchValue);
   };
 
   return (
@@ -38,6 +45,9 @@ export const Search: React.FC<SearchProps> = ({
         aria-label={messages.buttons.search}
       >
         <EnterIcon />
+      </button>
+      <button onClick={handleRefreshButtonClick}>
+        {messages.buttons.refresh}
       </button>
     </form>
   );

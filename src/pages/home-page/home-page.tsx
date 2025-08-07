@@ -1,59 +1,48 @@
 import styles from './home-page.module.css';
 import { CatsList } from '@components/cat-list/cats-list';
 import { Search } from '@components/search/search';
-import { useEffect, useState } from 'react';
 import { PaginationControls } from '@/components/pagination/pagination';
-import { useLocalStorage } from '@/hooks/use-local-storage';
-import { PAGINATION_START_PAGE, URL_SEARCH_PARAMS } from '@/sources/constants';
+import {
+  PAGINATION_DEFAULT_PAGE,
+  URL_SEARCH_PARAMS,
+} from '@/sources/constants';
 import { Outlet, useSearchParams } from 'react-router-dom';
-import { useLazyGetAllCatsByBreedQuery } from '@/api';
+import { useGetAllCatsByBreedQuery } from '@/api/cats.service';
 import { getErrorMessage } from '@/utils/get-error-message';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSearchValue, setSearchValue } from '@/store/search-cats';
 
 export const HomePage = () => {
+  const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { getSearchInput, saveSearchInputToLS } = useLocalStorage();
-  const [searchValue, setSearchValue] = useState(getSearchInput());
+  const searchValue = useSelector(selectSearchValue);
+  const pageInParams = Number(searchParams.get(URL_SEARCH_PARAMS.page));
 
-  const [getCatsBreeds, { currentData: cats, isFetching, error }] =
-    useLazyGetAllCatsByBreedQuery();
-
-  const handleSearchButton = async () => {
-    await getCatsBreeds({
-      breed: searchValue,
-      page: PAGINATION_START_PAGE,
-    });
-  };
+  const {
+    currentData: cats,
+    refetch,
+    isFetching,
+    error,
+  } = useGetAllCatsByBreedQuery({
+    breed: searchValue,
+    page: pageInParams || PAGINATION_DEFAULT_PAGE,
+  });
 
   const goToPage = async (page: number) => {
-    await getCatsBreeds({
-      breed: searchValue,
-      page,
-    });
+    setSearchParams((prev) => ({ ...prev, page }));
   };
 
-  useEffect(() => {
-    if (!cats?.pagination.page) return;
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set(URL_SEARCH_PARAMS.page, cats.pagination.page.toString());
-    setSearchParams(newParams);
-  }, [cats?.pagination.page]);
-
-  useEffect(() => {
-    const pageInParams = Number(searchParams.get(URL_SEARCH_PARAMS.page));
-    goToPage(pageInParams || PAGINATION_START_PAGE);
-  }, []);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-    saveSearchInputToLS(e.target.value);
+  const onSearch = (value: string) => {
+    dispatch(setSearchValue(value));
+    goToPage(PAGINATION_DEFAULT_PAGE);
   };
 
   return (
     <>
       <Search
-        handleSearchButton={handleSearchButton}
-        searchValue={searchValue}
-        handleInputChange={handleInputChange}
+        onSearch={onSearch}
+        onRefresh={refetch}
+        initialValue={searchValue}
       />
       <div className={styles.container}>
         <CatsList
