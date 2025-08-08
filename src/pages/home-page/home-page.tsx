@@ -1,107 +1,58 @@
 import styles from './home-page.module.css';
 import { CatsList } from '@components/cat-list/cats-list';
 import { Search } from '@components/search/search';
-import { useEffect, useState } from 'react';
-import { messages } from '@/sources/messages';
-import { fetchCatsBreeds } from '@/api/fetch-cats-breed';
 import { PaginationControls } from '@/components/pagination/pagination';
-import { useLocalStorage } from '@/hooks/use-local-storage';
-import type { Cat } from '@/sources/types/cat';
 import {
-  PAGINATION_DEFAULT_LIMIT,
-  PAGINATION_START_PAGE,
+  PAGINATION_DEFAULT_PAGE,
   URL_SEARCH_PARAMS,
 } from '@/sources/constants';
-import type { Pagination } from '@/sources/types/pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
+import { useGetAllCatsByBreedQuery } from '@/api/cats.service';
+import { getErrorMessage } from '@/utils/get-error-message';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSearchValue, setSearchValue } from '@/store/search-cats';
 
 export const HomePage = () => {
-  const { getSearchInput, saveSearchInputToLS } = useLocalStorage();
-  const [searchValue, setSearchValue] = useState<string>(getSearchInput());
+  const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchValue = useSelector(selectSearchValue);
+  const pageInParams = Number(searchParams.get(URL_SEARCH_PARAMS.page));
 
-  const [cats, setCats] = useState<Cat.Breed[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({
-    limit: PAGINATION_DEFAULT_LIMIT,
-    page: PAGINATION_START_PAGE,
-    totalItems: 0,
-    totalPages: 0,
+  const {
+    currentData: cats,
+    refetch,
+    isFetching,
+    error,
+  } = useGetAllCatsByBreedQuery({
+    breed: searchValue,
+    page: pageInParams,
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const getCatsByBreed = async (
-    breed: string,
-    page: number = PAGINATION_START_PAGE,
-    limit: number = PAGINATION_DEFAULT_LIMIT
-  ) => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const res = await fetchCatsBreeds(breed, page, limit);
-      setCats(res.data);
-      setPagination(res.pagination);
-    } catch (error) {
-      const err =
-        error instanceof Error ? error.message : messages.errors.default;
-      setError(err);
-    } finally {
-      setIsLoading(false);
-    }
+  const goToPage = async (page: number) => {
+    setSearchParams((prev) => ({ ...prev, page }));
   };
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const goToPage = (page: number) => {
-    setPagination((prev) => ({
-      ...prev,
-      page,
-    }));
-
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set(URL_SEARCH_PARAMS.page, page.toString());
-    setSearchParams(newParams);
-
-    getCatsByBreed(searchValue, page, pagination.limit);
-  };
-
-  const handlePrev = () => {
-    if (pagination.page > PAGINATION_START_PAGE) {
-      goToPage(pagination.page - 1);
-    }
-  };
-  const handleNext = () => {
-    if (pagination.page < pagination.totalPages) {
-      goToPage(pagination.page + 1);
-    }
-  };
-
-  useEffect(() => {
-    const page = Number(searchParams.get(URL_SEARCH_PARAMS.page)) || 1;
-    goToPage(page);
-  }, []);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-    saveSearchInputToLS(e.target.value);
+  const onSearch = (value: string) => {
+    dispatch(setSearchValue(value));
+    goToPage(PAGINATION_DEFAULT_PAGE);
   };
 
   return (
     <>
       <Search
-        onSearch={getCatsByBreed}
-        searchValue={searchValue}
-        handleInputChange={handleInputChange}
+        onSearch={onSearch}
+        onRefresh={refetch}
+        initialValue={searchValue}
       />
       <div className={styles.container}>
-        <CatsList cats={cats} isLoading={isLoading} error={error} />
+        <CatsList
+          cats={cats?.data}
+          isLoading={isFetching}
+          error={error && getErrorMessage(error)}
+        />
         <Outlet />
       </div>
-      <PaginationControls
-        pagination={pagination}
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-      />
+      <PaginationControls pagination={cats?.pagination} goToPage={goToPage} />
     </>
   );
 };

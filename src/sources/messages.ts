@@ -17,6 +17,7 @@ export const messages = {
     unselectAll: 'Unselect all',
     download: 'Download',
     toggleTheme: 'toggle theme',
+    refresh: 'Refresh',
   },
   input: {
     search: 'Search by breed name',

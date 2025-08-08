@@ -1,70 +1,74 @@
-import React, { useEffect, useState } from 'react';
+import { useState, type FC } from 'react';
 import type { Cat } from '../../sources/types/cat';
 import styles from './cat-card.module.css';
-import { fetchCatImage } from '../../api/fetch-cat-image';
 import { useSearchParams } from 'react-router-dom';
 import { URL_SEARCH_PARAMS } from '@/sources/constants';
-import { useAppDispatch, useAppSelector } from '@/store/store';
-import { addCat, removeCat } from '@/store/selected-cats.slice';
+import { addCat, removeCat } from '@/store/download-list/slice';
 import { messages } from '@/sources/messages';
 import { CatIcon } from '../../assets/cat-icon';
-import { StatusBar } from '../status-bat/status-bar';
-import { selectIsCatSelected } from '@/store/selected-cats.selectors';
+import { StatusBar } from '../status-bar/status-bar';
+import { useGetCatImgQuery } from '@/api/cats.service';
+import { selectIsCatInDownloadList } from '@/store/download-list';
+import { useDispatch, useSelector } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query';
+import cn from 'classnames';
 
 interface Props {
   cat: Cat.Breed;
 }
 
-export const CatCard: React.FC<Props> = ({ cat }) => {
-  const [catImg, setCatImg] = useState<string>('');
+export const CatCard: FC<Props> = ({ cat }) => {
+  const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
+  const isSelected = useSelector(selectIsCatInDownloadList(cat.id));
+  const [loadedImg, setLoadedImg] = useState(false);
 
-  const dispatch = useAppDispatch();
+  const { currentData: catImg } = useGetCatImgQuery(
+    cat.reference_image_id ?? skipToken
+  );
 
-  useEffect(() => {
-    const init = async () => {
-      if (cat.reference_image_id) {
-        const img = await fetchCatImage(cat.reference_image_id);
-        setCatImg(img.url);
-      }
-    };
-
-    init();
-  }, []);
-
-  const onClick = () => {
+  const onCardClick = () => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set(URL_SEARCH_PARAMS.cat, cat.id);
     setSearchParams(newParams);
   };
 
-  const isSelected = useAppSelector(selectIsCatSelected(cat.id));
-
   const onCheck = () => {
-    if (isSelected) {
-      dispatch(removeCat(cat));
-    } else {
-      dispatch(addCat(cat));
-    }
+    dispatch(isSelected ? removeCat(cat) : addCat(cat));
   };
 
   return (
-    <div className={styles.card} onClick={onClick}>
+    <div className={styles.card} onClick={onCardClick}>
       <div className={styles.imageWrapper}>
-        {!catImg && <CatIcon />}
-        {catImg && <img src={catImg} alt={cat.name} className={styles.image} />}
+        {!catImg?.url ? (
+          <CatIcon />
+        ) : (
+          <img
+            src={catImg.url}
+            alt={cat.name}
+            className={cn(styles.image, { [styles.visible]: loadedImg })}
+            onLoad={() => setLoadedImg(true)}
+          />
+        )}
       </div>
       <div className={styles.info}>
         <h2>{cat.name}</h2>
         <div className={styles.statuses}>
           <span>{messages.paragraphs.affection}</span>
           <StatusBar value={cat.affection_level} />
-          {messages.paragraphs.energy} <StatusBar value={cat.energy_level} />
+
+          {messages.paragraphs.energy}
+          <StatusBar value={cat.energy_level} />
+
           {messages.paragraphs.intelligence}
           <StatusBar value={cat.intelligence} />
+
           {messages.paragraphs.adaptability}
           <StatusBar value={cat.adaptability} />
-          {messages.paragraphs.sociality} <StatusBar value={cat.social_needs} />
+
+          {messages.paragraphs.sociality}
+          <StatusBar value={cat.social_needs} />
+
           {messages.paragraphs.vocalisation}
           <StatusBar value={cat.vocalisation} />
         </div>

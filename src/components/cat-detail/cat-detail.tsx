@@ -1,50 +1,37 @@
-import { fetchCatById } from '@/api/fetch-cat-by-id';
 import { URL_SEARCH_PARAMS } from '@/sources/constants';
 import { messages } from '@/sources/messages';
-import type { Cat } from '@/sources/types/cat';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from './cat-detail.module.css';
-import { fetchCatImage } from '@/api/fetch-cat-image';
 import { CatIcon } from '@/assets/cat-icon';
 import { Spinner } from '../spinner/spinner';
+import { useGetCatByIdQuery, useGetCatImgQuery } from '@/api/cats.service';
+import { getErrorMessage } from '@/utils/get-error-message';
+import { skipToken } from '@reduxjs/toolkit/query';
+import cn from 'classnames';
 
 export const CatDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const catId = searchParams.get(URL_SEARCH_PARAMS.cat);
   const [isVisible, setIsVisible] = useState(false);
-  const [cat, setCat] = useState<Cat.Breed>();
-  const [imgUrl, setImgUrl] = useState<string>();
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
+  const {
+    currentData: cat,
+    isFetching,
+    error,
+  } = useGetCatByIdQuery(catId ?? skipToken);
+
+  const { currentData: catImg } = useGetCatImgQuery(
+    cat?.reference_image_id ?? skipToken
+  );
 
   useEffect(() => {
-    const getCat = async () => {
-      try {
-        if (!catId) return;
-        setIsLoading(true);
-        setError(null);
-
-        const catInfo = await fetchCatById(catId);
-        setCat(catInfo);
-        if (catInfo.reference_image_id) {
-          const imgInfo = await fetchCatImage(catInfo.reference_image_id);
-          setImgUrl(imgInfo.url);
-        }
-      } catch (error) {
-        const err =
-          error instanceof Error ? error.message : messages.errors.default;
-        setError(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getCat();
-  }, [catId]);
-
-  useEffect(() => {
-    setIsVisible(catId ? true : false);
+    if (catId) {
+      setIsVisible(false);
+      requestAnimationFrame(() => setIsVisible(true));
+    } else {
+      setIsVisible(false);
+    }
   }, [catId]);
 
   const onClose = () => {
@@ -53,51 +40,62 @@ export const CatDetail = () => {
       const newParams = new URLSearchParams(searchParams);
       newParams.delete(URL_SEARCH_PARAMS.cat);
       setSearchParams(newParams);
-    }, 300);
+    }, 500);
   };
 
-  if (!catId) return null;
-  return (
-    <div className={styles.backdrop} onClick={onClose}>
+  if (catId)
+    return (
       <div
-        className={`${styles.drawer} ${isVisible ? styles.drawerVisible : ''}`}
-        onClick={(e) => e.stopPropagation()}
+        className={cn(styles.backdrop, {
+          [styles.visible]: isVisible,
+          [styles.hidden]: !isVisible,
+        })}
+        onClick={onClose}
       >
-        <button className={styles.closeBtn} onClick={onClose}>
-          {messages.buttons.close}
-        </button>
-        {isLoading && (
-          <>
+        <div
+          className={cn(styles.drawer, {
+            [styles.visible]: isVisible,
+            [styles.hidden]: !isVisible,
+          })}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button className={styles.closeBtn} onClick={onClose}>
+            {messages.buttons.close}
+          </button>
+          {isFetching && (
             <div className={styles.spinnerContainer}>
               <Spinner />
               <span>{messages.paragraphs.loading}</span>
             </div>
-          </>
-        )}
-        {error && (
-          <>
-            <h3 className="error">{messages.errors.oops}</h3>
-            <p>{error}</p>
-          </>
-        )}
-        {cat && !isLoading && !error && (
-          <>
-            <div className={styles.imageWrapper}>
-              <CatIcon />
-              {imgUrl && (
-                <img src={imgUrl} alt={cat.name} className={styles.image} />
-              )}
-            </div>
-            <h3>{cat.name}</h3>
-            <p className={styles.temperament}>{cat.temperament}</p>
-            <p>{cat.description}</p>
-            <p>
-              {messages.paragraphs.breedFrom}
-              <b>{cat.origin}</b>
-            </p>
-          </>
-        )}
+          )}
+          {error && (
+            <>
+              <h3 className="error">{messages.errors.oops}</h3>
+              <p>{getErrorMessage(error)}</p>
+            </>
+          )}
+          {cat && !isFetching && !error && (
+            <>
+              <div className={styles.imageWrapper}>
+                <CatIcon />
+                {catImg?.url && (
+                  <img
+                    src={catImg.url}
+                    alt={cat.name}
+                    className={styles.image}
+                  />
+                )}
+              </div>
+              <h3>{cat.name}</h3>
+              <p className={styles.temperament}>{cat.temperament}</p>
+              <p>{cat.description}</p>
+              <p>
+                {messages.paragraphs.breedFrom}
+                <b>{cat.origin}</b>
+              </p>
+            </>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
 };

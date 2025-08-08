@@ -7,7 +7,7 @@ import type React from 'react';
 
 interface CatsListProps {
   cats?: Cat.Breed[];
-  error?: string | null;
+  error?: string;
   isLoading?: boolean;
 }
 
@@ -28,7 +28,7 @@ export const CatsList: React.FC<CatsListProps> = ({
     return (
       <>
         <p className="error">{messages.errors.oops}</p>
-        <p className="error">{error || messages.errors.default}</p>
+        <p className="error">{error}</p>
       </>
     );
   }

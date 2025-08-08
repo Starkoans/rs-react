@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
+
 import userEvent from '@testing-library/user-event';
 import { PaginationControls } from '@/components/pagination/pagination';
-import { PAGINATION_START_PAGE } from '@/sources/constants';
+import { PAGINATION_DEFAULT_PAGE } from '@/sources/constants';
 import { messages } from '@/sources/messages';
 
 describe('PaginationControls', () => {
@@ -10,34 +11,26 @@ describe('PaginationControls', () => {
       <PaginationControls
         pagination={{
           limit: 10,
-          page: PAGINATION_START_PAGE,
+          page: PAGINATION_DEFAULT_PAGE,
           totalItems: 5,
           totalPages: 1,
         }}
-        handlePrev={() => {}}
-        handleNext={() => {}}
+        goToPage={() => {}}
       />
     );
     expect(container.innerHTML).toBe('');
   });
 
   it('displays buttons and disables the “Back” button on the first page', async () => {
-    const handlePrev = vi.fn();
-    const handleNext = vi.fn();
+    const goToPage = vi.fn();
     const pagination = {
       limit: 10,
-      page: PAGINATION_START_PAGE,
+      page: PAGINATION_DEFAULT_PAGE,
       totalItems: 25,
       totalPages: 5,
     };
 
-    render(
-      <PaginationControls
-        pagination={pagination}
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-      />
-    );
+    render(<PaginationControls pagination={pagination} goToPage={goToPage} />);
 
     const prevBtn = screen.getByRole('button', {
       name: messages.buttons.prev,
@@ -45,6 +38,8 @@ describe('PaginationControls', () => {
     const nextBtn = screen.getByRole('button', {
       name: messages.buttons.next,
     });
+
+    await userEvent.click(prevBtn);
 
     expect(prevBtn).toBeDisabled();
     expect(nextBtn).not.toBeDisabled();
@@ -55,16 +50,12 @@ describe('PaginationControls', () => {
       )
     ).toBeInTheDocument();
 
-    await userEvent.click(nextBtn);
-    expect(handleNext).toHaveBeenCalled();
-
-    await userEvent.click(prevBtn);
-    expect(handlePrev).not.toHaveBeenCalled();
+    expect(goToPage).not.toHaveBeenCalled();
   });
 
   it('disables the “Forward” button on the last page', async () => {
-    const handlePrev = vi.fn();
-    const handleNext = vi.fn();
+    const goToPage = vi.fn();
+
     const pagination = {
       limit: 10,
       page: 5,
@@ -72,13 +63,7 @@ describe('PaginationControls', () => {
       totalPages: 5,
     };
 
-    render(
-      <PaginationControls
-        pagination={pagination}
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-      />
-    );
+    render(<PaginationControls pagination={pagination} goToPage={goToPage} />);
 
     const prevBtn = screen.getByRole('button', {
       name: messages.buttons.prev,
@@ -87,19 +72,16 @@ describe('PaginationControls', () => {
       name: messages.buttons.next,
     });
 
+    await userEvent.click(nextBtn);
+
     expect(prevBtn).not.toBeDisabled();
     expect(nextBtn).toBeDisabled();
-
-    await userEvent.click(prevBtn);
-    expect(handlePrev).toHaveBeenCalled();
-
-    await userEvent.click(nextBtn);
-    expect(handleNext).not.toHaveBeenCalled();
+    expect(goToPage).not.toHaveBeenCalled();
   });
 
   it('Both buttons are active on the intermediate page', async () => {
-    const handlePrev = vi.fn();
-    const handleNext = vi.fn();
+    const goToPage = vi.fn();
+
     const pagination = {
       limit: 10,
       page: 3,
@@ -107,13 +89,7 @@ describe('PaginationControls', () => {
       totalPages: 5,
     };
 
-    render(
-      <PaginationControls
-        pagination={pagination}
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-      />
-    );
+    render(<PaginationControls pagination={pagination} goToPage={goToPage} />);
 
     const prevBtn = screen.getByRole('button', {
       name: messages.buttons.prev,
@@ -128,7 +104,6 @@ describe('PaginationControls', () => {
     await userEvent.click(prevBtn);
     await userEvent.click(nextBtn);
 
-    expect(handlePrev).toHaveBeenCalledTimes(1);
-    expect(handleNext).toHaveBeenCalledTimes(1);
+    expect(goToPage).toHaveBeenCalledTimes(2);
   });
 });
