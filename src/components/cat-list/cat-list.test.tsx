@@ -15,7 +15,7 @@ describe('Cat list', () => {
 
   const renderList = (props: {
     cats?: Cat.Breed[];
-    error?: string | null;
+    error?: string;
     isLoading?: boolean | undefined;
   }) => {
     render(

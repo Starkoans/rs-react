@@ -7,7 +7,7 @@ import { EnterIcon } from '@/assets/enter-icon';
 interface SearchProps {
   initialValue: string;
   onSearch: (value: string) => void;
-  onRefresh: (value: string) => void;
+  onRefresh?: (value: string) => void;
 }
 
 export const Search: FC<SearchProps> = ({
@@ -26,7 +26,7 @@ export const Search: FC<SearchProps> = ({
     onSearch(searchValue);
   };
   const handleRefreshButtonClick = () => {
-    onRefresh(searchValue);
+    if (onRefresh) onRefresh(searchValue);
   };
 
   return (
@@ -46,9 +46,11 @@ export const Search: FC<SearchProps> = ({
       >
         <EnterIcon />
       </button>
-      <button onClick={handleRefreshButtonClick}>
-        {messages.buttons.refresh}
-      </button>
+      {onRefresh && (
+        <button onClick={handleRefreshButtonClick}>
+          {messages.buttons.refresh}
+        </button>
+      )}
     </form>
   );
 };

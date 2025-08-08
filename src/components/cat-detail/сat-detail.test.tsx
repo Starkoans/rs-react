@@ -1,11 +1,13 @@
 import { cleanup, render, screen } from '@testing-library/react';
+import {
+  useGetCatByIdQueryMock,
+  useGetCatImgQueryMock,
+} from '@/__tests__/mocks/cats.service.mock';
 import { MemoryRouter } from 'react-router-dom';
 import { CatDetail } from '@/components/cat-detail/cat-detail';
 import { fakeCat } from '@tests/mocks/cats.mock';
 import { fakeCatImg } from '@tests/mocks/cat-image.mock';
 import type { Mock } from 'vitest';
-import { fetchCatImageMock } from '@tests/mocks/fetch-cat-image.mock';
-import { fetchCatByIdMock } from '@tests/mocks/fetch-cat-by-id.mock';
 
 describe('CatDetail', () => {
   afterEach(() => {
@@ -20,9 +22,6 @@ describe('CatDetail', () => {
   });
 
   it('renders cat data', async () => {
-    (fetchCatByIdMock as Mock).mockResolvedValue(fakeCat);
-    (fetchCatImageMock as Mock).mockResolvedValue(fakeCatImg);
-
     render(<CatDetail />, {
       wrapper: ({ children }) => (
         <MemoryRouter initialEntries={[`/?cat=${fakeCat.id}`]}>
@@ -43,15 +42,25 @@ describe('CatDetail', () => {
   it('displays an error message when loading fails', async () => {
     const errorMessage = 'Request failed';
 
-    (fetchCatByIdMock as Mock).mockRejectedValue(new Error(errorMessage));
-
-    render(<CatDetail />, {
-      wrapper: ({ children }) => (
-        <MemoryRouter initialEntries={[`/?cat=unknown`]}>
-          {children}
-        </MemoryRouter>
-      ),
+    (useGetCatByIdQueryMock as Mock).mockReturnValue({
+      currentData: undefined,
+      isFetching: false,
+      error: { status: 404, data: errorMessage },
+      refetch: vi.fn(),
     });
+
+    (useGetCatImgQueryMock as Mock).mockReturnValue({
+      currentData: undefined,
+      isFetching: false,
+      error: undefined,
+      refetch: vi.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={[`/?cat=abys`]}>
+        <CatDetail />
+      </MemoryRouter>
+    );
 
     const errorElement = await screen.findByText(errorMessage);
     expect(errorElement).toBeInTheDocument();

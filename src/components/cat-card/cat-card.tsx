@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { useState, type FC } from 'react';
 import type { Cat } from '../../sources/types/cat';
 import styles from './cat-card.module.css';
 import { useSearchParams } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { useGetCatImgQuery } from '@/api/cats.service';
 import { selectIsCatInDownloadList } from '@/store/download-list';
 import { useDispatch, useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query';
+import cn from 'classnames';
 
 interface Props {
   cat: Cat.Breed;
@@ -20,6 +21,7 @@ export const CatCard: FC<Props> = ({ cat }) => {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const isSelected = useSelector(selectIsCatInDownloadList(cat.id));
+  const [loadedImg, setLoadedImg] = useState(false);
 
   const { currentData: catImg } = useGetCatImgQuery(
     cat.reference_image_id ?? skipToken
@@ -38,9 +40,15 @@ export const CatCard: FC<Props> = ({ cat }) => {
   return (
     <div className={styles.card} onClick={onCardClick}>
       <div className={styles.imageWrapper}>
-        {!catImg?.url && <CatIcon />}
-        {catImg?.url && (
-          <img src={catImg.url} alt={cat.name} className={styles.image} />
+        {!catImg?.url ? (
+          <CatIcon />
+        ) : (
+          <img
+            src={catImg.url}
+            alt={cat.name}
+            className={cn(styles.image, { [styles.visible]: loadedImg })}
+            onLoad={() => setLoadedImg(true)}
+          />
         )}
       </div>
       <div className={styles.info}>

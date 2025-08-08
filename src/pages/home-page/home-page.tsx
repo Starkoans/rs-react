@@ -25,7 +25,7 @@ export const HomePage = () => {
     error,
   } = useGetAllCatsByBreedQuery({
     breed: searchValue,
-    page: pageInParams || PAGINATION_DEFAULT_PAGE,
+    page: pageInParams,
   });
 
   const goToPage = async (page: number) => {

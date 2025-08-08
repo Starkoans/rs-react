@@ -14,6 +14,9 @@ export const PaginationControls: React.FC<PaginationProps> = ({
   pagination,
   goToPage,
 }) => {
+  const isVisible =
+    pagination && pagination.totalPages && pagination.totalPages > 1;
+
   const handlePrev = () => {
     if (pagination?.page && pagination.page > PAGINATION_DEFAULT_PAGE) {
       goToPage(pagination.page - 1);
@@ -26,37 +29,35 @@ export const PaginationControls: React.FC<PaginationProps> = ({
     }
   };
 
-  if (!pagination) return null;
-  if (pagination.totalPages && pagination.totalPages < 2) return null;
+  if (isVisible)
+    return (
+      <section className={styles.container}>
+        <b>
+          {messages.paragraphs.totalFound}: {pagination?.totalItems}
+        </b>
 
-  return (
-    <section className={styles.container}>
-      <b>
-        {messages.paragraphs.totalFound}: {pagination?.totalItems}
-      </b>
-
-      <div>
-        <button
-          aria-label={messages.buttons.prev}
-          onClick={handlePrev}
-          disabled={pagination?.page === PAGINATION_DEFAULT_PAGE}
-          className={styles.paginationBth}
-        >
-          <ArrowLeftIcon />
-        </button>
-        <p>
-          {messages.paragraphs.currentPage} {pagination?.page}{' '}
-          {messages.paragraphs.of} {pagination?.totalPages}
-        </p>
-        <button
-          aria-label={messages.buttons.next}
-          onClick={handleNext}
-          disabled={pagination?.page === pagination?.totalPages}
-          className={styles.paginationBth}
-        >
-          <ArrowRightIcon />
-        </button>
-      </div>
-    </section>
-  );
+        <div>
+          <button
+            aria-label={messages.buttons.prev}
+            onClick={handlePrev}
+            disabled={pagination?.page === PAGINATION_DEFAULT_PAGE}
+            className={styles.paginationBth}
+          >
+            <ArrowLeftIcon />
+          </button>
+          <p>
+            {messages.paragraphs.currentPage} {pagination?.page}{' '}
+            {messages.paragraphs.of} {pagination?.totalPages}
+          </p>
+          <button
+            aria-label={messages.buttons.next}
+            onClick={handleNext}
+            disabled={pagination?.page === pagination?.totalPages}
+            className={styles.paginationBth}
+          >
+            <ArrowRightIcon />
+          </button>
+        </div>
+      </section>
+    );
 };

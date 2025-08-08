@@ -35,7 +35,7 @@
   border: 1px dashed var(--color-border);
   border-radius: 8px;
   overflow: hidden;
-
+  color: var(--color-border);
   box-sizing: border-box;
 }
 
@@ -44,8 +44,13 @@
   height: 100%;
   object-fit: cover;
   filter: grayscale(0.5);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
   border: 1px solid var(--color-border);
+  opacity: 0;
+}
+
+.image.visible {
+  opacity: 1;
 }
 
 .card:hover .image {

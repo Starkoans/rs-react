@@ -1,14 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { Cat } from '@/sources/types/cat';
-import {
-  API_BASE_URL,
-  API_ENDPOINTS,
-  API_KEY,
-  PAGINATION_DEFAULT_LIMIT,
-  PAGINATION_DEFAULT_PAGE,
-} from '@/sources/constants';
+import { API_BASE_URL, API_ENDPOINTS, API_KEY } from '@/sources/constants';
+import { paginateCatBreedsResponse } from './helpers/paginate-cat-breeds-response';
 
-interface BreedsQueryParams {
+export interface BreedsQueryParams {
   breed?: string;
   limit?: number;
   page?: number;
@@ -38,28 +33,10 @@ export const catsApi = createApi({
           : `${API_BASE_URL}${API_ENDPOINTS.breeds}`;
       },
 
-      transformResponse: (response: Cat.Breed[], _, arg) => {
-        const {
-          page = PAGINATION_DEFAULT_PAGE,
-          limit = PAGINATION_DEFAULT_LIMIT,
-        } = arg;
-        const start = (page - 1) * limit;
-        const catsPage = response.slice(start, start + limit);
+      transformResponse: (res: Cat.Breed[], _, { page }) =>
+        paginateCatBreedsResponse(res, page),
 
-        return {
-          data: catsPage,
-          pagination: {
-            limit,
-            page,
-            totalItems: response.length,
-            totalPages: Math.ceil(response.length / limit),
-          },
-        };
-      },
-
-      providesTags: (_res, _err, arg) => [
-        { type: TAGS.cats, id: `breed=${arg.breed}page=${arg.page}` },
-      ],
+      providesTags: [TAGS.cats],
     }),
 
     getCatById: build.query<Cat.Breed, string>({
@@ -76,7 +53,6 @@ export const catsApi = createApi({
 });
 
 export const {
-  useLazyGetAllCatsByBreedQuery,
   useGetAllCatsByBreedQuery,
   useGetCatByIdQuery,
   useGetCatImgQuery,

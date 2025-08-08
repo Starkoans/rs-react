@@ -12,13 +12,7 @@ describe('search', () => {
   const onSearchMock = vi.fn();
 
   it('should have input', async () => {
-    render(
-      <Search
-        handleInputChange={() => {}}
-        onSearch={onSearchMock}
-        searchValue=""
-      />
-    );
+    render(<Search onSearch={onSearchMock} initialValue="" />);
     const input = screen.getByPlaceholderText(/search/i);
 
     expect(input).toBeInTheDocument();
@@ -26,26 +20,14 @@ describe('search', () => {
   });
 
   it('should have button', async () => {
-    render(
-      <Search
-        handleInputChange={() => {}}
-        onSearch={onSearchMock}
-        searchValue=""
-      />
-    );
+    render(<Search onSearch={onSearchMock} initialValue="" />);
     const button = screen.getByRole('button', { name: /search/i });
 
     expect(button).toBeInTheDocument();
   });
 
   it('writes value to localStorage after input change', async () => {
-    render(
-      <Search
-        handleInputChange={() => {}}
-        onSearch={onSearchMock}
-        searchValue=""
-      />
-    );
+    render(<Search onSearch={onSearchMock} initialValue="" />);
 
     const user = userEvent.setup();
     const input = screen.getByPlaceholderText(/search/i);
@@ -54,18 +36,12 @@ describe('search', () => {
     await user.type(input, searchTerm);
 
     waitFor(() => {
-      expect(localStorage.getItem(LSKeys.SearchInput)).toBe(searchTerm);
+      expect(localStorage.getItem(LSKeys.searchValue)).toBe(searchTerm);
     });
   });
 
   it('calls onSearch with current input value when search button is clicked', async () => {
-    render(
-      <Search
-        handleInputChange={() => {}}
-        onSearch={onSearchMock}
-        searchValue=""
-      />
-    );
+    render(<Search onSearch={onSearchMock} initialValue="" />);
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });
