@@ -1,8 +1,8 @@
 import {
   PAGINATION_DEFAULT_LIMIT,
   PAGINATION_DEFAULT_PAGE,
-} from '@/sources/constants';
-import type { Cat } from '@/sources/types/cat';
+} from '@app/lib/constants';
+import type { Cat } from '@app/lib/types/cat';
 
 export const paginateCatBreedsResponse = (
   response: Cat.Breed[],

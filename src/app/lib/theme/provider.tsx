@@ -1,12 +1,8 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from 'react';
+'use client';
+
+import { createContext, useEffect, useState, type ReactNode } from 'react';
 import { darkTheme, lightTheme } from './themes';
-import { LSKeys } from '@/sources/constants';
+import { LSKeys } from '../constants';
 
 type Theme = 'light' | 'dark';
 
@@ -18,10 +14,12 @@ interface ThemeContextProps {
 export const ThemeContext = createContext<ThemeContextProps | null>(null);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>(() => {
+  const [theme, setTheme] = useState<Theme>('dark');
+
+  useEffect(() => {
     const saved = localStorage.getItem(LSKeys.theme);
-    return saved === 'dark' ? 'dark' : 'light';
-  });
+    setTheme(saved === 'dark' ? 'dark' : 'light');
+  }, []);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
@@ -44,10 +42,4 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
-};
-
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) throw new Error('No theme');
-  return context;
 };

@@ -1,4 +1,4 @@
-import type { Cat } from '@/sources/types/cat';
+import type { Cat } from '@app/lib/types/cat';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 

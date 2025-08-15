@@ -12,6 +12,7 @@
   transition: all 0.3s ease;
 
   gap: 12px;
+  padding: 20px;
   background-color: var(--color-bg-200);
   border: 2px solid var(--color-border);
   line-height: 1.5;
@@ -36,22 +37,7 @@
   align-items: center;
 }
 
-h3 {
-  font-family: 'Comic Sans MS';
-}
-.drawer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 20px;
-  bottom: 0;
-  width: 2px;
-  background-color: var(--color-accent-2);
-  z-index: 0;
-}
-
-.drawer p,
-h3 {
+.drawer.textSection {
   margin: 0;
   padding-left: 30px;
   border-bottom: 1px dashed var(--color-border);
@@ -96,10 +82,8 @@ h3 {
 
 .imageWrapper {
   width: 80%;
-  margin-left: 30px;
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
   background-color: var(--color-bg-100);
   padding: 10px;
   border: 1px dashed var(--color-border);

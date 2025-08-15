@@ -1,9 +1,9 @@
 import styles from './cat-list.module.css';
-import { messages } from '../../sources/messages';
+import { messages } from '../../app/lib/messages';
 import { Spinner } from '../spinner/spinner';
 import { CatCard } from '../cat-card/cat-card';
-import type { Cat } from '@sources/types/cat';
 import type React from 'react';
+import type { Cat } from '@app/lib/types/cat';
 
 interface CatsListProps {
   cats?: Cat.Breed[];

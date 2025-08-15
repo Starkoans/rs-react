@@ -1,22 +1,35 @@
+'use client';
+
 import styles from './home-page.module.css';
 import { CatsList } from '@components/cat-list/cats-list';
 import { Search } from '@components/search/search';
-import { PaginationControls } from '@/components/pagination/pagination';
+
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
 import {
+  LSKeys,
   PAGINATION_DEFAULT_PAGE,
   URL_SEARCH_PARAMS,
-} from '@/sources/constants';
-import { Outlet, useSearchParams } from 'react-router-dom';
-import { useGetAllCatsByBreedQuery } from '@/api/cats.service';
-import { getErrorMessage } from '@/utils/get-error-message';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSearchValue, setSearchValue } from '@/store/search-cats';
+} from '../lib/constants';
+import { selectSearchValue, setSearchValue } from '@app/lib/store/search-cats';
+import { useGetAllCatsByBreedQuery } from 'api/cats.service';
+import { getErrorMessage } from '../lib/utils/get-error-message';
+import { useEffect } from 'react';
+import { PaginationControls } from '@components/pagination/pagination';
+import { CatDetail } from '@components/cat-detail/cat-detail';
 
-export const HomePage = () => {
+export default function HomePage({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
   const searchValue = useSelector(selectSearchValue);
   const pageInParams = Number(searchParams.get(URL_SEARCH_PARAMS.page));
+
+  useEffect(() => {
+    const searchValue = localStorage.getItem(LSKeys.searchValue) || '';
+    dispatch(setSearchValue(searchValue));
+  }, []);
 
   const {
     currentData: cats,
@@ -29,7 +42,9 @@ export const HomePage = () => {
   });
 
   const goToPage = async (page: number) => {
-    setSearchParams((prev) => ({ ...prev, page }));
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set(URL_SEARCH_PARAMS.page, page.toString());
+    replace(`${pathname}?${newParams.toString()}`);
   };
 
   const onSearch = (value: string) => {
@@ -50,9 +65,9 @@ export const HomePage = () => {
           isLoading={isFetching}
           error={error && getErrorMessage(error)}
         />
-        <Outlet />
+        <CatDetail />
       </div>
       <PaginationControls pagination={cats?.pagination} goToPage={goToPage} />
     </>
   );
-};
+}

@@ -1,8 +1,8 @@
 import styles from './Search.module.css';
 
 import { type FC, useState } from 'react';
-import { messages } from '../../sources/messages';
-import { EnterIcon } from '@/assets/enter-icon';
+import { messages } from '../../app/lib/messages';
+import { EnterIcon } from '@assets/enter-icon';
 
 interface SearchProps {
   initialValue: string;

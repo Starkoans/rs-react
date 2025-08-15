@@ -1,4 +1,6 @@
 export const messages = {
+  appName: 'Cat-a-log',
+  appDescription: 'Search the cat breed catalog with descriptions and photos.',
   headers: {
     appName: 'Cat-a-log',
     notFound: 'Page not found.',

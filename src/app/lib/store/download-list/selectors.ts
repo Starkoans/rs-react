@@ -1,8 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
-import type { RootState } from '..';
+import type { RootState } from '../store';
 
 export const selectDownloadList = (state: RootState) =>
-  state.selectedCats.downloadList;
+  state.downloadList.downloadList;
 
 export const selectDownloadListRows = createSelector(
   selectDownloadList,

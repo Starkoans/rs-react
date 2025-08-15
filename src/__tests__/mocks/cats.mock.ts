@@ -1,4 +1,4 @@
-import type { Cat } from '../../sources/types/cat';
+import type { Cat } from '../../app/lib/types/cat';
 
 export const mockCats: Cat.Breed[] = [
   {

@@ -1,17 +1,21 @@
-import { URL_SEARCH_PARAMS } from '@/sources/constants';
-import { messages } from '@/sources/messages';
+'use client';
+
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import styles from './cat-detail.module.css';
-import { CatIcon } from '@/assets/cat-icon';
 import { Spinner } from '../spinner/spinner';
-import { useGetCatByIdQuery, useGetCatImgQuery } from '@/api/cats.service';
-import { getErrorMessage } from '@/utils/get-error-message';
 import { skipToken } from '@reduxjs/toolkit/query';
 import cn from 'classnames';
+import { URL_SEARCH_PARAMS } from '../../app/lib/constants';
+import { useGetCatByIdQuery, useGetCatImgQuery } from '../../api/cats.service';
+import { messages } from '../../app/lib/messages';
+import { getErrorMessage } from '../../app/lib/utils/get-error-message';
+import { CatIcon } from '../../assets/cat-icon';
 
 export const CatDetail = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
   const catId = searchParams.get(URL_SEARCH_PARAMS.cat);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -39,7 +43,7 @@ export const CatDetail = () => {
     setTimeout(() => {
       const newParams = new URLSearchParams(searchParams);
       newParams.delete(URL_SEARCH_PARAMS.cat);
-      setSearchParams(newParams);
+      replace(`${pathname}?${newParams.toString()}`, { scroll: false });
     }, 500);
   };
 
@@ -70,7 +74,7 @@ export const CatDetail = () => {
           )}
           {error && (
             <>
-              <h3 className="error">{messages.errors.oops}</h3>
+              <h3 className={styles.textSection}>{messages.errors.oops}</h3>
               <p>{getErrorMessage(error)}</p>
             </>
           )}
@@ -86,10 +90,12 @@ export const CatDetail = () => {
                   />
                 )}
               </div>
-              <h3>{cat.name}</h3>
-              <p className={styles.temperament}>{cat.temperament}</p>
-              <p>{cat.description}</p>
-              <p>
+              <h3 className={styles.textSection}>{cat.name}</h3>
+              <p className={cn(styles.temperament, styles.textSection)}>
+                {cat.temperament}
+              </p>
+              <p className={styles.textSection}>{cat.description}</p>
+              <p className={styles.textSection}>
                 {messages.paragraphs.breedFrom}
                 <b>{cat.origin}</b>
               </p>

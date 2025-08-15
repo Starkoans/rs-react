@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { Cat } from '@/sources/types/cat';
-import { API_BASE_URL, API_ENDPOINTS, API_KEY } from '@/sources/constants';
 import { paginateCatBreedsResponse } from './helpers/paginate-cat-breeds-response';
+import { API_BASE_URL, API_ENDPOINTS, API_KEY } from '@app/lib/constants';
+import type { Cat } from '@app/lib/types/cat';
 
 export interface BreedsQueryParams {
   breed?: string;

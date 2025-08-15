@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react';
-import { messages } from '../../sources/messages';
-import { AboutPage } from './about-page';
+import { messages } from '../../app/lib/messages';
+import { AboutPage } from '../../app/about/page';
 
 describe('About page', () => {
   afterEach(() => {

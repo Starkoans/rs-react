@@ -1,8 +1,8 @@
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
-import { useGetAllCatsByBreedQueryMock } from '../../__tests__/mocks/cats.service.mock';
+import { useGetAllCatsByBreedQueryMock } from './mocks/cats.service.mock';
 import userEvent from '@testing-library/user-event';
-import { messages } from '../../sources/messages';
-import { fakeCat } from '../../__tests__/mocks/cats.mock';
+import { messages } from '../app/lib/messages';
+import { fakeCat } from './mocks/cats.mock';
 import type { Mock } from 'vitest';
 import {
   PAGINATION_DEFAULT_LIMIT,

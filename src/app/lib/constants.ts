@@ -13,6 +13,11 @@ export const URL_SEARCH_PARAMS = {
   page: 'page',
 };
 
+export const ROUTES = {
+  about: 'about',
+  home: '/',
+};
+
 export const API_BASE_URL = 'https://api.thecatapi.com/v1';
 export const API_ENDPOINTS = {
   images: '/images',

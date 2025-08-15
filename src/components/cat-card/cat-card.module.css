@@ -60,7 +60,7 @@
   box-shadow: 6px 6px 0 var(--color-accent-1-100);
 }
 
-h2 {
+.heading {
   font-family: 'Comic Sans MS';
   transition: color 0.3s ease;
   margin: 12px 0 8px;

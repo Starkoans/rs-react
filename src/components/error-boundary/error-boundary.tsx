@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import styles from './error-boundary.module.css';
-import { messages } from '../../sources/messages';
+import { messages } from '../../app/lib/messages';
 interface Props {
   children: React.ReactNode;
 }

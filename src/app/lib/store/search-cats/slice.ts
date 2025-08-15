@@ -1,4 +1,3 @@
-import { LSKeys } from '@/sources/constants';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
@@ -6,10 +5,10 @@ export interface SearchCatsState {
   searchValue: string;
 }
 const initialState: SearchCatsState = {
-  searchValue: localStorage.getItem(LSKeys.searchValue) || '',
+  searchValue: '',
 };
 
-export const searchCatsSlice = createSlice({
+const searchCatsSlice = createSlice({
   name: 'searchCats',
   initialState,
   reducers: {

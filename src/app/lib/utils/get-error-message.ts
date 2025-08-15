@@ -1,6 +1,6 @@
-import { messages } from '@/sources/messages';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import type { SerializedError } from '@reduxjs/toolkit/react';
+import { messages } from '../messages';
 
 export const getErrorMessage = (
   err: FetchBaseQueryError | SerializedError

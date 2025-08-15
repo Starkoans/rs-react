@@ -1,7 +1,7 @@
-import { messages } from '@/sources/messages';
+import { messages } from '../lib/messages';
 import styles from './about-page.module.css';
 
-export const AboutPage = () => {
+export default function AboutPage() {
   return (
     <div className={styles.aboutPage}>
       <h2>{messages.headers.appName}</h2>
@@ -16,4 +16,4 @@ export const AboutPage = () => {
       <p>{messages.paragraphs.year}</p>
     </div>
   );
-};
+}

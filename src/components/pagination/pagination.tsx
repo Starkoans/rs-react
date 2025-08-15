@@ -1,9 +1,9 @@
-import { PAGINATION_DEFAULT_PAGE } from '@/sources/constants';
-import { messages } from '@/sources/messages';
-import type { Pagination } from '@/sources/types/pagination';
+import type { Pagination } from '@app/lib/types/pagination';
 import styles from './pagination.module.css';
-import { ArrowLeftIcon } from '@/assets/arrow-left-icon';
-import { ArrowRightIcon } from '@/assets/arrow-right-icon';
+import { PAGINATION_DEFAULT_PAGE } from '@app/lib/constants';
+import { messages } from '@app/lib/messages';
+import { ArrowLeftIcon } from '@assets/arrow-left-icon';
+import { ArrowRightIcon } from '@assets/arrow-right-icon';
 
 interface PaginationProps {
   pagination?: Pagination;

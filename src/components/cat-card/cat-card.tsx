@@ -1,17 +1,22 @@
+'use client';
+
 import { useState, type FC } from 'react';
-import type { Cat } from '../../sources/types/cat';
+import type { Cat } from '../../app/lib/types/cat';
 import styles from './cat-card.module.css';
-import { useSearchParams } from 'react-router-dom';
-import { URL_SEARCH_PARAMS } from '@/sources/constants';
-import { addCat, removeCat } from '@/store/download-list/slice';
-import { messages } from '@/sources/messages';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { CatIcon } from '../../assets/cat-icon';
 import { StatusBar } from '../status-bar/status-bar';
-import { useGetCatImgQuery } from '@/api/cats.service';
-import { selectIsCatInDownloadList } from '@/store/download-list';
 import { useDispatch, useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query';
 import cn from 'classnames';
+import { useGetCatImgQuery } from 'api/cats.service';
+import {
+  addCat,
+  removeCat,
+  selectIsCatInDownloadList,
+} from '@app/lib/store/download-list';
+import { URL_SEARCH_PARAMS } from '@app/lib/constants';
+import { messages } from '@app/lib/messages';
 
 interface Props {
   cat: Cat.Breed;
@@ -19,7 +24,9 @@ interface Props {
 
 export const CatCard: FC<Props> = ({ cat }) => {
   const dispatch = useDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
   const isSelected = useSelector(selectIsCatInDownloadList(cat.id));
   const [loadedImg, setLoadedImg] = useState(false);
 
@@ -30,7 +37,7 @@ export const CatCard: FC<Props> = ({ cat }) => {
   const onCardClick = () => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set(URL_SEARCH_PARAMS.cat, cat.id);
-    setSearchParams(newParams);
+    replace(`${pathname}?${newParams.toString()}`, { scroll: false });
   };
 
   const onCheck = () => {
@@ -52,7 +59,7 @@ export const CatCard: FC<Props> = ({ cat }) => {
         )}
       </div>
       <div className={styles.info}>
-        <h2>{cat.name}</h2>
+        <h2 className={styles.heading}>{cat.name}</h2>
         <div className={styles.statuses}>
           <span>{messages.paragraphs.affection}</span>
           <StatusBar value={cat.affection_level} />

@@ -1,12 +1,12 @@
-import { removeAllCats } from '@/store/download-list/slice';
-import { messages } from '@/sources/messages';
 import styles from './flyout.module.css';
 import { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectDownloadList,
   selectDownloadListRows,
-} from '@/store/download-list';
-import { useDispatch, useSelector } from 'react-redux';
+  removeAllCats,
+} from '@app/lib/store/download-list';
+import { messages } from '@app/lib/messages';
 
 const downloadListTableHeader = [
   'Cat breed name',
