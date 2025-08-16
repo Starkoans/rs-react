@@ -17,6 +17,7 @@ import {
 } from '@app/lib/store/download-list';
 import { URL_SEARCH_PARAMS } from '@app/lib/constants';
 import { messages } from '@app/lib/messages';
+import Image from 'next/image';
 
 interface Props {
   cat: Cat.Breed;
@@ -50,7 +51,9 @@ export const CatCard: FC<Props> = ({ cat }) => {
         {!catImg?.url ? (
           <CatIcon />
         ) : (
-          <img
+          <Image
+            height={155}
+            width={300}
             src={catImg.url}
             alt={cat.name}
             className={cn(styles.image, { [styles.visible]: loadedImg })}

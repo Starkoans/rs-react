@@ -1,21 +1,23 @@
+'use client';
+
 import styles from './Search.module.css';
 
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { messages } from '../../app/lib/messages';
 import { EnterIcon } from '@assets/enter-icon';
 
 interface SearchProps {
-  initialValue: string;
+  value: string;
   onSearch: (value: string) => void;
   onRefresh?: (value: string) => void;
 }
 
-export const Search: FC<SearchProps> = ({
-  onSearch,
-  onRefresh,
-  initialValue,
-}) => {
-  const [searchValue, setSearchValue] = useState(initialValue);
+export const Search: FC<SearchProps> = ({ onSearch, onRefresh, value }) => {
+  const [searchValue, setSearchValue] = useState(value);
+
+  useEffect(() => {
+    setSearchValue(value);
+  }, [value]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
