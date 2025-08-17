@@ -2,5 +2,10 @@
   "Header": {
     "appName": "Кот-о-лог",
     "about": "О проекте"
+  },
+  "Search": {
+    "search": "Поиск",
+    "refresh": "Обновить",
+    "placeholder": "Поиск по названию породы"
   }
 }

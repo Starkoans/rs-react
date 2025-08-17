@@ -1,10 +1,9 @@
 'use client';
 
 import styles from './Search.module.css';
-
 import { type FC, useEffect, useState } from 'react';
-import { messages } from '../../app/lib/messages';
 import { EnterIcon } from '@assets/enter-icon';
+import { useTranslations } from 'next-intl';
 
 interface SearchProps {
   value: string;
@@ -13,6 +12,7 @@ interface SearchProps {
 }
 
 export const Search: FC<SearchProps> = ({ onSearch, onRefresh, value }) => {
+  const t = useTranslations('Search');
   const [searchValue, setSearchValue] = useState(value);
 
   useEffect(() => {
@@ -37,22 +37,16 @@ export const Search: FC<SearchProps> = ({ onSearch, onRefresh, value }) => {
       <input
         name="search"
         className={styles.input}
-        placeholder={messages.input.search}
+        placeholder={t('placeholder')}
         value={searchValue}
         onChange={handleInputChange}
       />
 
-      <button
-        type="submit"
-        className={styles.button}
-        aria-label={messages.buttons.search}
-      >
+      <button type="submit" className={styles.button} aria-label={t('search')}>
         <EnterIcon />
       </button>
       {onRefresh && (
-        <button onClick={handleRefreshButtonClick}>
-          {messages.buttons.refresh}
-        </button>
+        <button onClick={handleRefreshButtonClick}>{t('refresh')}</button>
       )}
     </form>
   );
