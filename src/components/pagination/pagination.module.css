@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  padding: 20px;
+}
+.container b {
+  font-size: 18px;
+}
+
+.container div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.paginationBth {
+  display: flex;
+  color: var(--color-text-bg);
+  background-color: transparent;
+}
+.paginationBth:hover {
+  color: var(--color-accent-1-200);
+  background-color: transparent;
+}
+
+.paginationBth:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+  background-color: transparent;
+}
+
+.paginationBth:hover:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+  background-color: transparent;
+}
+
+.container p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-bg);
+}

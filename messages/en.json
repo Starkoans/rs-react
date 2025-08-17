@@ -1,0 +1,11 @@
+{
+  "Header": {
+    "appName": "Cat-a-log",
+    "about": "About"
+  },
+  "Search": {
+    "search": "Search",
+    "refresh": "Refresh",
+    "placeholder": "Search by breed name"
+  }
+}

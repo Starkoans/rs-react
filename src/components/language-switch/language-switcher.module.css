@@ -1,0 +1,14 @@
+.lang-switcher {
+  display: inline-flex;
+  gap: 8px;
+}
+.lang-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-200);
+}
+.lang-btn.active,
+.lang-btn[aria-pressed='true'] {
+  border-color: #000;
+  background: #eee;
+}
