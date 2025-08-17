@@ -7,9 +7,7 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { CatIcon } from '../../assets/cat-icon';
 import { StatusBar } from '../status-bar/status-bar';
 import { useDispatch, useSelector } from 'react-redux';
-import { skipToken } from '@reduxjs/toolkit/query';
 import cn from 'classnames';
-import { useGetCatImgQuery } from 'api/cats.service';
 import {
   addCat,
   removeCat,
@@ -21,19 +19,16 @@ import Image from 'next/image';
 
 interface Props {
   cat: Cat.Breed;
+  catImgUrl?: string;
 }
 
-export const CatCard: FC<Props> = ({ cat }) => {
+export const CatCardClient: FC<Props> = ({ cat, catImgUrl }) => {
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
   const isSelected = useSelector(selectIsCatInDownloadList(cat.id));
   const [loadedImg, setLoadedImg] = useState(false);
-
-  const { currentData: catImg } = useGetCatImgQuery(
-    cat.reference_image_id ?? skipToken
-  );
 
   const onCardClick = () => {
     const newParams = new URLSearchParams(searchParams);
@@ -48,13 +43,13 @@ export const CatCard: FC<Props> = ({ cat }) => {
   return (
     <div className={styles.card} onClick={onCardClick}>
       <div className={styles.imageWrapper}>
-        {!catImg?.url ? (
+        {!catImgUrl ? (
           <CatIcon />
         ) : (
           <Image
             height={155}
             width={300}
-            src={catImg.url}
+            src={catImgUrl}
             alt={cat.name}
             className={cn(styles.image, { [styles.visible]: loadedImg })}
             onLoad={() => setLoadedImg(true)}

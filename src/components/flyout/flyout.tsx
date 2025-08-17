@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './flyout.module.css';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +9,7 @@ import {
   removeAllCats,
 } from '@app/lib/store/download-list';
 import { messages } from '@app/lib/messages';
+import { buildCatsCsv } from '@app/actions/build-csv-data-url';
 
 const downloadListTableHeader = [
   'Cat breed name',
@@ -26,18 +29,19 @@ export const Flyout = () => {
     dispatch(removeAllCats());
   };
 
-  const onDownload = () => {
+  const onDownload = async () => {
     const rows = [downloadListTableHeader, ...downloadListRows];
+    const filename = `${downloadList.length}_cats.csv`;
+    const { csv } = await buildCatsCsv(rows, filename);
 
-    const csvContent = rows.map((r) => r.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
 
     if (linkRef.current) {
       linkRef.current.href = url;
-      linkRef.current.download = `${downloadList.length}_cats.csv`;
+      linkRef.current.download = filename;
       linkRef.current.click();
-      URL.revokeObjectURL(url);
+      setTimeout(() => URL.revokeObjectURL(url), 0);
     }
   };
 

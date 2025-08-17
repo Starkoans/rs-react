@@ -1,21 +1,32 @@
+'use client';
+
 import type { Pagination } from '@app/lib/types/pagination';
 import styles from './pagination.module.css';
-import { PAGINATION_DEFAULT_PAGE } from '@app/lib/constants';
+import { PAGINATION_DEFAULT_PAGE, URL_SEARCH_PARAMS } from '@app/lib/constants';
 import { messages } from '@app/lib/messages';
 import { ArrowLeftIcon } from '@assets/arrow-left-icon';
 import { ArrowRightIcon } from '@assets/arrow-right-icon';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 interface PaginationProps {
   pagination?: Pagination;
-  goToPage: (page: number) => void;
 }
 
 export const PaginationControls: React.FC<PaginationProps> = ({
   pagination,
-  goToPage,
 }) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+
   const isVisible =
     pagination && pagination.totalPages && pagination.totalPages > 1;
+
+  const goToPage = (page: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set(URL_SEARCH_PARAMS.page, String(page));
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   const handlePrev = () => {
     if (pagination?.page && pagination.page > PAGINATION_DEFAULT_PAGE) {

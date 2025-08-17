@@ -9,7 +9,7 @@ import { EnterIcon } from '@assets/enter-icon';
 interface SearchProps {
   value: string;
   onSearch: (value: string) => void;
-  onRefresh?: (value: string) => void;
+  onRefresh?: (value?: string) => void;
 }
 
 export const Search: FC<SearchProps> = ({ onSearch, onRefresh, value }) => {
@@ -27,6 +27,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onRefresh, value }) => {
     e.preventDefault();
     onSearch(searchValue);
   };
+
   const handleRefreshButtonClick = () => {
     if (onRefresh) onRefresh(searchValue);
   };

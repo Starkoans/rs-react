@@ -25,5 +25,8 @@ export const API_ENDPOINTS = {
   search: '/search',
   breeds: '/breeds',
 };
+export const API_TAGS = {
+  cats: 'Cats',
+};
 export const API_KEY =
   'live_XU8YPpA2NSBpkAddGLPq9rzIaWdZaDfowYjnHyTBraGPTccb2gcewUvBenbVth8g';

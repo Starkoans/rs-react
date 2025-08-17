@@ -13,7 +13,7 @@ export const messages = {
     next: 'next',
     search: 'Search',
     simulateError: 'Simulate Error',
-    reload: 'Reload page',
+    reload: 'Reload',
     toMainPage: 'To main page',
     close: '✗',
     unselectAll: 'Unselect all',

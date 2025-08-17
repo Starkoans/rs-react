@@ -4,12 +4,7 @@
   grid-template-columns: 1fr;
   padding: 20px;
 }
-.spinnerContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 600px;
-}
+
 
 @media (min-width: 680px) {
   .catsList {
