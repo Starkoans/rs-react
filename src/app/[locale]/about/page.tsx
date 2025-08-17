@@ -1,4 +1,4 @@
-import { messages } from '../lib/messages';
+import { messages } from '@app/lib/messages';
 import styles from './about-page.module.css';
 
 export default function AboutPage() {

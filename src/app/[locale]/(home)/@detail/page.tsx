@@ -1,5 +1,5 @@
 import { fetchCatById } from '@app/actions/fetch-cat-by-id';
-import { CatDetailClient } from '../../../components/cat-detail/cat-detail-client';
+import { CatDetailClient } from '@components/cat-detail/cat-detail-client';
 import { fetchCatImage } from '@app/actions/fetch-cat-image';
 import { URL_SEARCH_PARAMS } from '@app/lib/constants';
 import { notFound } from 'next/navigation';

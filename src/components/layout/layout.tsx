@@ -8,8 +8,11 @@ import { MoonIcon } from '@assets/moon-icon';
 import { SunIcon } from '@assets/sun-icon';
 import { Flyout } from '@components/flyout/flyout';
 import { useTheme } from '@app/lib/theme/use-theme';
+import { LanguageSwitcher } from '@components/language-switch/language-switch';
+import { useTranslations } from 'next-intl';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
+  const t = useTranslations('Header');
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -17,9 +20,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <header className={styles.header}>
         <nav className={styles.nav}>
           <Link href={ROUTES.home}>
-            <h1 className={styles.headerTitle}>{messages.headers.appName}</h1>
+            <h1 className={styles.headerTitle}>{t('appName')}</h1>
           </Link>
-          <Link href={ROUTES.about}>{messages.links.about}</Link>
+          <Link href={ROUTES.about}>{t('about')}</Link>
         </nav>
         <button
           onClick={toggleTheme}
@@ -32,6 +35,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             <SunIcon height="20px" width="20px" />
           )}
         </button>
+        <LanguageSwitcher />
       </header>
       <main className={styles.main}>{children}</main>
       <Flyout />

@@ -1,8 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { messages } from './lib/messages';
-import { ROUTES } from './lib/constants';
+import { messages } from '../lib/messages';
+import { ROUTES } from '../lib/constants';
 
 export default function NotFoundPage() {
   const { replace } = useRouter();
