@@ -3,31 +3,67 @@ import { checkStrength, schema, type FormValues } from "./validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput } from "../form-input/form-input";
 import { countries } from "typed-countries";
+import { useUserStore } from "../../store/store";
+import type { FC } from "react";
 
-export const SignUpFormControlled = () => {
-	const methods = useForm<FormValues>({ resolver: zodResolver(schema) });
+interface Props {
+	onSubmit: () => void;
+}
+
+export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
+	const setUser = useUserStore((state) => state.setUser);
+	const user = useUserStore((state) => state.user);
+
+	const methods = useForm<FormValues>({
+		resolver: zodResolver(schema),
+		defaultValues: {
+			...user,
+			terms: undefined,
+		},
+	});
+
 	const {
 		handleSubmit,
 		watch,
-		formState: { isSubmitting },
+		formState: { isSubmitting, isValid },
 	} = methods;
 
 	const password = watch("password") || "";
 	const strength = checkStrength(password);
 
-	const onSubmit = async (data: FormValues) => {
-		console.log(data);
+	const onFormSubmit = async (data: FormValues) => {
+		onSubmit();
+		setUser(data);
 	};
 
 	return (
 		<FormProvider {...methods}>
 			<form
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={handleSubmit(onFormSubmit)}
 				style={{ maxWidth: 480, margin: "0 auto", display: "grid", gap: 12 }}
 			>
 				<FormInput name="name" placeholder="Your name" />
 				<FormInput name="age" type="number" min={1} placeholder="Your age" />
 				<FormInput name="email" type="email" placeholder="you@example.com" />
+
+				<fieldset>
+					<legend>Gender</legend>
+					<FormInput
+						name="gender"
+						type="radio"
+						label="male"
+						value="male"
+						id="gender-male"
+					/>
+					<FormInput
+						name="gender"
+						type="radio"
+						label="female"
+						value="female"
+						id="gender-female"
+					/>
+				</fieldset>
+
 				<FormInput name="password" type="password" />
 				<div>
 					<ul>
@@ -45,17 +81,6 @@ export const SignUpFormControlled = () => {
 					label="confirm password"
 				/>
 
-				<fieldset>
-					<legend>Gender</legend>
-					<FormInput name="gender" type="radio" label="male" value="male" id="gender-male"/>
-					<FormInput name="gender" type="radio" label="female" value="female" id="gender-female"/>
-				</fieldset>
-
-				<FormInput
-					name="terms"
-					type="checkbox"
-					label="Accept Terms and Conditions"
-				/>
 				<FormInput
 					name="picture"
 					type="file"
@@ -68,12 +93,18 @@ export const SignUpFormControlled = () => {
 					placeholder="Start typing…"
 				/>
 				<datalist id="countries">
-					{countries.map(({name}, i) => (
+					{countries.map(({ name }, i) => (
 						<option key={i} value={name} />
 					))}
 				</datalist>
 
-				<button type="submit" disabled={isSubmitting}>
+				<FormInput
+					name="terms"
+					type="checkbox"
+					label="Accept Terms and Conditions"
+				/>
+
+				<button type="submit" disabled={isSubmitting || !isValid}>
 					Submit
 				</button>
 			</form>
