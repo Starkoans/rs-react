@@ -6,7 +6,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
 }
 
-export const TextInput: FC<Props> = ({ name, label = name, ...rest }) => {
+export const FormInput: FC<Props> = ({ name, label = name, ...rest }) => {
 	const {
 		register,
 		formState: { errors },
@@ -16,7 +16,13 @@ export const TextInput: FC<Props> = ({ name, label = name, ...rest }) => {
 		<>
 			<label htmlFor={name}>
 				{label}
-				<input id={name} {...register(name)} {...rest} />
+				<input
+					id={name}
+					{...register(name, {
+						valueAsNumber: rest.type === "number" ? true : false,
+					})}
+					{...rest}
+				/>
 			</label>
 			{errMsg && <p style={{ color: "red" }}>{errMsg.toString()}</p>}
 		</>

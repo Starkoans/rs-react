@@ -18,7 +18,7 @@ export const schema = z
 		email: z.string().min(1, "Обязательно").email("Некорректный email"),
 		password: passwordSchema,
 		confirmPassword: z.string().min(1, "Подтвердите пароль"),
-		gender: z.enum(["male", "female", "other"], {
+		gender: z.enum(["male", "female" ], {
 			message: "Выберите пол",
 		}),
 		terms: z.literal(true, {

@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { checkStrength, schema, type FormValues } from "./validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TextInput } from "../text-input/text-input";
+import { FormInput } from "../form-input/form-input";
 import { countries } from "typed-countries";
 
 export const SignUpFormControlled = () => {
@@ -19,25 +19,16 @@ export const SignUpFormControlled = () => {
 		console.log(data);
 	};
 
-	const handlePictureChange = async (
-		e: React.ChangeEvent<HTMLInputElement>
-	) => {
-		const file = e.target.files?.[0];
-		if (!file) return;
-		if (!["image/png", "image/jpeg"].includes(file.type)) return;
-		if (file.size > 2 * 1024 * 1024) return;
-	};
-
 	return (
 		<FormProvider {...methods}>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				style={{ maxWidth: 480, margin: "0 auto", display: "grid", gap: 12 }}
 			>
-				<TextInput name="name" placeholder="Your name" />
-				<TextInput name="age" type="number" min={1} placeholder="Your age" />
-				<TextInput name="email" type="email" placeholder="you@example.com" />
-				<TextInput name="password" type="password" />
+				<FormInput name="name" placeholder="Your name" />
+				<FormInput name="age" type="number" min={1} placeholder="Your age" />
+				<FormInput name="email" type="email" placeholder="you@example.com" />
+				<FormInput name="password" type="password" />
 				<div>
 					<ul>
 						<li>{strength.lengthOK ? "✅" : "⚪"} ≥ 8 символов</li>
@@ -48,7 +39,7 @@ export const SignUpFormControlled = () => {
 					</ul>
 				</div>
 
-				<TextInput
+				<FormInput
 					name="confirmPassword"
 					type="password"
 					label="confirm password"
@@ -56,23 +47,22 @@ export const SignUpFormControlled = () => {
 
 				<fieldset>
 					<legend>Gender</legend>
-					<TextInput name="gender" type="radio" label="male" value="male" />
-					<TextInput name="gender" type="radio" label="female" value="female" />
+					<FormInput name="gender" type="radio" label="male" value="male" id="gender-male"/>
+					<FormInput name="gender" type="radio" label="female" value="female" id="gender-female"/>
 				</fieldset>
 
-				<TextInput
+				<FormInput
 					name="terms"
 					type="checkbox"
 					label="Accept Terms and Conditions"
 				/>
-				<TextInput
+				<FormInput
 					name="picture"
 					type="file"
-					onChange={handlePictureChange}
 					accept="image/png,image/jpeg"
 					label="Profile picture (PNG/JPEG, ≤2MB)"
 				/>
-				<TextInput
+				<FormInput
 					name="country"
 					list="countries"
 					placeholder="Start typing…"
