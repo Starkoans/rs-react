@@ -1,5 +1,7 @@
 import { useEffect, useRef, type FC, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import styles from "./modal.module.css";
+import { HiMiniXMark } from "react-icons/hi2";
 
 interface Props {
 	children?: ReactNode;
@@ -46,7 +48,9 @@ export const Modal: FC<Props> = ({ onClose, open, children }) => {
 		<dialog ref={ref} onClose={onClose} onClick={handleOutsideClick}>
 			<div>
 				{children}
-				<button onClick={onClose}>Close</button>
+				<button onClick={onClose} className={styles.closeBtn}>
+					<HiMiniXMark  size={"30px"}/>
+				</button>
 			</div>
 		</dialog>,
 		document.body
