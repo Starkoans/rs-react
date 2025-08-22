@@ -2,43 +2,44 @@ import * as z from "zod";
 
 const passwordSchema = z
 	.string()
-	.min(8, "Минимум 8 символов")
-	.regex(/[0-9]/, "Нужна хотя бы 1 цифра")
-	.regex(/[A-Z]/, "Нужна хотя бы 1 заглавная буква")
-	.regex(/[a-z]/, "Нужна хотя бы 1 строчная буква")
-	.regex(/[^A-Za-z0-9]/, "Нужен хотя бы 1 спецсимвол");
+	.min(8, "The password should have minimum 8 characters")
+	.regex(/[0-9]/, "The password must contain at least 1 digit")
+	.regex(/[A-Z]/, "The password must contain at least one capital letter")
+	.regex(/[a-z]/, "The password must contain at least one lowercase letter")
+	.regex(
+		/[^A-Za-z0-9]/,
+		"The password must contain at least 1 special character"
+	);
 
 export const schema = z
 	.object({
 		name: z
 			.string()
-			.min(1, "Обязательно")
-			.regex(/^[A-ZА-ЯЁ]/, "Первая буква должна быть заглавной"),
-		age: z.number({ message: "Число" }).min(0, "Не может быть отрицательным"),
-		email: z.string().min(1, "Обязательно").email("Некорректный email"),
+			.min(1, "Name is required")
+			.regex(/^[A-ZА-ЯЁ]/, "First letter in name should be uppercase"),
+		age: z
+			.number({ message: "Age should be number" })
+			.min(0, "Age cannot be negative"),
+		email: z.string().min(1, "Email is required").email("Invalid email"),
 		password: passwordSchema,
-		confirmPassword: z.string().min(1, "Подтвердите пароль"),
-		gender: z.enum(["male", "female" ], {
-			message: "Выберите пол",
+		confirmPassword: z
+			.string()
+			.min(1, "The field “Confirm password” is required"),
+		gender: z.enum(["male", "female"], {
+			message: "Select gender",
 		}),
 		terms: z.literal(true, {
-			message: "Нужно принять условия",
+			message: "You need to accept the terms and conditions",
 		}),
-		country: z.string().min(1, "Выберите страну"),
+		country: z.string().min(1, "Select a country"),
 		picture: z
-			.any()
-			.refine((files) => files?.length === 1, "Загрузите файл")
-			.refine(
-				(files) => ["image/png", "image/jpeg"].includes(files?.[0]?.type),
-				"Разрешены только PNG или JPEG"
-			)
-			.refine(
-				(files) => (files?.[0]?.size ?? 0) <= 2 * 1024 * 1024,
-				"Макс. размер 2MB"
-			),
+			.file("You need to select image")
+			.min(1)
+			.refine((f) => f.size <= 2 * 1024 * 1024, { message: "Max file size is 2MB" })
+			.mime(["image/png", "image/jpeg"], {message: "Allow only .png and .jpg"}),
 	})
 	.refine((data) => data.password === data.confirmPassword, {
-		message: "Пароли не совпадают",
+		message: "Passwords do not match",
 		path: ["confirmPassword"],
 	});
 

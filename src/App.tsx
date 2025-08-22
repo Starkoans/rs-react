@@ -2,7 +2,8 @@ import "./App.css";
 import { Modal } from "./components/modal/modal";
 import { useState } from "react";
 import { SignUpFormControlled } from "./components/sigp-up-form/sign-up-form-controlled";
-import { UserCard } from "./user-card/user-card";
+import { UserCard } from "./components/user-card/user-card";
+import { SignUpFormUncontrolled } from "./components/sigp-up-form/sign-up-form-uncontrolled";
 
 function App() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +27,13 @@ function App() {
 			<Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
 				{isControlledForm && (
 					<SignUpFormControlled
+						onSubmit={() => {
+							setIsModalOpen(false);
+						}}
+					/>
+				)}
+				{!isControlledForm && (
+					<SignUpFormUncontrolled
 						onSubmit={() => {
 							setIsModalOpen(false);
 						}}

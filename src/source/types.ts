@@ -7,7 +7,7 @@ export type User = {
 	gender: "male" | "female";
 	terms: boolean;
 	country: string;
-	picture: FileList | string;
+	picture: File | string;
 };
 
 export type Country = {

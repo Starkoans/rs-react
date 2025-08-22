@@ -16,15 +16,20 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 
 	const methods = useForm<FormValues>({
 		resolver: zodResolver(schema),
+		mode: "onChange",
+		reValidateMode: "onChange",
 		defaultValues: {
 			...user,
 			terms: undefined,
+			picture: undefined,
 		},
 	});
 
 	const {
 		handleSubmit,
 		watch,
+		register,
+		setValue,
 		formState: { isSubmitting, isValid },
 	} = methods;
 
@@ -82,8 +87,16 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 				/>
 
 				<FormInput
-					name="picture"
 					type="file"
+					{...register("picture", {
+						onChange: (e) => {
+							const f = e.target.files?.[0] ?? undefined;
+							setValue("picture", f, {
+								shouldValidate: true,
+								shouldDirty: true,
+							});
+						},
+					})}
 					accept="image/png,image/jpeg"
 					label="Profile picture (PNG/JPEG, ≤2MB)"
 				/>

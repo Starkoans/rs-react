@@ -19,7 +19,7 @@ export const FormInput: FC<Props> = ({ name, label = name, ...rest }) => {
 				<input
 					id={name}
 					{...register(name, {
-						valueAsNumber: rest.type === "number" ? true : false,
+						valueAsNumber: rest.type === "number",
 					})}
 					{...rest}
 				/>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUserStore } from "../store/store";
+import { useUserStore } from "../../store/store";
 import styles from "./user-card.module.css";
 
 export const UserCard = () => {
