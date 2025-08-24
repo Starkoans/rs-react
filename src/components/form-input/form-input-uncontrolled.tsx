@@ -1,4 +1,6 @@
 import type { FC, InputHTMLAttributes } from "react";
+import cx from "classnames";
+import styles from "./form-input.module.css";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	error?: string;
@@ -10,15 +12,20 @@ export const FormInputUncontrolled: FC<Props> = ({
 	error,
 	name,
 	label = name,
+	type,
 	...rest
 }) => {
 	return (
-		<>
-			<label htmlFor={name}>
-				{label}
-				<input id={name} name={name} {...rest} />
-			</label>
-			{error && <p style={{ color: "red" }}>{error}</p>}
-		</>
+		<div className={cx(styles.wrapperColumn, { [styles.wrapperRow]: type === "checkbox" || type === "radio" })}>
+			<label htmlFor={name} className={cx(styles.label)}>{label}</label>
+			<input
+				id={name}
+				name={name}
+				type={type}
+				{...rest}
+				className={cx(styles.input, { [styles.error]: error })}
+			/>
+			<p className={cx(styles.errorMessage)}>{error}</p>
+		</div>
 	);
 };

@@ -1,26 +1,27 @@
-import { FormProvider, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import { checkStrength, schema, type FormValues } from "./validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput } from "../form-input/form-input";
-import { countries } from "typed-countries";
-import { useUserStore } from "../../store/store";
-import type { FC } from "react";
+
+import { type FC } from "react";
+import { FormInputUncontrolled } from "../form-input/form-input-uncontrolled";
+import { fileToBase64 } from "../../utils/file-to-base64";
+import { useStore } from "../../store/store";
 
 interface Props {
 	onSubmit: () => void;
 }
 
 export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
-	const setUser = useUserStore((state) => state.setUser);
-	const user = useUserStore((state) => state.user);
-
+	const userControlled = useStore((store) => store.userControlled);
+	const countries = useStore((store) => store.countries);
+	const setUserControlled = useStore((store) => store.setUserControlled);
 	const methods = useForm<FormValues>({
 		resolver: zodResolver(schema),
 		mode: "onChange",
 		reValidateMode: "onChange",
 		defaultValues: {
-			...user,
-			terms: undefined,
+			...userControlled,
 			picture: undefined,
 		},
 	});
@@ -28,17 +29,17 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 	const {
 		handleSubmit,
 		watch,
-		register,
-		setValue,
 		formState: { isSubmitting, isValid },
 	} = methods;
 
 	const password = watch("password") || "";
+
 	const strength = checkStrength(password);
 
 	const onFormSubmit = async (data: FormValues) => {
 		onSubmit();
-		setUser(data);
+		const newUser = { ...data, picture: await fileToBase64(data.picture) };
+		setUserControlled(newUser);
 	};
 
 	return (
@@ -86,20 +87,19 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 					label="confirm password"
 				/>
 
-				<FormInput
-					type="file"
-					{...register("picture", {
-						onChange: (e) => {
-							const f = e.target.files?.[0] ?? undefined;
-							setValue("picture", f, {
-								shouldValidate: true,
-								shouldDirty: true,
-							});
-						},
-					})}
-					accept="image/png,image/jpeg"
-					label="Profile picture (PNG/JPEG, ≤2MB)"
+				<Controller
+					name="picture"
+					render={({ field }) => (
+						<FormInputUncontrolled
+							name="picture"
+							label="Profile picture (PNG/JPEG, ≤2MB)"
+							type="file"
+							accept="image/png,image/jpeg"
+							onChange={(e) => field.onChange(e.currentTarget.files?.[0])}
+						/>
+					)}
 				/>
+
 				<FormInput
 					name="country"
 					list="countries"

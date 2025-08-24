@@ -1,30 +1,39 @@
 import type { FC, InputHTMLAttributes } from "react";
+
 import { useFormContext } from "react-hook-form";
+import { FormInputUncontrolled } from "./form-input-uncontrolled";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	name: string;
 	label?: string;
 }
 
-export const FormInput: FC<Props> = ({ name, label = name, ...rest }) => {
+export const FormInput: FC<Props> = ({
+	name,
+	label = name,
+	type,
+	onChange,
+	...rest
+}) => {
 	const {
 		register,
 		formState: { errors },
 	} = useFormContext();
-	const errMsg = errors[name]?.message;
+	const err = errors[name]?.message?.toString();
+
+	const regProps = {
+		...register(name, {
+			valueAsNumber: type === "number",
+		}),
+	};
+
 	return (
-		<>
-			<label htmlFor={name}>
-				{label}
-				<input
-					id={name}
-					{...register(name, {
-						valueAsNumber: rest.type === "number",
-					})}
-					{...rest}
-				/>
-			</label>
-			{errMsg && <p style={{ color: "red" }}>{errMsg.toString()}</p>}
-		</>
+		<FormInputUncontrolled
+			label={label}
+			error={err}
+			{...regProps}
+			{...rest}
+			type={type}
+		/>
 	);
 };

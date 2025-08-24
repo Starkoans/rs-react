@@ -1,19 +1,27 @@
 import { create } from "zustand";
 import type { User } from "../source/types";
+import { countries, type Country } from "typed-countries";
 
 interface UserState {
-	user: Partial<User>;
-	setUser: (newUser: Partial<User>) => void;
+	countries: Country[];
+	userControlled: Partial<User>;
+	userUncontrolled: Partial<User>;
+	setUserControlled: (newUser: Partial<User>) => void;
+	setUserUncontrolled: (newUser: Partial<User>) => void;
 }
 
 const initialUser: Partial<User> = {
 	name: "John",
 };
 
-export const useUserStore = create<UserState>()((set) => ({
-	user: initialUser,
-	setUser: (newUser: Partial<User>) =>
-		set(() => ({
-			user: newUser,
+export const useStore = create<UserState>()((set) => ({
+	countries: countries,
+	userControlled: initialUser,
+	userUncontrolled: initialUser,
+	setUserControlled: (newUser: Partial<User>) =>
+		set((prev) => ({ userControlled: { ...prev.userControlled, ...newUser } })),
+	setUserUncontrolled: (newUser: Partial<User>) =>
+		set((prev) => ({
+			userUncontrolled: { ...prev.userUncontrolled, ...newUser },
 		})),
 }));

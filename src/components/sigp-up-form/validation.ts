@@ -11,6 +11,18 @@ const passwordSchema = z
 		"The password must contain at least 1 special character"
 	);
 
+const ACCEPTED_TYPES = ["image/png", "image/jpeg"];
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
+
+const pictureSchema = z
+	.instanceof(File, { message: "Загрузите изображение" })
+	.refine((file) => ACCEPTED_TYPES.includes(file.type), {
+		message: "Разрешены только PNG или JPEG",
+	})
+	.refine((file) => file.size <= MAX_FILE_SIZE, {
+		message: "Размер файла должен быть ≤ 2 MB",
+	});
+
 export const schema = z
 	.object({
 		name: z
@@ -28,15 +40,9 @@ export const schema = z
 		gender: z.enum(["male", "female"], {
 			message: "Select gender",
 		}),
-		terms: z.literal(true, {
-			message: "You need to accept the terms and conditions",
-		}),
+		terms: z.boolean().refine((v) => v, { message: "Нужно согласие" }),
 		country: z.string().min(1, "Select a country"),
-		picture: z
-			.file("You need to select image")
-			.min(1)
-			.refine((f) => f.size <= 2 * 1024 * 1024, { message: "Max file size is 2MB" })
-			.mime(["image/png", "image/jpeg"], {message: "Allow only .png and .jpg"}),
+		picture: pictureSchema,
 	})
 	.refine((data) => data.password === data.confirmPassword, {
 		message: "Passwords do not match",
