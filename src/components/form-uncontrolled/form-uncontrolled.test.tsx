@@ -1,4 +1,3 @@
-// src/components/sign-up-form-uncontrolled.test.tsx
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";

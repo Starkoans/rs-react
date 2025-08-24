@@ -2,7 +2,7 @@ import { create } from "zustand";
 import type { User } from "../source/types";
 import { countries, type Country } from "typed-countries";
 
-interface UserState {
+export interface UserState {
 	countries: Country[];
 	userControlled: Partial<User>;
 	userUncontrolled: Partial<User>;
