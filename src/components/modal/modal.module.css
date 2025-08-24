@@ -1,0 +1,87 @@
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+}
+
+.dialog {
+	border: none;
+	border-radius: 12px;
+	max-width: 500px;
+	width: 90%;
+	height: 600px;
+	padding: 75px 45px 45px 45px;
+	position: relative;
+	animation: modal-fade-in 0.25s ease;
+	background-color: #303030;
+	min-height: 150px;
+}
+
+.dialogContent {
+	height: 600px;
+	padding: 0 20px 0 0;
+	overflow-y: scroll;
+}
+
+.dialog::backdrop {
+	backdrop-filter: blur(2px);
+}
+
+.closeBtn {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	border: none;
+	background: transparent;
+	font-size: 1.25rem;
+	cursor: pointer;
+	color: #ac0095;
+	transition: all 0.2s;
+}
+
+.closeBtn:hover {
+	transform: scale(1.1);
+	color: #ff5fea;
+}
+
+@keyframes modal-fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(-15px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+
+.scrollarea::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+
+.scrollarea::-webkit-scrollbar-thumb {
+	background: #ac0095;
+	border-radius: 9999px;
+}
+
+.scrollarea::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.scrollarea::-webkit-scrollbar-thumb:hover {
+	background: #c500ab;
+}
+
+.scrollarea {
+	scrollbar-width: thin;
+	scrollbar-color: #c500ab transparent;
+}

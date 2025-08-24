@@ -1,0 +1,26 @@
+.updated {
+	background-color: rgb(56, 121, 75);
+}
+
+.card {
+	padding: 30px;
+	background-color: rgb(51, 51, 51);
+	border-radius: 20px;
+	min-width: 300px;
+	text-align: start;
+}
+
+.avatar {
+	height: 100px;
+	width: 100px;
+	border-radius: 20px;
+	object-fit: cover;
+}
+.avatarContainer {
+	display: flex;
+	justify-content: center;
+	height: 100px;
+	width: 100px;
+	border-radius: 20px;
+	background-color: rgb(156, 145, 145);
+}
