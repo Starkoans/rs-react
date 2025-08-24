@@ -1,4 +1,16 @@
-dialog {
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.dialog {
 	border: none;
 	border-radius: 12px;
 	padding: 1.5rem;
@@ -6,15 +18,15 @@ dialog {
 	width: 90%;
 	position: relative;
 	animation: modal-fade-in 0.25s ease;
-    background-color: #303030;
+	background-color: #303030;
 	min-height: 150px;
 }
 
-dialog::backdrop {
+.dialog::backdrop {
 	backdrop-filter: blur(2px);
 }
 
-dialog button.closeBtn {
+.closeBtn {
 	position: absolute;
 	top: 0.75rem;
 	right: 0.75rem;
@@ -26,7 +38,7 @@ dialog button.closeBtn {
 	transition: transform 0.2s;
 }
 
-dialog button.closeBtn:hover {
+.closeBtn:hover {
 	transform: scale(1.1);
 }
 

@@ -8,7 +8,7 @@ type Errors = Partial<Record<keyof FormValues, string>>;
 
 export const useUncontrolledForm = () => {
 	const user = useStore((store) => store.userUncontrolled);
-	const setUserUncontrolled = useStore((store) => store.setUserUncontrolled);
+	const setUser = useStore((store) => store.setUserUncontrolled);
 
 	const [errors, setErrors] = useState<Errors>({});
 
@@ -21,20 +21,19 @@ export const useUncontrolledForm = () => {
 
 		if (!parsed.success) {
 			const newErrors: Errors = {};
-
 			for (const issue of parsed.error?.issues) {
 				const key = issue.path[0] as keyof FormValues;
 				if (!newErrors[key]) newErrors[key] = issue.message;
 			}
-
 			setErrors(newErrors);
 			return;
 		}
+
 		const newUser = {
 			...parsed.data,
 			picture: await fileToBase64(parsed.data.picture),
 		};
-		setUserUncontrolled(newUser);
+		setUser(newUser);
 	};
 
 	const clearFieldError = (name: keyof FormValues) =>
