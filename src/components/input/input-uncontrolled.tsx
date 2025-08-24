@@ -8,7 +8,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
 }
 
-export const Input: FC<Props> = ({
+export const InputUncontrolled: FC<Props> = ({
 	error,
 	name,
 	label = name,

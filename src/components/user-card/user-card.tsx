@@ -41,7 +41,7 @@ export const UserCard: FC<Props> = ({ user }) => {
 			<p>Country: {user.country}</p>
 			<p>Gender: {user.gender}</p>
 			<p>Password: {user.password}</p>
-			<p>Terms accepted: {user.terms ? "Yes" : "No"}</p>
+			<p>Terms accepted: {user.terms ? "✅" : "❌"}</p>
 		</div>
 	);
 };

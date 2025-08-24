@@ -18,3 +18,17 @@
 	flex-wrap: wrap;
 	gap: 30px;
 }
+.userCard {
+	text-align: center;
+}
+
+.buttons {
+	display: flex;
+	justify-content: space-around;
+}
+.uncontrolled {
+	color: rgb(202, 92, 29);
+}
+.controlled {
+	color: rgb(46, 194, 65);
+}

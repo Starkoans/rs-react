@@ -1,14 +1,14 @@
 import type { FC, InputHTMLAttributes } from "react";
 
 import { useFormContext } from "react-hook-form";
-import { Input } from "./input";
+import { InputUncontrolled } from "./input-uncontrolled";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	name: string;
 	label?: string;
 }
 
-export const InputRHF: FC<Props> = ({
+export const InputControlled: FC<Props> = ({
 	name,
 	label = name,
 	type,
@@ -28,7 +28,7 @@ export const InputRHF: FC<Props> = ({
 	};
 
 	return (
-		<Input
+		<InputUncontrolled
 			label={label}
 			error={err}
 			{...regProps}

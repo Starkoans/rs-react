@@ -1,11 +1,16 @@
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { checkStrength, schema, type FormValues } from "./validation";
+import {
+	checkStrength,
+	schema,
+	type FormValues,
+} from "../../source/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputRHF as Input } from "../form-input/input-rhf"; 
-import { Input as InputUncontrolled} from "../form-input/input"; 
+import { InputControlled as Input } from "../input/input-controlled";
+import { InputUncontrolled } from "../input/input-uncontrolled";
 import { type FC } from "react";
 import { fileToBase64 } from "../../utils/file-to-base64";
 import { useStore } from "../../store/store";
+import { messages } from "./messages";
 
 interface Props {
 	onSubmit: () => void;
@@ -15,7 +20,7 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 	const userControlled = useStore((store) => store.userControlled);
 	const setUserControlled = useStore((store) => store.setUserControlled);
 	const countries = useStore((store) => store.countries);
-	
+
 	const methods = useForm<FormValues>({
 		resolver: zodResolver(schema),
 		mode: "onChange",
@@ -47,12 +52,13 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 				onSubmit={handleSubmit(onFormSubmit)}
 				style={{ maxWidth: 480, margin: "0 auto", display: "grid", gap: 12 }}
 			>
+				<h3>Controlled form</h3>
 				<Input name="name" placeholder="Your name" />
 				<Input name="age" type="number" min={1} placeholder="Your age" />
 				<Input name="email" type="email" placeholder="you@example.com" />
 
 				<fieldset>
-					<legend>Gender</legend>
+					<legend>{messages.labels.gender}</legend>
 					<Input
 						name="gender"
 						type="radio"
@@ -99,11 +105,7 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 					)}
 				/>
 
-				<Input
-					name="country"
-					list="countries"
-					placeholder="Start typing…"
-				/>
+				<Input name="country" list="countries" placeholder="Start typing…" />
 				<datalist id="countries">
 					{countries.map(({ name }, i) => (
 						<option key={i} value={name} />

@@ -1,4 +1,4 @@
-import { schema } from "./validation";
+import { schema } from "../../source/validation";
 
 export const parseUser = (fd: FormData) => {
 	const age = fd.get("age");

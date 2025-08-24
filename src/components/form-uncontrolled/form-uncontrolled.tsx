@@ -1,6 +1,5 @@
-
 import { type FC, type FormEventHandler } from "react";
-import { Input } from "../form-input/input";
+import { InputUncontrolled as Input } from "../input/input-uncontrolled";
 
 import { useStore } from "../../store/store";
 import { useUncontrolledForm } from "./use-uncontrolled-form";
@@ -11,15 +10,18 @@ interface Props {
 
 export const SignUpFormUncontrolled: FC<Props> = ({ onSubmit }) => {
 	const countries = useStore((store) => store.countries);
-	const { user, handleSubmit, clearFieldError, errors } = useUncontrolledForm();
+	const { user, handleSubmit, clearFieldError, errors, isValid } =
+		useUncontrolledForm();
 
 	const handleSubmitWrapper: FormEventHandler<HTMLFormElement> = (e) => {
+		e.preventDefault();
 		handleSubmit(e);
-		onSubmit();
+		if (isValid) onSubmit();
 	};
 
 	return (
 		<form onSubmit={handleSubmitWrapper} noValidate>
+			<h3>Uncontrolled form</h3>
 			<Input
 				name="name"
 				defaultValue={user.name}
@@ -106,7 +108,7 @@ export const SignUpFormUncontrolled: FC<Props> = ({ onSubmit }) => {
 				error={errors.terms}
 				onChange={() => clearFieldError("terms")}
 			/>
-			<button type="submit" disabled={Object.keys(errors).length > 0}>
+			<button type="submit" disabled={!isValid}>
 				Submit
 			</button>
 		</form>

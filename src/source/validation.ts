@@ -15,12 +15,12 @@ const ACCEPTED_TYPES = ["image/png", "image/jpeg"];
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
 
 const pictureSchema = z
-	.instanceof(File, { message: "Загрузите изображение" })
+	.instanceof(File, { message: "Upload an image" })
 	.refine((file) => ACCEPTED_TYPES.includes(file.type), {
-		message: "Разрешены только PNG или JPEG",
+		message: "Only PNG or JPEG allowed",
 	})
 	.refine((file) => file.size <= MAX_FILE_SIZE, {
-		message: "Размер файла должен быть ≤ 2 MB",
+		message: "File size must be ≤ 2 MB",
 	});
 
 export const schema = z
@@ -40,7 +40,7 @@ export const schema = z
 		gender: z.enum(["male", "female"], {
 			message: "Select gender",
 		}),
-		terms: z.boolean().refine((v) => v, { message: "Нужно согласие" }),
+		terms: z.boolean().refine((v) => v, { message: "Need to accept terms" }),
 		country: z.string().min(1, "Select a country"),
 		picture: pictureSchema,
 	})

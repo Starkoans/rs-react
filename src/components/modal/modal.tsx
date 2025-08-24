@@ -16,6 +16,9 @@ export const Modal: FC<Props> = ({ onClose, open, children }) => {
 	const handleOutsideClick = () => {
 		onClose?.();
 	};
+	const handleDialogClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+	};
 
 	if (!open) return null;
 	return createPortal(
@@ -23,11 +26,11 @@ export const Modal: FC<Props> = ({ onClose, open, children }) => {
 			<dialog
 				ref={ref}
 				className={cx(styles.dialog)}
+				onClick={handleDialogClick}
 				onClose={onClose}
-				onClick={handleOutsideClick}
 				open={open}
 			>
-				<div>
+				<div className={cx(styles.dialogContent, styles.scrollarea)}>
 					{children}
 					<button onClick={onClose} className={styles.closeBtn}>
 						<HiMiniXMark size={"30px"} />

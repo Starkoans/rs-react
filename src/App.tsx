@@ -1,8 +1,9 @@
 import { Modal } from "./components/modal/modal";
+
 import { useState } from "react";
-import { SignUpFormControlled } from "./components/sigp-up-form/sign-up-form-controlled";
+import { SignUpFormControlled } from "./components/form-controlled/form-controlled";
 import { UserCard } from "./components/user-card/user-card";
-import { SignUpFormUncontrolled } from "./components/sigp-up-form/sign-up-form-uncontrolled";
+import { SignUpFormUncontrolled } from "./components/form-uncontrolled/form-uncontrolled";
 import { useStore } from "./store/store";
 import styles from "./App.module.css";
 
@@ -11,6 +12,7 @@ function App() {
 	const [isControlledForm, setIsControlledForm] = useState(false);
 	const userControlled = useStore((store) => store.userControlled);
 	const userUncontrolled = useStore((store) => store.userUncontrolled);
+
 	const onControlled = () => {
 		setIsControlledForm(true);
 		setIsModalOpen(true);
@@ -21,34 +23,35 @@ function App() {
 		setIsModalOpen(true);
 	};
 
+	const closeModal = () => {
+		setIsModalOpen(false);
+	};
+
 	return (
 		<>
-			<button onClick={onControlled}>Open controlled form</button>
-			<button onClick={onUncontrolled}>Open uncontrolled form</button>
+			<div className={styles.buttons}>
+				<button onClick={onUncontrolled} className={styles.uncontrolled}>
+					Open uncontrolled form
+				</button>
+				<button onClick={onControlled} className={styles.controlled}>
+					Open controlled form
+				</button>
+			</div>
+
 			<div className={styles.userCards}>
-				<div>
-					<h2>Uncontrolled</h2> <UserCard user={userUncontrolled} />
+				<div className={styles.userCard}>
+					<h2 className={styles.uncontrolled}>Uncontrolled</h2>
+					<UserCard user={userUncontrolled} />
 				</div>
-				<div>
-					<h2>Controlled</h2> <UserCard user={userControlled} />
+				<div className={styles.userCard}>
+					<h2 className={styles.controlled}>Controlled</h2>
+					<UserCard user={userControlled} />
 				</div>
 			</div>
 
-			<Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-				{isControlledForm && (
-					<SignUpFormControlled
-						onSubmit={() => {
-							setIsModalOpen(false);
-						}}
-					/>
-				)}
-				{!isControlledForm && (
-					<SignUpFormUncontrolled
-						onSubmit={() => {
-							setIsModalOpen(false);
-						}}
-					/>
-				)}
+			<Modal open={isModalOpen} onClose={closeModal}>
+				{isControlledForm && <SignUpFormControlled onSubmit={closeModal} />}
+				{!isControlledForm && <SignUpFormUncontrolled onSubmit={closeModal} />}
 			</Modal>
 		</>
 	);
