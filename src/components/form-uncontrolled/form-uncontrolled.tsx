@@ -41,7 +41,7 @@ export const SignUpFormUncontrolled: FC<Props> = ({ onSubmit }) => {
 				error={errors.email}
 				onChange={() => clearFieldError("email")}
 			/>
-			<fieldset>
+			<fieldset name="gender">
 				<legend>Gender</legend>
 				<Input
 					name="gender"
@@ -80,12 +80,14 @@ export const SignUpFormUncontrolled: FC<Props> = ({ onSubmit }) => {
 
 			<Input
 				name="password"
+				label="Password"
 				defaultValue={user.password}
 				error={errors.password}
 				onChange={() => clearFieldError("password")}
 			/>
 			<Input
 				name="confirmPassword"
+				label="Confirm password"
 				defaultValue={user.confirmPassword}
 				error={errors.confirmPassword}
 				onChange={() => clearFieldError("confirmPassword")}
