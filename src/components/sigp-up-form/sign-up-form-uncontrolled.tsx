@@ -1,118 +1,72 @@
-import { useState, type FC, type FormEventHandler } from "react";
-import { FormInputUncontrolled } from "../form-input/form-input-uncontrolled";
-import { schema, type FormValues } from "./validation";
-import { fileToBase64 } from "../../utils/file-to-base64";
+
+import { type FC, type FormEventHandler } from "react";
+import { Input } from "../form-input/input";
+
 import { useStore } from "../../store/store";
+import { useUncontrolledForm } from "./use-uncontrolled-form";
 
 interface Props {
 	onSubmit: () => void;
 }
 
-type Errors = Partial<Record<keyof FormValues, string>>;
-
 export const SignUpFormUncontrolled: FC<Props> = ({ onSubmit }) => {
-	const userUncontrolled = useStore((store) => store.userUncontrolled);
 	const countries = useStore((store) => store.countries);
-	const setUserUncontrolled = useStore((store) => store.setUserUncontrolled);
-	const [errors, setErrors] = useState<Errors>({});
+	const { user, handleSubmit, clearFieldError, errors } = useUncontrolledForm();
 
-	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-		e.preventDefault();
-		setErrors({});
-
-		const fd = new FormData(e.currentTarget);
-		const age = fd.get("age");
-		const pic = fd.get("picture");
-		const gender = fd.get("gender");
-
-		const raw = {
-			name: String(fd.get("name") ?? ""),
-			age: age === null || age === "" ? NaN : Number(age),
-			email: String(fd.get("email") ?? ""),
-			password: String(fd.get("password") ?? ""),
-			confirmPassword: String(fd.get("confirmPassword") ?? ""),
-			gender: gender === "male" || gender === "female" ? gender : undefined,
-			terms: fd.get("terms") != null ? true : undefined,
-			country: String(fd.get("country") ?? ""),
-			picture: pic instanceof File && pic.size > 0 ? pic : undefined,
-		} satisfies Partial<FormValues>;
-
-		const parsed = schema.safeParse(raw);
-		if (!parsed.success) {
-			const next: Errors = {};
-
-			for (const issue of parsed.error?.issues) {
-				const key = issue.path[0] as keyof FormValues;
-				if (!next[key]) next[key] = issue.message;
-			}
-
-			setErrors(next);
-			return;
-		}
-		const newUser = {
-			...parsed.data,
-			picture: await fileToBase64(parsed.data.picture),
-		};
-		setUserUncontrolled(newUser);
-
+	const handleSubmitWrapper: FormEventHandler<HTMLFormElement> = (e) => {
+		handleSubmit(e);
 		onSubmit();
 	};
 
-	const clearFieldError = (name: keyof FormValues) =>
-		setErrors((prev) => {
-			const { [name]: _, ...rest } = prev;
-			return rest;
-		});
-
 	return (
-		<form onSubmit={handleSubmit} noValidate>
-			<FormInputUncontrolled
+		<form onSubmit={handleSubmitWrapper} noValidate>
+			<Input
 				name="name"
-				defaultValue={userUncontrolled.name}
+				defaultValue={user.name}
 				error={errors.name}
 				onChange={() => clearFieldError("name")}
 				required
 			/>
-			<FormInputUncontrolled
+			<Input
 				name="age"
-				defaultValue={userUncontrolled.age}
+				defaultValue={user.age}
 				error={errors.age}
 				onChange={() => clearFieldError("age")}
 			/>
-			<FormInputUncontrolled
+			<Input
 				name="email"
-				defaultValue={userUncontrolled.email}
+				defaultValue={user.email}
 				error={errors.email}
 				onChange={() => clearFieldError("email")}
 			/>
 			<fieldset>
 				<legend>Gender</legend>
-				<FormInputUncontrolled
+				<Input
 					name="gender"
 					type="radio"
 					label="male"
 					value="male"
-					defaultChecked={userUncontrolled.gender === "male"}
+					defaultChecked={user.gender === "male"}
 					error={errors.gender}
 					onChange={() => clearFieldError("gender")}
 					id="gender-male"
 				/>
-				<FormInputUncontrolled
+				<Input
 					name="gender"
 					type="radio"
 					label="female"
 					value="female"
-					defaultChecked={userUncontrolled.gender === "female"}
+					defaultChecked={user.gender === "female"}
 					error={errors.gender}
 					onChange={() => clearFieldError("gender")}
 					id="gender-female"
 				/>
 			</fieldset>
 
-			<FormInputUncontrolled
+			<Input
 				name="country"
 				list="countries"
-				defaultValue={userUncontrolled.country}
+				defaultValue={user.country}
 				error={errors.country}
 				onChange={() => clearFieldError("country")}
 			/>
@@ -122,20 +76,20 @@ export const SignUpFormUncontrolled: FC<Props> = ({ onSubmit }) => {
 				))}
 			</datalist>
 
-			<FormInputUncontrolled
+			<Input
 				name="password"
-				defaultValue={userUncontrolled.password}
+				defaultValue={user.password}
 				error={errors.password}
 				onChange={() => clearFieldError("password")}
 			/>
-			<FormInputUncontrolled
+			<Input
 				name="confirmPassword"
-				defaultValue={userUncontrolled.confirmPassword}
+				defaultValue={user.confirmPassword}
 				error={errors.confirmPassword}
 				onChange={() => clearFieldError("confirmPassword")}
 			/>
 
-			<FormInputUncontrolled
+			<Input
 				type="file"
 				accept="image/png,image/jpeg"
 				name="picture"
@@ -145,7 +99,7 @@ export const SignUpFormUncontrolled: FC<Props> = ({ onSubmit }) => {
 					if (pic && pic.size > 0) clearFieldError("picture");
 				}}
 			/>
-			<FormInputUncontrolled
+			<Input
 				type="checkbox"
 				name="terms"
 				defaultChecked={false}

@@ -1,10 +1,9 @@
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { checkStrength, schema, type FormValues } from "./validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormInput } from "../form-input/form-input";
-
+import { InputRHF as Input } from "../form-input/input-rhf"; 
+import { Input as InputUncontrolled} from "../form-input/input"; 
 import { type FC } from "react";
-import { FormInputUncontrolled } from "../form-input/form-input-uncontrolled";
 import { fileToBase64 } from "../../utils/file-to-base64";
 import { useStore } from "../../store/store";
 
@@ -14,8 +13,9 @@ interface Props {
 
 export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 	const userControlled = useStore((store) => store.userControlled);
-	const countries = useStore((store) => store.countries);
 	const setUserControlled = useStore((store) => store.setUserControlled);
+	const countries = useStore((store) => store.countries);
+	
 	const methods = useForm<FormValues>({
 		resolver: zodResolver(schema),
 		mode: "onChange",
@@ -33,7 +33,6 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 	} = methods;
 
 	const password = watch("password") || "";
-
 	const strength = checkStrength(password);
 
 	const onFormSubmit = async (data: FormValues) => {
@@ -48,20 +47,20 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 				onSubmit={handleSubmit(onFormSubmit)}
 				style={{ maxWidth: 480, margin: "0 auto", display: "grid", gap: 12 }}
 			>
-				<FormInput name="name" placeholder="Your name" />
-				<FormInput name="age" type="number" min={1} placeholder="Your age" />
-				<FormInput name="email" type="email" placeholder="you@example.com" />
+				<Input name="name" placeholder="Your name" />
+				<Input name="age" type="number" min={1} placeholder="Your age" />
+				<Input name="email" type="email" placeholder="you@example.com" />
 
 				<fieldset>
 					<legend>Gender</legend>
-					<FormInput
+					<Input
 						name="gender"
 						type="radio"
 						label="male"
 						value="male"
 						id="gender-male"
 					/>
-					<FormInput
+					<Input
 						name="gender"
 						type="radio"
 						label="female"
@@ -70,7 +69,7 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 					/>
 				</fieldset>
 
-				<FormInput name="password" type="password" />
+				<Input name="password" type="password" />
 				<div>
 					<ul>
 						<li>{strength.lengthOK ? "✅" : "⚪"} ≥ 8 символов</li>
@@ -81,7 +80,7 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 					</ul>
 				</div>
 
-				<FormInput
+				<Input
 					name="confirmPassword"
 					type="password"
 					label="confirm password"
@@ -90,7 +89,7 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 				<Controller
 					name="picture"
 					render={({ field }) => (
-						<FormInputUncontrolled
+						<InputUncontrolled
 							name="picture"
 							label="Profile picture (PNG/JPEG, ≤2MB)"
 							type="file"
@@ -100,7 +99,7 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 					)}
 				/>
 
-				<FormInput
+				<Input
 					name="country"
 					list="countries"
 					placeholder="Start typing…"
@@ -111,7 +110,7 @@ export const SignUpFormControlled: FC<Props> = ({ onSubmit }) => {
 					))}
 				</datalist>
 
-				<FormInput
+				<Input
 					name="terms"
 					type="checkbox"
 					label="Accept Terms and Conditions"

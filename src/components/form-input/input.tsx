@@ -1,6 +1,6 @@
 import type { FC, InputHTMLAttributes } from "react";
 import cx from "classnames";
-import styles from "./form-input.module.css";
+import styles from "./input.module.css";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	error?: string;
@@ -8,7 +8,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
 }
 
-export const FormInputUncontrolled: FC<Props> = ({
+export const Input: FC<Props> = ({
 	error,
 	name,
 	label = name,
