@@ -14,7 +14,7 @@ vi.mock("./input.module.css", () => ({
 	},
 }));
 
-describe("InputUncontrolled", () => {
+describe("Input Uncontrolled", () => {
 	it("renders label and input; associates label with input", () => {
 		render(<InputUncontrolled name="email" label="Email" type="email" />);
 		const input = screen.getByLabelText(/email/i) as HTMLInputElement;
@@ -61,9 +61,7 @@ describe("InputUncontrolled", () => {
 
 		const input = screen.getByLabelText(/email/i);
 		expect(input).toHaveClass("input");
-		expect(input).toHaveClass("error"); // класс ошибки примешивается
-
-		// Рендерится текст ошибки
+		expect(input).toHaveClass("error"); 
 		expect(screen.getByText("Invalid email")).toBeInTheDocument();
 	});
 
