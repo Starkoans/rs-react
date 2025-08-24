@@ -76,7 +76,7 @@ beforeEach(() => {
 });
 
 describe("SignUpFormUncontrolled", () => {
-	it("рендерит все основные поля и datalist со странами", () => {
+	it("render all fields", () => {
 		render(<SignUpFormUncontrolled onSubmit={vi.fn()} />);
 
 		expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
@@ -99,7 +99,7 @@ describe("SignUpFormUncontrolled", () => {
 		).toBeGreaterThanOrEqual(3);
 	});
 
-	it("вызывает clearFieldError при вводе в текстовое поле", async () => {
+	it("calls clearFieldError when typing in text field", async () => {
 		const user = userEvent.setup();
 		render(<SignUpFormUncontrolled onSubmit={vi.fn()} />);
 
@@ -110,7 +110,7 @@ describe("SignUpFormUncontrolled", () => {
 		expect(clearFieldErrorMock).toHaveBeenCalledWith("name");
 	});
 
-	it('вызывает clearFieldError("picture") при выборе файла', async () => {
+	it("calls clearFieldError when selecting a file", async () => {
 		const user = userEvent.setup();
 		render(<SignUpFormUncontrolled onSubmit={vi.fn()} />);
 
@@ -122,7 +122,7 @@ describe("SignUpFormUncontrolled", () => {
 		expect(clearFieldErrorMock).toHaveBeenCalledWith("picture");
 	});
 
-	it("кнопка submit задизейблена, когда isValid=false, и не вызывает onSubmit", async () => {
+	it("disables submit button", async () => {
 		const onSubmit = vi.fn();
 		render(<SignUpFormUncontrolled onSubmit={onSubmit} />);
 
@@ -134,7 +134,7 @@ describe("SignUpFormUncontrolled", () => {
 		expect(handleSubmitMock).not.toHaveBeenCalled();
 	});
 
-	it("при isValid=true submit включает кнопку и вызывает handleSubmit + onSubmit", async () => {
+	it("calls handleSubmit and onSubmit when isValid is true", async () => {
 		const onSubmit = vi.fn();
 
 		useUncontrolledFormMock.mockReturnValue({
