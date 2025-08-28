@@ -1,11 +1,18 @@
 :root {
-	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+	--color-bg: #eff3eb;
+	--color-font: #213547;
+	--color-primary-100: #b9ddc5;
+	--color-primary-200: #93d4a9;
+	--color-primary-300: #71c58d;
+	--color-primary-400: #48b16b;
+	--color-primary-500: #3aa35d;
+	--color-primary-600: #167e39;
+	--color-secondary-500: #646cff;
+	--color-secondary-600: #4f57e2;
+
+	--font-fam: system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
 	font-weight: 400;
-
-	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	background-color: #242424;
 
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
@@ -13,22 +20,24 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+body {
+	background-color: var(--color-bg);
+	color: var(--color-font);
+	font-family: var(--font-fam);
+}
+
 a {
 	font-weight: 500;
-	color: #646cff;
+	color: var(--color-secondary-500);
 	text-decoration: inherit;
 }
 a:hover {
-	color: #535bf2;
+	color: var(--color-secondary-600);
 }
 
 body {
 	margin: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-width: 320px;
-	min-height: 100vh;
+	max-width: 1280px;
 }
 
 h1 {
@@ -43,12 +52,12 @@ button {
 	font-size: 1em;
 	font-weight: 500;
 	font-family: inherit;
-	background-color: #1a1a1a;
+	background-color: var(--color-primary-500);
 	cursor: pointer;
 	transition: border-color 0.25s;
 }
 button:hover {
-	border-color: #646cff;
+	border-color: var(--color-primary-600);
 }
 button:focus,
 button:focus-visible {
@@ -81,8 +90,7 @@ input:focus,
 select:focus,
 textarea:focus {
 	outline: none;
-	border-color: #4a6de2;
-	box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.25);
+	border-color: var(--color-primary-500);
 }
 
 input[type="radio"],
@@ -91,26 +99,23 @@ input[type="checkbox"] {
 	margin-right: 0.5rem;
 }
 
-fieldset {
-	border: 1px solid #ddd;
-	border-radius: 6px;
-	padding: 0.75rem 1rem;
+table{
+	border-collapse: collapse;
+	width: 100%;
 }
 
-legend {
-	font-weight: 600;
-	padding: 0 0.5rem;
+th,
+td {
+	padding: 0.75rem;
+	text-align: left;
+	border-bottom: 1px solid var(--color-primary-300);
 }
 
-@media (prefers-color-scheme: light) {
-	:root {
-		color: #213547;
-		background-color: #ffffff;
-	}
-	a:hover {
-		color: #747bff;
-	}
-	button {
-		background-color: #f9f9f9;
-	}
+th {
+	background-color: var(--color-primary-500);
+	color: white;
+}
+
+td:nth-child(even) {
+	background-color: var(--color-primary-100);
 }

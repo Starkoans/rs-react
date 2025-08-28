@@ -1,58 +1,26 @@
-import { Modal } from "./components/modal/modal";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { SearchBar } from "./components/search-bar";
+import { Table } from "./components/coutries-table/table";
+import { fetchCountries } from "./api/fetch-countries";
+import { Suspense } from "react";
+import type { Countries } from "./source/types";
+import { TableSkeleton } from "./components/coutries-table/skeleton";
 
-import { useState } from "react";
-import { SignUpFormControlled } from "./components/form-controlled/form-controlled";
-import { UserCard } from "./components/user-card/user-card";
-import { SignUpFormUncontrolled } from "./components/form-uncontrolled/form-uncontrolled";
-import { useStore } from "./store/store";
-import styles from "./App.module.css";
+const CountriesTable = () => {
+	const { data } = useSuspenseQuery<Countries>({
+		queryKey: ["Countries"],
+		queryFn: fetchCountries,
+	});
+	return <Table data={data} />;
+};
 
 function App() {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [isControlledForm, setIsControlledForm] = useState(false);
-	const userControlled = useStore((store) => store.userControlled);
-	const userUncontrolled = useStore((store) => store.userUncontrolled);
-
-	const onControlled = () => {
-		setIsControlledForm(true);
-		setIsModalOpen(true);
-	};
-
-	const onUncontrolled = () => {
-		setIsControlledForm(false);
-		setIsModalOpen(true);
-	};
-
-	const closeModal = () => {
-		setIsModalOpen(false);
-	};
-
 	return (
 		<>
-			<div className={styles.buttons}>
-				<button onClick={onUncontrolled} className={styles.uncontrolled}>
-					Open uncontrolled form
-				</button>
-				<button onClick={onControlled} className={styles.controlled}>
-					Open controlled form
-				</button>
-			</div>
-
-			<div className={styles.userCards}>
-				<div className={styles.userCard}>
-					<h2 className={styles.uncontrolled}>Uncontrolled</h2>
-					<UserCard user={userUncontrolled} />
-				</div>
-				<div className={styles.userCard}>
-					<h2 className={styles.controlled}>Controlled</h2>
-					<UserCard user={userControlled} />
-				</div>
-			</div>
-
-			<Modal open={isModalOpen} onClose={closeModal}>
-				{isControlledForm && <SignUpFormControlled onSubmit={closeModal} />}
-				{!isControlledForm && <SignUpFormUncontrolled onSubmit={closeModal} />}
-			</Modal>
+			<SearchBar />
+			<Suspense fallback={<TableSkeleton />}>
+				<CountriesTable />
+			</Suspense>
 		</>
 	);
 }
