@@ -1,3 +1,10 @@
+type CountryEmissionsRecord = {
+	name: string;
+	iso_code: string;
+} & Emissions;
+
+export type EmissionTable = CountryEmissionsRecord[];
+
 export type Countries = Record<string, Country>;
 
 type Country = {

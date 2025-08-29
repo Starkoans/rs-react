@@ -1,27 +1,26 @@
 import { create } from "zustand";
-import type { User } from "../source/types";
-import { countries, type Country } from "typed-countries";
+import { headers, type columnKey, type TableRow } from "../source/headers";
+import { createSelectors } from "./create-selectors";
+import { defaultHeaders } from "../source/default-headers";
 
-export interface UserState {
-	countries: Country[];
-	userControlled: Partial<User>;
-	userUncontrolled: Partial<User>;
-	setUserControlled: (newUser: Partial<User>) => void;
-	setUserUncontrolled: (newUser: Partial<User>) => void;
+export interface TableState {
+	tableHeaders: Partial<TableRow>;
+	removeColumn: (col: columnKey) => void;
+	addColumn: (col: columnKey) => void;
 }
 
-const initialUser: Partial<User> = {
-	name: "John",
-};
-
-export const useStore = create<UserState>()((set) => ({
-	countries: countries,
-	userControlled: initialUser,
-	userUncontrolled: initialUser,
-	setUserControlled: (newUser: Partial<User>) =>
-		set((prev) => ({ userControlled: { ...prev.userControlled, ...newUser } })),
-	setUserUncontrolled: (newUser: Partial<User>) =>
+const useStoreBase = create<TableState>()((set) => ({
+	tableHeaders: defaultHeaders,
+	removeColumn: (col) => {
+		set((prev) => {
+			const { [col]: _, ...rest } = prev.tableHeaders;
+			return { tableHeaders: rest };
+		});
+	},
+	addColumn: (col) =>
 		set((prev) => ({
-			userUncontrolled: { ...prev.userUncontrolled, ...newUser },
+			tableHeaders: { ...prev.tableHeaders, [col]: headers[col] },
 		})),
 }));
+
+export const useStore = createSelectors(useStoreBase);
