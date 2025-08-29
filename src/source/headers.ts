@@ -1,8 +1,4 @@
-import type { Emissions } from "./types";
-
-export type columnKey = keyof Emissions | "iso_code" | "name";
-
-export type TableRow = Record<columnKey, string | number>;
+import type { TableRow } from "./types";
 
 export const headers: TableRow = {
 	name: "Country",

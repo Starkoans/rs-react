@@ -1,26 +1,33 @@
 import { create } from "zustand";
-import { headers, type columnKey, type TableRow } from "../source/headers";
 import { createSelectors } from "./create-selectors";
 import { defaultHeaders } from "../source/default-headers";
+import type { columnKey, Filters } from "../source/types";
 
 export interface TableState {
-	tableHeaders: Partial<TableRow>;
-	removeColumn: (col: columnKey) => void;
-	addColumn: (col: columnKey) => void;
+	tableHeaders: columnKey[];
+	filters: {
+		year?: number;
+		region?: string;
+		countryName?: string;
+		sortByPopulation?: "ASC" | "DESC";
+		sortByCountryName?: "ASC" | "DESC";
+	};
+	toggleColumn: (col: columnKey) => void;
+	setFilter: <K extends keyof Filters>(key: K, value: Filters[K]) => void;
 }
 
 const useStoreBase = create<TableState>()((set) => ({
 	tableHeaders: defaultHeaders,
-	removeColumn: (col) => {
-		set((prev) => {
-			const { [col]: _, ...rest } = prev.tableHeaders;
-			return { tableHeaders: rest };
-		});
+	filters: {},
+	toggleColumn: (col) => {
+		set((state) =>
+			state.tableHeaders.includes(col)
+				? { tableHeaders: state.tableHeaders.filter((c) => c !== col) }
+				: { tableHeaders: [...state.tableHeaders, col] }
+		);
 	},
-	addColumn: (col) =>
-		set((prev) => ({
-			tableHeaders: { ...prev.tableHeaders, [col]: headers[col] },
-		})),
+	setFilter: (key, value) =>
+		set((s) => ({ filters: { ...s.filters, [key]: value } })),
 }));
 
 export const useStore = createSelectors(useStoreBase);

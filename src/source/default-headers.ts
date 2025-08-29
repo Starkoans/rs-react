@@ -1,10 +1,10 @@
-import type { TableRow } from "./headers";
+import type { columnKey } from "./types";
 
-export const defaultHeaders: Partial<TableRow> = {
-	name: "Country",
-	iso_code: "ISO",
-	year: "Year",
-	population: "Population",
-	co2: "CO2",
-	co2_per_capita: "CO2 per Capita",
-};
+export const defaultHeaders: columnKey[] = [
+	"name",
+	"iso_code",
+	"year",
+	"population",
+	"co2",
+	"co2_per_capita",
+];
