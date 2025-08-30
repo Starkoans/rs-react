@@ -5,13 +5,7 @@ import type { columnKey, Filters } from "../source/types";
 
 export interface TableState {
 	tableHeaders: columnKey[];
-	filters: {
-		year?: number;
-		region?: string;
-		countryName?: string;
-		sortByPopulation?: "ASC" | "DESC";
-		sortByCountryName?: "ASC" | "DESC";
-	};
+	filters: Filters;
 	toggleColumn: (col: columnKey) => void;
 	setFilter: <K extends keyof Filters>(key: K, value: Filters[K]) => void;
 }

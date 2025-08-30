@@ -1,13 +1,15 @@
 export type Filters = {
 	year?: number;
-	region?: string;
 	countryName?: string;
 	sortBy?: { key: columnKey; dir: "ASC" | "DESC" };
 };
 
 export type columnKey = keyof Emissions | "iso_code" | "name";
 
-export type TableRow = Record<columnKey, string | number>;
+export type TableRow = Emissions & {
+	name: string;
+	iso_code: string;
+};
 
 export type Countries = Record<
 	string,

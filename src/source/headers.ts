@@ -1,6 +1,6 @@
-import type { TableRow } from "./types";
+import type { columnKey } from "./types";
 
-export const headers: TableRow = {
+export const headers: Record<columnKey, string> = {
 	name: "Country",
 	iso_code: "ISO",
 	year: "Year",
