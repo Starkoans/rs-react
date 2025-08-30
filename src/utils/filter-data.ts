@@ -20,8 +20,8 @@ export const filterData = (rows: TableRow[], filters?: Filters): TableRow[] => {
 	const { key, dir } = sortBy;
 
 	const compare = (a: TableRow, b: TableRow): number => {
-		const va = a[key];
-		const vb = b[key];
+		const va = a[key] ?? 0;
+		const vb = b[key] ?? 0;
 
 		if (typeof va === "number" && typeof vb === "number") {
 			return va - vb;
@@ -29,7 +29,7 @@ export const filterData = (rows: TableRow[], filters?: Filters): TableRow[] => {
 		if (typeof va === "string" && typeof vb === "string") {
 			const vaLow = va.toLowerCase();
 			const vbLow = vb.toLowerCase();
-			return vaLow > vbLow ? -1 : 1;
+			return vaLow > vbLow ? 1 : -1;
 		}
 		return 0;
 	};

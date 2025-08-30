@@ -1,11 +1,6 @@
-import type {
+import type { columnKey, Countries, TableRow } from "../../source/types";
 
-	columnKey,
-	Countries,
-	Emissions,
-	TableRow,
-} from "../../source/types";
-
+import cx from "classnames";
 import styles from "./table.module.css";
 import { useStore } from "../../store/store";
 import { headers } from "../../source/headers";
@@ -14,11 +9,11 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { fetchCountries } from "../../api/fetch-countries";
 import { filterData } from "../../utils/filter-data";
 import { transformCountriesToTableRows } from "../../utils/transform-countries-to-table-rows";
-
-
+import { VscTriangleDown, VscTriangleUp } from "react-icons/vsc";
 
 export const Table = () => {
 	const filters = useStore.use.filters();
+	const toggleSort = useStore.use.toggleSort();
 	const columns = useStore.use.tableHeaders();
 
 	const { data } = useSuspenseQuery<Countries, Error, TableRow[]>({
@@ -27,22 +22,49 @@ export const Table = () => {
 		select: transformCountriesToTableRows,
 	});
 
-	const [filtered, setFiltered] = useState<TableRow[]>();
+	const [filtered, setFiltered] = useState<TableRow[]>([]);
+	const [isUpdated, setIsUpdated] = useState(false);
 
 	useEffect(() => {
 		setFiltered(filterData(data, filters));
-	}, [filters]);
+		setIsUpdated(true);
 
-	if (!filtered || Object.values(filtered).length === 0) return <>Не найдено</>;
-	
+		setTimeout(() => {
+			setIsUpdated(false);
+		}, 3000);
+	}, [data, filters]);
+
+	if (!filtered || filtered.length === 0) return <>Не найдено</>;
+
 	return (
 		<>
 			<div className={styles.tableWrap}>
 				<table>
-					<thead>
+					<thead className={cx({ [styles.updated]: isUpdated })}>
 						<tr>
 							{columns.map((name, ind) => (
-								<th key={ind}>{headers[name]}</th>
+								<th key={ind}>
+									{headers[name]}
+									<button
+										onClick={() => toggleSort(name)}
+										className={cx(styles.sortBtn)}
+									>
+										<VscTriangleUp
+											className={cx(styles.sortIcon, {
+												[styles.active]:
+													filters.sortBy?.key === name &&
+													filters.sortBy.dir === "ASC",
+											})}
+										/>
+										<VscTriangleDown
+											className={cx(styles.sortIcon, {
+												[styles.active]:
+													filters.sortBy?.key === name &&
+													filters.sortBy.dir === "DESC",
+											})}
+										/>
+									</button>
+								</th>
 							))}
 						</tr>
 					</thead>

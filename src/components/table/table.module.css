@@ -3,16 +3,19 @@
 }
 
 .tableWrap {
-	width: 100vw;
-	max-height: 90vh;
+	width: 100dvw;
+	max-height: 90dvh;
 	overflow: auto;
 }
 
 table {
-	width: 100%;
 	border-collapse: separate;
 	border-spacing: 0;
 	table-layout: auto;
+}
+
+.updated {
+	background-color: rgb(255, 255, 180);
 }
 
 thead th {
@@ -21,6 +24,32 @@ thead th {
 	z-index: 1;
 	white-space: nowrap;
 }
-tbody td{
+tbody td {
 	padding: 5px;
+}
+
+.sortBtn {
+	padding: 5px;
+	background-color: transparent;
+	border: none;
+	display: inline-flex;
+	flex-direction: column;
+}
+.sortBtn:hover {
+	background-color: transparent;
+	border: none;
+}
+.sortBtn:focus {
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+	outline: none;
+}
+
+.sortIcon {
+	color: var(--color-primary-300);
+}
+
+.sortIcon.active {
+	color: var(--color-primary-600);
 }

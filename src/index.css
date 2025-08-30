@@ -1,14 +1,18 @@
 :root {
-	--color-bg: #eff3eb;
+	--color-bg: #ffffff;
 	--color-font: #213547;
-	--color-primary-100: #b9ddc5;
-	--color-primary-200: #93d4a9;
+	--color-primary-100: #d9f1e1;
+	--color-primary-200: #abddbc;
 	--color-primary-300: #71c58d;
 	--color-primary-400: #48b16b;
 	--color-primary-500: #3aa35d;
 	--color-primary-600: #167e39;
-	--color-secondary-500: #646cff;
-	--color-secondary-600: #4f57e2;
+	--color-secondary-100: rgb(229, 235, 245);
+	--color-secondary-200: rgb(203, 214, 230);
+	--color-secondary-300: rgb(168, 187, 216);
+	--color-secondary-400: rgb(140, 167, 207);
+	--color-secondary-500: #627eca;
+	--color-secondary-600: #45619c;
 
 	--font-fam: system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
@@ -24,6 +28,7 @@ body {
 	background-color: var(--color-bg);
 	color: var(--color-font);
 	font-family: var(--font-fam);
+	margin: 0;
 }
 
 a {
@@ -31,13 +36,9 @@ a {
 	color: var(--color-secondary-500);
 	text-decoration: inherit;
 }
+
 a:hover {
 	color: var(--color-secondary-600);
-}
-
-body {
-	margin: 0;
-	max-width: 1280px;
 }
 
 h1 {
@@ -52,12 +53,13 @@ button {
 	font-size: 1em;
 	font-weight: 500;
 	font-family: inherit;
-	background-color: var(--color-primary-500);
+	background-color: var(--color-secondary-500);
 	cursor: pointer;
-	transition: border-color 0.25s;
+	color: white;
+	transition: all 0.25s;
 }
 button:hover {
-	border-color: var(--color-primary-600);
+	background-color: var(--color-secondary-600);
 }
 button:focus,
 button:focus-visible {
@@ -71,9 +73,10 @@ form {
 }
 
 label {
-	display: block;
+	display: flex;
+	gap: 10px;
+	align-items: center;
 	font-weight: 500;
-	margin-bottom: 0.25rem;
 }
 
 input,
@@ -99,7 +102,7 @@ input[type="checkbox"] {
 	margin-right: 0.5rem;
 }
 
-table{
+table {
 	border-collapse: collapse;
 	width: 100%;
 }
@@ -112,10 +115,10 @@ td {
 }
 
 th {
-	background-color: var(--color-primary-500);
-	color: white;
+	background-color: var(--color-primary-200);
+	color: var(--color-font);
 }
 
 td:nth-child(even) {
-	background-color: var(--color-primary-100);
+	background-color: var(--color-secondary-100);
 }

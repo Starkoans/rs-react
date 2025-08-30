@@ -8,6 +8,7 @@ export interface TableState {
 	filters: Filters;
 	toggleColumn: (col: columnKey) => void;
 	setFilter: <K extends keyof Filters>(key: K, value: Filters[K]) => void;
+	toggleSort: (key: columnKey) => void;
 }
 
 const useStoreBase = create<TableState>()((set) => ({
@@ -20,8 +21,21 @@ const useStoreBase = create<TableState>()((set) => ({
 				: { tableHeaders: [...state.tableHeaders, col] }
 		);
 	},
+
 	setFilter: (key, value) =>
 		set((s) => ({ filters: { ...s.filters, [key]: value } })),
+
+	toggleSort: (key) =>
+		set((s) => {
+			const current = s.filters.sortBy;
+			if (!current || current.key !== key) {
+				return { filters: { ...s.filters, sortBy: { key, dir: "ASC" } } };
+			}
+			if (current.dir === "ASC") {
+				return { filters: { ...s.filters, sortBy: { key, dir: "DESC" } } };
+			}
+			return { filters: { ...s.filters, sortBy: undefined } };
+		}),
 }));
 
 export const useStore = createSelectors(useStoreBase);
