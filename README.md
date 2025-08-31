@@ -26,7 +26,7 @@ Parameters to Check:
 | Add column             | 270.6ms | 246.9ms | ColumnsSelect, Table | ![alt text](image-19.png) | ![alt text](image-20.png) |
 | Remove column          | 239ms   | 217.1ms | ColumnsSelect, Table | ![alt text](image-22.png) | ![alt text](image-21.png) |
 
-
+## CONCLUSION
 Commit and render times decreased:
 - sorting a column (-10%),
 - adding/deleting columns (-14–22%),
