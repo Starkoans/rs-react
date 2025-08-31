@@ -7,8 +7,10 @@ export interface TableState {
 	tableHeaders: columnKey[];
 	filters: Filters;
 	toggleColumn: (col: columnKey) => void;
-	setFilter: <K extends keyof Filters>(key: K, value: Filters[K]) => void;
+	setCountryNameFilter: (val?: string) => void;
+	setYearFilter: (val?: string | number) => void;
 	toggleSort: (key: columnKey) => void;
+	resetFIlters: () => void;
 }
 
 const useStoreBase = create<TableState>()((set) => ({
@@ -22,8 +24,12 @@ const useStoreBase = create<TableState>()((set) => ({
 		);
 	},
 
-	setFilter: (key, value) =>
-		set((s) => ({ filters: { ...s.filters, [key]: value } })),
+	setCountryNameFilter: (value) =>
+		set((s) => ({ filters: { ...s.filters, countryName: value } })),
+	setYearFilter: (value) =>
+		set((s) => ({
+			filters: { ...s.filters, year: value ? Number(value) : undefined },
+		})),
 
 	toggleSort: (key) =>
 		set((s) => {
@@ -36,6 +42,8 @@ const useStoreBase = create<TableState>()((set) => ({
 			}
 			return { filters: { ...s.filters, sortBy: undefined } };
 		}),
+
+	resetFIlters: () => set(() => ({ filters: {} })),
 }));
 
 export const useStore = createSelectors(useStoreBase);

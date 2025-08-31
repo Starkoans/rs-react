@@ -4,7 +4,7 @@ import { useStore } from "../store/store";
 import { Modal } from "./modal/modal";
 import type { columnKey } from "../source/types";
 
-export const HeadersSelector = () => {
+export const ColumnsSelect = () => {
 	const columns = useStore.use.tableHeaders();
 	const toggleColumn = useStore.use.toggleColumn();
 

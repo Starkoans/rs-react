@@ -9,28 +9,29 @@ import styles from "./search.bar.module.css";
 
 export const SearchBar: FC = () => {
 	const filters = useStore.use.filters();
-	const setFilter = useStore.use.setFilter();
+	const setCountryNameFilter = useStore.use.setCountryNameFilter();
+	const setYearFilter = useStore.use.setYearFilter();
+	const resetFilters = useStore.use.resetFIlters();
 
-	const [year, setYear] = useState(filters.year);
+	const [year, setYear] = useState(filters.year?.toString());
 	const [country, setCountry] = useState(filters.countryName);
 
 	const onYearChange: ChangeEventHandler<HTMLInputElement> = (e) =>
-		setYear(Number(e.target.value));
+		setYear(e.target.value);
 
 	const onCountryChange: ChangeEventHandler<HTMLInputElement> = (e) =>
 		setCountry(e.target.value);
 
 	const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
 		e.preventDefault();
-		setFilter("year", year);
-		setFilter("countryName", country);
+		setYearFilter(year);
+		setCountryNameFilter(country);
 	};
 
 	const onReset = () => {
-		setYear(2023);
+		setYear("");
 		setCountry("");
-		setFilter("year", 2023);
-		setFilter("countryName", undefined);
+		resetFilters();
 	};
 
 	return (

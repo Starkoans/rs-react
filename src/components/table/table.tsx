@@ -32,18 +32,18 @@ export const Table = () => {
 		setTimeout(() => {
 			setIsUpdated(false);
 		}, 3000);
-	}, [data, filters]);
+	}, [filters]);
 
 	if (!filtered || filtered.length === 0) return <>Не найдено</>;
 
 	return (
 		<>
-			<div className={styles.tableWrap}>
+			<div className={cx(styles.tableWrap)}>
 				<table>
-					<thead className={cx({ [styles.updated]: isUpdated })}>
+					<thead>
 						<tr>
 							{columns.map((name, ind) => (
-								<th key={ind}>
+								<th key={ind} className={cx({ [styles.updated]: isUpdated })}>
 									{headers[name]}
 									<button
 										onClick={() => toggleSort(name)}

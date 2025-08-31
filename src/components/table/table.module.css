@@ -6,6 +6,7 @@
 	width: 100dvw;
 	max-height: 90dvh;
 	overflow: auto;
+	transition: all 0.2s ease-in-out;
 }
 
 table {
@@ -15,7 +16,8 @@ table {
 }
 
 .updated {
-	background-color: rgb(255, 255, 180);
+	background-color: rgb(132, 218, 101);
+	transition: all 0.2s ease-in-out;
 }
 
 thead th {
@@ -24,6 +26,7 @@ thead th {
 	z-index: 1;
 	white-space: nowrap;
 }
+
 tbody td {
 	padding: 5px;
 }
@@ -36,8 +39,12 @@ tbody td {
 	flex-direction: column;
 }
 .sortBtn:hover {
+	padding: 5px;
 	background-color: transparent;
+	display: inline-flex;
+	flex-direction: column;
 	border: none;
+	outline: none;
 }
 .sortBtn:focus {
 	background-color: transparent;
