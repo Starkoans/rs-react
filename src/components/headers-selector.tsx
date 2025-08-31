@@ -1,4 +1,4 @@
-import { useState, type ChangeEventHandler } from "react";
+import { useCallback, useState, type ChangeEventHandler } from "react";
 import { headers } from "../source/headers";
 import { useStore } from "../store/store";
 import { Modal } from "./modal/modal";
@@ -12,12 +12,14 @@ export const ColumnsSelect = () => {
 
 	const openModal = () => setIsOpenModal(true);
 	const closeModal = () => setIsOpenModal(false);
-	
 
-	const onToggleHeader: ChangeEventHandler<HTMLInputElement> = (e) => {
-		const key = e.target.id as columnKey;
-		toggleColumn(key);
-	};
+	const onToggleHeader = useCallback<ChangeEventHandler<HTMLInputElement>>(
+		(e) => {
+			const key = e.target.id as columnKey;
+			toggleColumn(key);
+		},
+		[toggleColumn]
+	);
 
 	return (
 		<>
