@@ -1,0 +1,62 @@
+.noDataLabel {
+	color: rgba(0, 0, 0, 0.233);
+}
+
+.tableWrap {
+	width: 100dvw;
+	max-height: 90dvh;
+	overflow: auto;
+	transition: all 0.2s ease-in-out;
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+	table-layout: auto;
+}
+
+.updated {
+	background-color: rgb(132, 218, 101);
+	transition: all 0.2s ease-in-out;
+}
+
+thead th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	white-space: nowrap;
+}
+
+tbody td {
+	padding: 5px;
+}
+
+.sortBtn {
+	padding: 5px;
+	background-color: transparent;
+	border: none;
+	display: inline-flex;
+	flex-direction: column;
+}
+.sortBtn:hover {
+	padding: 5px;
+	background-color: transparent;
+	display: inline-flex;
+	flex-direction: column;
+	border: none;
+	outline: none;
+}
+.sortBtn:focus {
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+	outline: none;
+}
+
+.sortIcon {
+	color: var(--color-primary-300);
+}
+
+.sortIcon.active {
+	color: var(--color-primary-600);
+}
