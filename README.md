@@ -6,7 +6,7 @@ Parameters to Check:
  - **Flame Graph:** Visual representation of component render times.
  - **Ranked Chart:** Sorted list of components by render duration.
 
-## BEFORE OPTIMIZATION
+## BEFORE OPTIMISATION
 
 | Interaction | Max Commit Duration | Max Render Duration | Caused by | Flame Graph | Ranked Chart |
 |---                     |---:     |---:     |---|---|---|
@@ -16,7 +16,7 @@ Parameters to Check:
 | Add column             | 316.2ms | 316ms   | ColumnsSelect, Table | ![alt text](image-15.png) | ![alt text](image-16.png) |
 | Remove column          | 279.9ms | 279.8ms | ColumnsSelect, Table | ![alt text](image-18.png) | ![alt text](image-17.png) |
 
-## AFTER OPTIMIZATION
+## AFTER OPTIMISATION
 
 | Interaction | Max Commit Duration | Max Render Duration | Caused by | Flame Graph | Ranked Chart |
 |---                     |---:     |---:     |---|---|---|
